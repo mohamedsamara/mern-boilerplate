@@ -132,9 +132,9 @@ module.exports = {
       filename: 'css/[name].[hash].css',
     }),
     new WebpackPwaManifest({
-      name: 'Node PostgreSQL Application',
-      short_name: 'PostgreSQLApplication',
-      description: 'Node PostgreSQL Application!',
+      name: 'MERN Boilerplate',
+      short_name: 'MERNBoilerplate',
+      description: 'MERN Boilerplate!',
       background_color: '#fff',
       theme_color: '#4a68aa',
       inject: true,
