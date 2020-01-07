@@ -1,15 +1,18 @@
 /* eslint-disable */
 
 const path = require('path');
+const merge = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const common = require('./webpack.common');
+
 const CURRENT_WORKING_DIR = process.cwd();
 
-module.exports = {
+module.exports = merge(common, {
   mode: 'production',
   output: {
     path: path.join(CURRENT_WORKING_DIR, '/dist/client'),
@@ -162,4 +165,4 @@ module.exports = {
       canPrint: true,
     }),
   ],
-};
+});

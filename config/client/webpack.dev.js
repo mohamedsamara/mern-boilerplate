@@ -2,13 +2,15 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const common = require('./webpack.common');
 
 const CURRENT_WORKING_DIR = process.cwd();
 
-module.exports = {
+module.exports = merge(common, {
   mode: 'development',
-  entry: ['webpack-hot-middleware/client?reload=true'],
   output: {
     path: path.join(CURRENT_WORKING_DIR, '/dist/client'),
     filename: '[name].js',
@@ -62,7 +64,6 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(CURRENT_WORKING_DIR, 'client/public/index.html'),
       inject: true,
@@ -73,13 +74,18 @@ module.exports = {
     open: true,
     inline: true,
     compress: true,
-    noInfo: true,
+    noInfo: false,
     hot: true,
-    disableHostCheck: true,
+    disableHostCheck: false,
     historyApiFallback: true,
-    proxy: {
-      '/api': 'http://localhost:3000',
+    stats: {
+      colors: true,
+      hash: false,
+      timings: true,
+      chunks: false,
+      chunkModules: false,
+      modules: false,
     },
   },
   devtool: 'eval-source-map',
-};
+});
