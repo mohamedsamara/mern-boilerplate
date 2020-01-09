@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import path from 'path';
 import express from 'express';
 import cors from 'cors';
@@ -14,10 +13,13 @@ app.use(cors());
 app.use(compression());
 app.use(routes);
 
-app.use(express.static(path.resolve(__dirname, '../client')));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '../client')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/index.html'));
+  });
+}
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/index.html'));
-});
+app.get('*', (req, res) => res.status(200).send('Welcome to server APIs'));
 
 export default app;

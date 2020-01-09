@@ -15,21 +15,13 @@ module.exports = {
       app: 'client/app',
     },
   },
+  target: 'web',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
         exclude: /(node_modules)/,
-      },
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: { minimize: true },
-          },
-        ],
       },
     ],
   },

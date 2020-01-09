@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const common = require('./webpack.common');
 
 const CURRENT_WORKING_DIR = process.cwd();
+const PORT = process.env.PORT || 3000;
 
 module.exports = merge(common, {
   mode: 'development',
@@ -60,6 +61,14 @@ module.exports = merge(common, {
           },
         ],
       },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -70,7 +79,7 @@ module.exports = merge(common, {
     }),
   ],
   devServer: {
-    port: 3000,
+    port: 5000,
     open: true,
     inline: true,
     compress: true,
@@ -86,6 +95,9 @@ module.exports = merge(common, {
       chunkModules: false,
       modules: false,
     },
+    proxy: {
+      '/api': `http://localhost:${PORT}`,
+    },
   },
-  devtool: 'eval-source-map',
+  devtool: 'cheap-module-eval-source-map',
 });

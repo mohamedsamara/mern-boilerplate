@@ -17,7 +17,7 @@ class App extends React.Component {
   }
 
   render() {
-    return <ul>Test</ul>;
+    return <ul>App works!</ul>;
   }
 }
 

@@ -5,7 +5,7 @@
   * Express middleware is used to handle requests, routes
   * React for displaying UI components
         
-## Install   
+## Install
 
 Some basic Git commands are:
 

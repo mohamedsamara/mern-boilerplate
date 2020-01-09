@@ -26,9 +26,6 @@ module.exports = merge(common, {
     new startServerPlugin({
       name: 'server.bundle.js',
     }),
-    new webpack.DefinePlugin({
-      'process.env': { BUILD_TARGET: JSON.stringify('server.bundle.js') },
-    }),
     new webpack.HotModuleReplacementPlugin(),
   ],
 });
