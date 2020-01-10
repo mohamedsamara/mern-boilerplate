@@ -1,15 +1,10 @@
-import * as http from 'http';
-import app from './app';
+import App from './app';
+import Server from './server';
 
-const PORT = process.env.PORT || 3000;
+const app = new App().app;
+const server = new Server();
 
-const server = http.createServer(app);
-
-server.listen(PORT, () => {
-  console.log(
-    `Listening on port ${PORT}. Visit http://localhost:${PORT}/ in your browser.`,
-  );
-});
+server.start(app);
 
 declare const module: any;
 

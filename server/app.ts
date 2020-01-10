@@ -55,4 +55,4 @@ class App {
   }
 }
 
-export default new App().app;
+export default App;
