@@ -14,7 +14,7 @@ module.exports = merge(common, {
   mode: 'development',
   entry: [
     'webpack/hot/poll?1000',
-    path.join(CURRENT_WORKING_DIR, './server/index.js'),
+    path.join(CURRENT_WORKING_DIR, './server/index.ts'),
   ],
   watch: true,
   externals: [

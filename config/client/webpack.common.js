@@ -10,7 +10,7 @@ const CURRENT_WORKING_DIR = process.cwd();
 module.exports = {
   entry: [path.join(CURRENT_WORKING_DIR, 'client/app/index.js')],
   resolve: {
-    extensions: ['.js', '.json', '.css', '.scss', '.html'],
+    extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.scss', '.html'],
     alias: {
       app: 'client/app',
     },
@@ -23,6 +23,12 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /(node_modules)/,
       },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      // { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ],
   },
   plugins: [

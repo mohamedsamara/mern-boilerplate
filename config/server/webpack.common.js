@@ -13,6 +13,9 @@ module.exports = {
     filename: 'server.bundle.js',
     libraryTarget: 'commonjs2',
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.scss', '.html'],
+  },
   target: 'node',
   node: {
     __dirname: false,
@@ -22,8 +25,13 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         use: ['babel-loader'],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
     ],
   },

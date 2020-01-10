@@ -1,10 +1,9 @@
-import http from 'http';
+import * as http from 'http';
 import app from './app';
 
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(app);
-let currentApp = app;
 
 server.listen(PORT, () => {
   console.log(
@@ -12,10 +11,9 @@ server.listen(PORT, () => {
   );
 });
 
+declare const module: any;
+
 if (module.hot) {
-  module.hot.accept('./app', () => {
-    server.removeListener('request', currentApp);
-    server.on('request', app);
-    currentApp = app;
-  });
+  module.hot.accept();
+  module.hot.dispose(() => server.close());
 }

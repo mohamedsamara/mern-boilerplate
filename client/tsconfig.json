@@ -1,0 +1,31 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowJs": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "jsx": "preserve",
+    "module": "esnext",
+    "target": "es2017",
+    "lib": ["dom", "es2015", "es2016", "es2017"],
+    "outDir": "build",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "noEmitHelpers": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "strictNullChecks": false,
+    "strict": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "include": ["./app/**/*"],
+  "exclude": ["node_modules"]
+}
