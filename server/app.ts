@@ -33,9 +33,9 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(cors());
-    this.app.use(compression());
 
     if (process.env.NODE_ENV === 'production') {
+      this.app.use(compression());
       this.app.use(express.static(path.resolve(__dirname, '../client')));
       this.app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, '../client/index.html'));

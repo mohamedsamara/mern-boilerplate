@@ -26,6 +26,7 @@ module.exports = merge(common, {
     new startServerPlugin({
       name: 'server.bundle.js',
     }),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
 });

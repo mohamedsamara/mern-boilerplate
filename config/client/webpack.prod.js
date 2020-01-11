@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const common = require('./webpack.common');
 
@@ -89,6 +90,9 @@ module.exports = merge(common, {
     concatenateModules: true,
     runtimeChunk: 'single',
     splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: 10,
+      minSize: 0,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -172,6 +176,12 @@ module.exports = merge(common, {
         preset: ['default', { discardComments: { removeAll: true } }],
       },
       canPrint: true,
+    }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8,
     }),
   ],
 });

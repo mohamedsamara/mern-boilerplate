@@ -37,7 +37,6 @@ module.exports = {
   },
   plugins: [
     new dotenv(),
-    new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
