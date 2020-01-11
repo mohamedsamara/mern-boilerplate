@@ -9,7 +9,7 @@ import * as logger from 'morgan';
 class App {
   public app: express.Application;
 
-  public static bootstrap(): App {
+  public static bootstrap() {
     return new App();
   }
 
@@ -38,16 +38,15 @@ class App {
     if (process.env.NODE_ENV === 'production') {
       this.app.use(compression());
       this.app.use(express.static(path.resolve(__dirname, '../client')));
-      this.app.get('*', (req, res) => {
+      this.app.get('*', (req: express.Request, res: express.Response) => {
         res.sendFile(path.resolve(__dirname, '../client/index.html'));
       });
     } else {
       this.app.use(logger('dev'));
+      this.app.get('*', (req: express.Request, res: express.Response) =>
+        res.status(200).send('Welcome to server APIs'),
+      );
     }
-
-    this.app.get('*', (req: express.Request, res: express.Response) =>
-      res.status(200).send('Welcome to server APIs'),
-    );
   }
 
   private routes() {

@@ -9,7 +9,7 @@
     "noFallthroughCasesInSwitch": true,
     "module": "commonjs",
     "target": "es2017",
-    "outDir": "build",
+    "outDir": "dist",
     "rootDir": "./",
     "sourceMap": true,
     "baseUrl": "./",
