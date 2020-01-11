@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as cors from 'cors';
 import * as compression from 'compression';
+import * as logger from 'morgan';
 
 // import routes from './routes';
 
@@ -40,6 +41,8 @@ class App {
       this.app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, '../client/index.html'));
       });
+    } else {
+      this.app.use(logger('dev'));
     }
 
     this.app.get('*', (req: express.Request, res: express.Response) =>
