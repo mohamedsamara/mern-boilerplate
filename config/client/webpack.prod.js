@@ -2,6 +2,7 @@
 
 const path = require('path');
 const merge = require('webpack-merge');
+const WebpackMd5Hash = require('webpack-md5-hash');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -141,6 +142,7 @@ module.exports = merge(common, {
     ],
   },
   plugins: [
+    new WebpackMd5Hash(),
     new HtmlWebpackPlugin({
       template: path.join(CURRENT_WORKING_DIR, 'client/public/index.html'),
       excludeChunks: ['server'],
