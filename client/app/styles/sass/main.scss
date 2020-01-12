@@ -1,0 +1,19 @@
+// Configuration and helpers
+@import 'abstracts/variables', 'abstracts/functions', 'abstracts/mixins';
+
+// Vendors
+@import 'vendors/normalize';
+
+// Base - Core styles
+@import 'base/base', 'base/fonts', 'base/typography', 'base/helpers';
+
+// Layout-related sections
+@import 'layout/header', 'layout/footer';
+
+// Components
+
+// Page-specific styles
+@import 'pages/home';
+
+// Themes
+@import 'themes/default';

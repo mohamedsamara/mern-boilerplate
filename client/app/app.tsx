@@ -5,7 +5,10 @@ import { DatePicker } from 'antd';
 import 'antd/dist/antd.less';
 
 // Import application less styles
-import './styles/less/style.less';
+import './styles/less/main.less';
+
+// Import application sass styles
+import './styles/less/main.less';
 
 const App: React.FC = () => {
   return (
