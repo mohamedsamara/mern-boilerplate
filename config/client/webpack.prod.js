@@ -41,6 +41,21 @@ module.exports = merge(common, {
         ],
       },
       {
+        test: /\.less$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+            },
+          },
+        ],
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg|ico)$/,
         use: [
           {
