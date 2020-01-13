@@ -5,7 +5,7 @@
 @import 'vendors/normalize';
 
 // Base - Core styles
-@import 'base/base', 'base/fonts', 'base/typography', 'base/helpers';
+@import 'base/base', 'base/fonts', 'base/typography', 'base/utils';
 
 // Layout-related sections
 @import 'layout/header', 'layout/footer';

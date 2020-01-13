@@ -36,9 +36,6 @@ module.exports = merge(common, {
           },
           {
             loader: 'postcss-loader',
-            options: {
-              plugins: () => [require('cssnano'), require('autoprefixer')],
-            },
           },
           {
             loader: 'sass-loader',

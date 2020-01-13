@@ -8,7 +8,7 @@ import 'antd/dist/antd.less';
 import './styles/less/main.less';
 
 // Import application sass styles
-import './styles/less/main.less';
+import './styles/sass/main.scss';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -22,10 +22,9 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="test">
       <div className="section">
         <ul>App works!</ul>
-        {/* <img src={'images/social_icons/facebook.png'} /> */}
       </div>
       {/* <DatePicker /> */}
     </div>
