@@ -1,4 +1,5 @@
 /* eslint-disable */
+'use strict';
 
 const path = require('path');
 const merge = require('webpack-merge');
@@ -22,6 +23,7 @@ module.exports = merge(common, {
     path: path.join(CURRENT_WORKING_DIR, '/dist/client'),
     filename: 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[name].[chunkhash].js',
+    publicPath: '/',
   },
   module: {
     rules: [

@@ -1,13 +1,15 @@
 {
+  // Babel presets bundles together common Babel plugins
   "presets": [
     [
       //  modules: false prevent babel from transpiling modules into commonJS and instead transpile them into ES6.
       "@babel/preset-env",
       {
-        "modules": false
+        "modules": false,
+        "useBuiltIns": "usage",
+        "corejs": "3.6.3"
       }
     ],
     "@babel/preset-react"
-  ],
-  "plugins": ["@babel/transform-runtime"]
+  ]
 }
