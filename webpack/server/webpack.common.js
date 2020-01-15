@@ -12,10 +12,18 @@ module.exports = {
   output: {
     path: path.join(CURRENT_WORKING_DIR, '/dist/server'),
     filename: 'server.bundle.js',
-    libraryTarget: 'commonjs2',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.scss', '.html'],
+    extensions: [
+      '.ts',
+      '.tsx',
+      '.js',
+      '.json',
+      '.css',
+      '.scss',
+      '.less',
+      '.html',
+    ],
   },
   target: 'node',
   node: {
@@ -32,9 +40,6 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: [
-          {
-            loader: 'babel-loader',
-          },
           {
             loader: 'ts-loader',
           },

@@ -31,13 +31,13 @@ class App {
   }
 
   public config() {
+    this.app.use(express.static(path.resolve(__dirname, '../client')));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(cors());
 
     if (process.env.NODE_ENV === 'production') {
       this.app.use(compression());
-      this.app.use(express.static(path.resolve(__dirname, '../client')));
       this.app.get('*', (req: express.Request, res: express.Response) => {
         res.sendFile(path.resolve(__dirname, '../client/index.html'));
       });

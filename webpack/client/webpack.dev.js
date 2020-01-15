@@ -18,6 +18,7 @@ module.exports = merge(common, {
     filename: '[name].js',
     publicPath: '/',
   },
+  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {
@@ -26,12 +27,21 @@ module.exports = merge(common, {
           'style-loader',
           {
             loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
           },
           {
             loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+            },
           },
           {
             loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
           },
         ],
       },
@@ -41,11 +51,21 @@ module.exports = merge(common, {
           'style-loader',
           {
             loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+            },
           },
           {
             loader: 'less-loader',
             options: {
               javascriptEnabled: true,
+              sourceMap: true,
             },
           },
         ],
@@ -112,5 +132,4 @@ module.exports = merge(common, {
       '/api': `http://localhost:${PORT}`,
     },
   },
-  devtool: 'cheap-module-eval-source-map',
 });

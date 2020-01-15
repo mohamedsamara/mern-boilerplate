@@ -22,11 +22,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="test">
-      <div className="section">
-        <ul>App works!</ul>
-      </div>
-      {/* <DatePicker /> */}
+    <div className="container">
+      <div className="test"></div>
     </div>
   );
 };

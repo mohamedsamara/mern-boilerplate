@@ -50,6 +50,9 @@ module.exports = merge(common, {
             loader: 'css-loader',
           },
           {
+            loader: 'postcss-loader',
+          },
+          {
             loader: 'less-loader',
             options: {
               javascriptEnabled: true,

@@ -45,7 +45,7 @@ module.exports = {
         ],
         exclude: /node_modules/,
       },
-      // { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
+      // { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
     ],
   },
   plugins: [
