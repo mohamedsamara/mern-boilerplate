@@ -4,6 +4,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV;
 const CURRENT_WORKING_DIR = process.cwd();
@@ -41,14 +42,19 @@ module.exports = {
           },
           {
             loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+            },
           },
         ],
         exclude: /node_modules/,
       },
-      // { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
     ],
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: path.join(CURRENT_WORKING_DIR, 'client/tsconfig.json'),
+    }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
