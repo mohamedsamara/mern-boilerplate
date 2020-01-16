@@ -13,7 +13,7 @@ module.exports = ctx => {
       ...(ctx.env === 'production'
         ? [
             purgecss({
-              content: ['./**/*.html'],
+              content: ['**/*.html'],
             }),
             cssnano({}),
           ]

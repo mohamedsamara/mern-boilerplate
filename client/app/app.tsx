@@ -10,6 +10,8 @@ import './styles/less/main.less';
 // Import application sass styles
 import './styles/sass/main.scss';
 
+import styles from './app.css';
+
 const App: React.FC = () => {
   useEffect(() => {
     callApi();
@@ -22,8 +24,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="container">
-      <div className="test"></div>
+    <div className={styles.container}>
+      <img src="images/social_icons/facebook.png" />
     </div>
   );
 };

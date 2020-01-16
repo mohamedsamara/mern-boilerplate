@@ -33,6 +33,12 @@ module.exports = merge(common, {
           MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
+            options: {
+              localsConvention: 'camelCase',
+              modules: {
+                localIdentName: '[local]___[hash:base64:5]',
+              },
+            },
           },
           {
             loader: 'postcss-loader',
@@ -67,7 +73,7 @@ module.exports = merge(common, {
             loader: 'file-loader',
             options: {
               outputPath: 'images',
-              publicPath: '../images/',
+              publicPath: 'images',
               name: '[name].[hash].[ext]',
             },
           },
@@ -80,7 +86,7 @@ module.exports = merge(common, {
             loader: 'file-loader',
             options: {
               outputPath: 'fonts',
-              publicPath: '../fonts/',
+              publicPath: 'fonts',
               name: '[name].[hash].[ext]',
             },
           },
@@ -139,6 +145,7 @@ module.exports = merge(common, {
             comments: false,
             ascii_only: true,
           },
+          cache: true,
           parallel: true,
           sourceMap: true,
         },
