@@ -10,9 +10,7 @@ import './styles/less/main.less';
 // Import application sass styles
 import './styles/sass/main.scss';
 
-import styles from './app.css';
-
-import 'sanitize.css';
+import './app.css';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -26,7 +24,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div>
       <img src="images/social_icons/facebook.png" />
     </div>
   );

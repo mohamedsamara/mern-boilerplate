@@ -1,3 +1,2 @@
-.container {
-  padding: 20px;
-}
+@import-normalize;
+@import-sanitize;
