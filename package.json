@@ -17,6 +17,9 @@
     "report:start": "webpack-bundle-analyzer --port 4200 dist/client/stats.json",
     "lint": "eslint '**/*.js' --ignore-path .eslintignore",
     "lint:fix": "eslint '**/*.js' --fix --ignore-path .eslintignore",
+    "stylelint": "stylelint 'client/**/*.{css,scss,less}'",
+    "stylelint:fix": "stylelint --fix 'client/**/*.{css,scss,less}'",
+    "stylelint-check": "stylelint-config-prettier-check",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -91,6 +94,12 @@
     "source-map-loader": "^0.2.4",
     "start-server-webpack-plugin": "^2.2.5",
     "style-loader": "^1.0.0",
+    "stylelint": "^13.0.0",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-recommended-scss": "^4.1.0",
+    "stylelint-no-unsupported-browser-features": "^4.0.0",
+    "stylelint-prettier": "^1.1.2",
+    "stylelint-scss": "^3.13.0",
     "terser-webpack-plugin": "^2.2.1",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",

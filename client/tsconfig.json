@@ -23,8 +23,8 @@
     "strictNullChecks": false,
     "strict": true,
     "resolveJsonModule": true,
-    "isolatedModules": false,
-    "noEmit": false
+    "isolatedModules": true,
+    "noEmit": true
   },
   "include": ["./app/**/*"],
   "exclude": ["node_modules"]

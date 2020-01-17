@@ -1,0 +1,47 @@
+{
+  "extends": [
+    "stylelint-config-recommended",
+    "stylelint-config-recommended-scss"
+  ],
+  "defaultSeverity": "warning",
+  "ignoreFiles": ["./client/**/*mixins.{scss,less}"],
+  "plugins": [
+    "stylelint-prettier",
+    "stylelint-scss",
+    "stylelint-no-unsupported-browser-features"
+  ],
+  "rules": {
+    "prettier/prettier": true,
+    "plugin/no-unsupported-browser-features": true,
+    "number-leading-zero": null,
+    "block-no-empty": true,
+    "no-empty-source": null,
+    "color-no-invalid-hex": true,
+    "block-closing-brace-empty-line-before": "never",
+    "at-rule-empty-line-before": "always",
+    "no-duplicate-selectors": true,
+    "declaration-colon-space-after": "always",
+    "indentation": 2,
+    "declaration-empty-line-before": "never",
+    "max-empty-lines": 1,
+    "no-empty-first-line": true,
+    "comment-no-empty": true,
+    "no-invalid-double-slash-comments": true,
+    "comment-empty-line-before": "never",
+    "comment-whitespace-inside": "always",
+    "at-rule-no-vendor-prefix": true,
+    "media-feature-name-no-vendor-prefix": true,
+    "property-no-vendor-prefix": true,
+    "value-no-vendor-prefix": true,
+    "selector-no-vendor-prefix": true,
+    "font-family-no-missing-generic-family-keyword": null,
+    "no-descending-specificity": null,
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
+      }
+    ],
+    "unit-whitelist": ["px", "em", "deg", "rem", "%", "s", "ms", "vh"]
+  }
+}
