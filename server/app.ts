@@ -16,18 +16,19 @@ class App {
   constructor() {
     this.app = express();
 
-    //configure application
+    // configure application
     this.config();
 
-    //add routes
+    // add routes
     this.routes();
 
-    //add api
+    // add api
     this.api();
   }
 
+  // eslint-disable-next-line
   public api() {
-    //empty for now
+    // empty for now
   }
 
   public config() {
@@ -49,10 +50,10 @@ class App {
     }
   }
 
+  /* eslint-disable */
   private routes() {
     let router: express.Router;
     router = express.Router();
-
     // app.use(routes);
   }
 }

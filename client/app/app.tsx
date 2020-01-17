@@ -13,19 +13,19 @@ import './styles/sass/main.scss';
 import './app.css';
 
 const App: React.FC = () => {
-  useEffect(() => {
-    callApi();
-  }, []);
-
   const callApi = async () => {
     const response = await fetch('https://jsonplaceholder.typicode.com/todos');
     const json = await response.json();
     console.log(json);
   };
 
+  useEffect(() => {
+    callApi();
+  }, []);
+
   return (
     <div>
-      <img src="images/social_icons/facebook.png" />
+      <img src="images/social_icons/facebook.png" alt="facebook logo" />
     </div>
   );
 };

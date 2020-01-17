@@ -5,6 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const common = require('./webpack.common');
 
@@ -109,6 +110,10 @@ module.exports = merge(common, {
     ],
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: path.join(CURRENT_WORKING_DIR, 'client/tsconfig.json'),
+      eslint: true,
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(CURRENT_WORKING_DIR, 'client/public/index.html'),

@@ -4,8 +4,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-
 const NODE_ENV = process.env.NODE_ENV;
 const CURRENT_WORKING_DIR = process.cwd();
 
@@ -52,9 +50,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      tsconfig: path.join(CURRENT_WORKING_DIR, 'client/tsconfig.json'),
-    }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {

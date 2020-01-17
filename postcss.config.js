@@ -1,3 +1,4 @@
+/* eslint-disable */
 const postcsspresetenv = require('postcss-preset-env');
 const purgecss = require('@fullhuman/postcss-purgecss');
 const postcssnormalize = require('postcss-normalize');

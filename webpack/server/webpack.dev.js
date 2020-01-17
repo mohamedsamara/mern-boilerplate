@@ -5,6 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const startServerPlugin = require('start-server-webpack-plugin');
 
 const common = require('./webpack.common');
@@ -24,6 +25,10 @@ module.exports = merge(common, {
     }),
   ],
   plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: path.join(CURRENT_WORKING_DIR, 'server/tsconfig.json'),
+      eslint: true,
+    }),
     new startServerPlugin({
       name: 'server.bundle.js',
     }),
