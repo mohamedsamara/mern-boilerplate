@@ -14,6 +14,7 @@ import './app.css';
 
 const App: React.FC = () => {
   const callApi = async () => {
+    /* eslint-disable compat/compat */
     const response = await fetch('https://jsonplaceholder.typicode.com/todos');
     const json = await response.json();
     console.log(json);
