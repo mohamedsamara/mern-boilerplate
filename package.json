@@ -19,7 +19,28 @@
     "lint:fix": "eslint '**/*.{js,jsx,ts,tsx}' --fix --ignore-path .eslintignore",
     "stylelint": "stylelint 'client/**/*.{css,scss,less}'",
     "stylelint:fix": "stylelint --fix 'client/**/*.{css,scss,less}'",
+    "prettier": "prettier '**/*.{ts,tsx,js,jsx,json,css,scss,less,md}' --write",
+    "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,html,md}": [
+      "npm run lint:fix",
+      "git add"
+    ],
+    "*.{css,scss,less}": [
+      "npm run stylelint:fix",
+      "git add"
+    ],
+    "*.json": [
+      "npm run prettier",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "repository": {
     "type": "git",
@@ -84,8 +105,10 @@
     "fork-ts-checker-webpack-plugin": "^3.1.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^4.0.10",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "lint-staged": "^9.5.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.13.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
