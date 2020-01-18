@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as cors from 'cors';
 import * as compression from 'compression';
+import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
 
 // import routes from './routes';
@@ -9,7 +10,9 @@ import * as logger from 'morgan';
 class App {
   public app: express.Application;
 
-  public static bootstrap() {
+  public mongoURI: string = process.env.MONGO_URI;
+
+  public static bootstrap(): App {
     return new App();
   }
 
@@ -24,6 +27,9 @@ class App {
 
     // add api
     this.api();
+
+    // add database
+    this.database();
   }
 
   // eslint-disable-next-line
@@ -31,7 +37,25 @@ class App {
     // empty for now
   }
 
-  public config() {
+  private database(): void {
+    console.log(process.env.MONGO_URI);
+
+    mongoose
+      .connect(this.mongoURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .then(() => {
+        console.log('MongoDB is connected!');
+      })
+      .catch(err => {
+        console.log(
+          `MongoDB connection error ${err}. Please make sure MongoDB is running.`,
+        );
+      });
+  }
+
+  private config() {
     this.app.use(express.static(path.resolve(__dirname, '../client')));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
