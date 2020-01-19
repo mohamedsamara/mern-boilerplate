@@ -5,7 +5,7 @@ import * as compression from 'compression';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
 
-// import routes from './routes';
+import BaseRoute from './routes';
 
 class App {
   public app: express.Application;
@@ -19,27 +19,17 @@ class App {
   constructor() {
     this.app = express();
 
-    // configure application
+    // configuration & middlewares
     this.config();
 
     // add routes
     this.routes();
 
-    // add api
-    this.api();
-
     // add database
     this.database();
   }
 
-  // eslint-disable-next-line
-  public api() {
-    // empty for now
-  }
-
   private database(): void {
-    console.log(process.env.MONGO_URI);
-
     mongoose
       .connect(this.mongoURI, {
         useNewUrlParser: true,
@@ -68,17 +58,11 @@ class App {
       });
     } else {
       this.app.use(logger('dev'));
-      this.app.get('*', (req: express.Request, res: express.Response) =>
-        res.status(200).send('Welcome to server APIs'),
-      );
     }
   }
 
-  /* eslint-disable */
   private routes() {
-    let router: express.Router;
-    router = express.Router();
-    // app.use(routes);
+    this.app.use(BaseRoute.path, BaseRoute.router);
   }
 }
 

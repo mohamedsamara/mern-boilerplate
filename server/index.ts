@@ -1,14 +1,14 @@
 import App from './app';
 import Server from './server';
 
-const { app } = new App();
-const server = new Server();
+/* eslint-disable */
+const app = App.bootstrap().app;
 
-server.start(app);
+Server.start(app);
 
 declare const module: any;
 
 if (module.hot) {
   module.hot.accept();
-  module.hot.dispose(() => server.close());
+  module.hot.dispose(() => Server.close());
 }

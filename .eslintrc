@@ -33,7 +33,7 @@
     "no-use-before-define": 0,
     "no-underscore-dangle": 0,
     "no-multiple-empty-lines": "off",
-    "class-methods-use-this": 1,
+    "class-methods-use-this": "off",
     "consistent-return": "off",
     "prefer-template": 2,
     "require-yield": 0,
