@@ -1,6 +1,9 @@
 import * as express from 'express';
+import { Container } from 'typedi';
 
 import NotesController from '../../controllers/notes.controller';
+
+const NotesControllerInstance = Container.get(NotesController);
 
 class NotesRoute {
   public static path = '/notes';
@@ -21,23 +24,23 @@ class NotesRoute {
   }
 
   private get = async () => {
-    this.router.get('/', NotesController.getNotes);
+    this.router.get('/', NotesControllerInstance.getNotes);
   };
 
   private getOne = async () => {
-    this.router.get('/:id', NotesController.getNote);
+    this.router.get('/:id', NotesControllerInstance.getNote);
   };
 
   private put = async () => {
-    this.router.put('/', NotesController.updateNote);
+    this.router.put('/', NotesControllerInstance.updateNote);
   };
 
   private post = async () => {
-    this.router.post('/', NotesController.addNote);
+    this.router.post('/', NotesControllerInstance.addNote);
   };
 
   private delete = async () => {
-    this.router.delete('/', NotesController.deleteNote);
+    this.router.delete('/', NotesControllerInstance.deleteNote);
   };
 }
 

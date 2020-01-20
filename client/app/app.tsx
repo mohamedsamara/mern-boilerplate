@@ -17,8 +17,7 @@ const App: React.FC = () => {
     /* eslint-disable compat/compat */
 
     const settings = {
-      method: 'PUT',
-      body: JSON.stringify({ device: 'test' }),
+      method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
