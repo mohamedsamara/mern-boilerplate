@@ -15,7 +15,16 @@ import './app.css';
 const App: React.FC = () => {
   const callApi = async () => {
     /* eslint-disable compat/compat */
-    const response = await fetch('/api/notes');
+
+    const settings = {
+      method: 'PUT',
+      body: JSON.stringify({ device: 'test' }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = await fetch('/api/notes', settings);
     const json = await response.json();
     console.log(json);
   };

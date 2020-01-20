@@ -1,12 +1,18 @@
 import * as express from 'express';
 
+import NotesController from '../../controllers/notes.controller';
+
 class NotesRoute {
   public static path = '/notes';
 
   private router = express.Router();
 
   private constructor() {
-    this.router.get('/', this.get);
+    this.get();
+    this.getOne();
+    this.put();
+    this.post();
+    this.delete();
   }
 
   static get router() {
@@ -14,13 +20,24 @@ class NotesRoute {
     return notesInstance.router;
   }
 
-  private get = async (req: express.Request, res: express.Response) => {
-    const notes = [
-      { id: 1, name: 'test1' },
-      { id: 2, name: 'test2' },
-    ];
+  private get = async () => {
+    this.router.get('/', NotesController.getNotes);
+  };
 
-    res.status(200).json({ message: 'Welcome to Notes Api!', data: notes });
+  private getOne = async () => {
+    this.router.get('/:id', NotesController.getNote);
+  };
+
+  private put = async () => {
+    this.router.put('/', NotesController.updateNote);
+  };
+
+  private post = async () => {
+    this.router.post('/', NotesController.addNote);
+  };
+
+  private delete = async () => {
+    this.router.delete('/', NotesController.deleteNote);
   };
 }
 

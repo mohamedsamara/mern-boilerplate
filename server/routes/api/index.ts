@@ -1,7 +1,3 @@
-// router.use('/notes', noteRoutes);
-// router.use('/notes', noteRoutes);
-// router.use('/notes', noteRoutes);
-
 import * as express from 'express';
 
 import NotesRoute from './notes';
