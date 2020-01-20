@@ -23,25 +23,25 @@ class NotesRoute {
     return notesInstance.router;
   }
 
-  private get = async () => {
+  private async get() {
     this.router.get('/', NotesControllerInstance.getNotes);
-  };
+  }
 
-  private getOne = async () => {
+  private async getOne() {
     this.router.get('/:id', NotesControllerInstance.getNote);
-  };
+  }
 
-  private put = async () => {
+  private async put() {
     this.router.put('/', NotesControllerInstance.updateNote);
-  };
+  }
 
-  private post = async () => {
+  private async post() {
     this.router.post('/', NotesControllerInstance.addNote);
-  };
+  }
 
-  private delete = async () => {
+  private async delete() {
     this.router.delete('/', NotesControllerInstance.deleteNote);
-  };
+  }
 }
 
 export default NotesRoute;

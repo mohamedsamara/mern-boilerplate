@@ -17,9 +17,9 @@ class ApiRoute {
     return apiInstance.router;
   }
 
-  private get = async (req: express.Request, res: express.Response) => {
+  private async get(req: express.Request, res: express.Response) {
     res.status(200).json({ message: 'Welcome to APIs route!' });
-  };
+  }
 }
 
 export default ApiRoute;
