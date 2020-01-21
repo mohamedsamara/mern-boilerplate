@@ -3,7 +3,7 @@ import { Container } from 'typedi';
 
 import NotesController from '../../controllers/notes.controller';
 
-const NotesControllerInstance = Container.get(NotesController);
+const notesControllerInstance = Container.get(NotesController);
 
 class NotesRoute {
   public static path = '/notes';
@@ -24,23 +24,23 @@ class NotesRoute {
   }
 
   private async get() {
-    this.router.get('/', NotesControllerInstance.getNotes);
+    this.router.get('/', notesControllerInstance.getNotes);
   }
 
   private async getOne() {
-    this.router.get('/:id', NotesControllerInstance.getNote);
+    this.router.get('/:id', notesControllerInstance.getNote);
   }
 
   private async put() {
-    this.router.put('/', NotesControllerInstance.updateNote);
+    this.router.put('/:id', notesControllerInstance.updateNote);
   }
 
   private async post() {
-    this.router.post('/', NotesControllerInstance.addNote);
+    this.router.post('/', notesControllerInstance.addNote);
   }
 
   private async delete() {
-    this.router.delete('/', NotesControllerInstance.deleteNote);
+    this.router.delete('/:id', notesControllerInstance.deleteNote);
   }
 }
 

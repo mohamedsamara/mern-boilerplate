@@ -23,7 +23,7 @@ class Responder {
     this.message = message;
   }
 
-  public send = (res: Response) => {
+  public send(res: Response) {
     const result = {
       status: this.type,
       message: this.message,
@@ -37,7 +37,7 @@ class Responder {
       status: this.type,
       message: this.message,
     });
-  };
+  }
 }
 
 export default Responder;

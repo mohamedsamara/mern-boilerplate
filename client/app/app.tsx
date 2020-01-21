@@ -17,13 +17,16 @@ const App: React.FC = () => {
     /* eslint-disable compat/compat */
 
     const settings = {
-      method: 'GET',
+      method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     };
-    const response = await fetch('/api/notes', settings);
+    const response = await fetch(
+      '/api/notes/5e268435d4e0001ac23fd879',
+      settings,
+    );
     const json = await response.json();
     console.log(json);
   };
