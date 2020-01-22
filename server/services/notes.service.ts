@@ -1,13 +1,11 @@
-// import { Container } from 'typedi';
-
 import NotesModel from '../models/notes';
 
-const NotesModelInstance = new NotesModel().getModel();
+const notesModelInstance = new NotesModel().getModel();
 
 class NotesService {
   public async getNotes() {
     try {
-      return await NotesModelInstance.find();
+      return await notesModelInstance.find();
     } catch (error) {
       throw error;
     }
@@ -15,7 +13,7 @@ class NotesService {
 
   public async getNote(id: any) {
     try {
-      return await NotesModelInstance.findById(id);
+      return await notesModelInstance.findById(id);
     } catch (error) {
       throw error;
     }
@@ -23,10 +21,10 @@ class NotesService {
 
   public async updateNote(id: any, newNote: any) {
     try {
-      const noteToUpdate = await NotesModelInstance.findById(id);
+      const noteToUpdate = await notesModelInstance.findById(id);
 
       if (noteToUpdate) {
-        await NotesModelInstance.updateOne(newNote);
+        await notesModelInstance.updateOne(newNote);
 
         return newNote;
       }
@@ -38,7 +36,7 @@ class NotesService {
 
   public async addNote(newNote: any) {
     try {
-      return NotesModelInstance.create(newNote);
+      return notesModelInstance.create(newNote);
     } catch (error) {
       throw error;
     }
@@ -46,12 +44,13 @@ class NotesService {
 
   public async deleteNote(id: any) {
     try {
-      const noteToDelete = await NotesModelInstance.findById(id);
+      const noteToDelete = await notesModelInstance.findById(id);
 
       if (noteToDelete) {
-        const deletedNote = await NotesModelInstance.deleteOne({
+        const deletedNote = await notesModelInstance.deleteOne({
           _id: id,
         });
+
         return deletedNote;
       }
       return null;

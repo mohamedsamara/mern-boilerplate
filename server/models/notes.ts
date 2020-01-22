@@ -1,19 +1,16 @@
-// eslint-disable-next-line no-unused-vars
-import { Document, Schema, Model, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
-export interface INote extends Document {
-  title: string;
-  content: string;
-}
-
-export type NoteModel = Model<INote> & INote;
+import { INote, NoteModel } from '../types/notes.types';
 
 class NotesModel {
-  private model: any;
+  private model: NoteModel;
+
+  constructor() {
+    this.initSchema();
+  }
 
   public async initSchema() {
-    const schema: Schema = new Schema({
+    const schema = new Schema({
       title: {
         type: String,
         required: true,
@@ -24,11 +21,10 @@ class NotesModel {
       },
     });
 
-    this.model = model<NoteModel>('notes', schema);
+    this.model = <NoteModel>model<INote>('notes', schema);
   }
 
-  public getModel() {
-    this.initSchema();
+  public getModel(): NoteModel {
     return this.model;
   }
 }

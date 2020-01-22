@@ -45,7 +45,7 @@ class App {
       });
   }
 
-  private config() {
+  private config(): void {
     this.app.use(express.static(path.resolve(__dirname, '../client')));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
@@ -61,7 +61,7 @@ class App {
     }
   }
 
-  private routes() {
+  private routes(): void {
     this.app.use(BaseRoute.path, BaseRoute.router);
   }
 }

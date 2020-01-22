@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import { Response } from 'express';
 
 class Responder {
@@ -10,20 +9,20 @@ class Responder {
 
   public message: string = null;
 
-  public setSuccess(statusCode: number, message: string, data?: any) {
+  public async setSuccess(statusCode: number, message: string, data?: any) {
     this.statusCode = statusCode;
     this.type = 'success';
     this.message = message;
     this.data = data;
   }
 
-  public setError(statusCode: number, message: string) {
+  public async setError(statusCode: number, message: string) {
     this.statusCode = statusCode;
     this.type = 'error';
     this.message = message;
   }
 
-  public send(res: Response) {
+  public async send(res: Response) {
     const result = {
       status: this.type,
       message: this.message,
