@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 
-// import { DatePicker } from 'antd';
+import { DatePicker } from 'antd';
+
+// No need to import the antd styles. babel-plugin-import has been configured in babel config file to help
+// in importing individually components on demand and automatically import the corresponding stylesheet.
 
 // import 'antd/dist/antd.less';
 
@@ -33,6 +36,7 @@ const App: React.FC = () => {
 
   return (
     <div>
+      <DatePicker />
       <img src="images/social_icons/facebook.png" alt="facebook logo" />
     </div>
   );

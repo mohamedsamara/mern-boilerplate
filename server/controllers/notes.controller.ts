@@ -12,8 +12,6 @@ class NotesController {
     try {
       const notes = await notesServiceInstance.getNotes();
 
-      console.log('notes', notes);
-
       if (notes.length > 0) {
         responderInstance.setSuccess(
           200,
