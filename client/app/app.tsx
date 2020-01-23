@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { DatePicker } from 'antd';
+import { Router } from 'react-router-dom';
+
+import history from './utils/history';
 
 // No need to import the antd styles. babel-plugin-import has been configured in babel config file to help
 // in importing individually components on demand and automatically import the corresponding stylesheet.
@@ -15,29 +17,14 @@ import './styles/sass/main.scss';
 
 import './app.css';
 
+import AppRouter from './routes';
+
 const App: React.FC = () => {
-  const callApi = async () => {
-    /* eslint-disable compat/compat */
-
-    const settings = {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    };
-    const response = await fetch('/api/notes', settings);
-    const json = await response.json();
-    console.log(json);
-  };
-
-  useEffect(() => {
-    callApi();
-  }, []);
-
   return (
-    <div>
-      <DatePicker />
-      <img src="images/social_icons/facebook.png" alt="facebook logo" />
+    <div className="application">
+      <Router history={history}>
+        <AppRouter />
+      </Router>
     </div>
   );
 };
