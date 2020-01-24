@@ -1,2 +1,7 @@
 @import-normalize;
 @import-sanitize;
+.application {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
