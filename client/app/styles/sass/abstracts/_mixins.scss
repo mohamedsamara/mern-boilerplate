@@ -302,7 +302,6 @@
 }
 
 // shorthand for flex-direction & flex-wrap
-
 @mixin flex-flow-wrap($flow) {
   -webkit-flex-flow: $flow wrap;
   -moz-flex-flow: $flow wrap;

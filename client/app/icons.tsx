@@ -26,6 +26,10 @@ export { default as CaretUpOutline } from '@ant-design/icons/lib/outline/CaretUp
 export { default as CaretDownOutline } from '@ant-design/icons/lib/outline/CaretDownOutline';
 export { default as PlusOutline } from '@ant-design/icons/lib/outline/PlusOutline';
 export { default as FileOutline } from '@ant-design/icons/lib/outline/FileOutline';
+export { default as TeamOutline } from '@ant-design/icons/lib/outline/TeamOutline';
+export { default as UserOutline } from '@ant-design/icons/lib/outline/UserOutline';
+export { default as PieChartOutline } from '@ant-design/icons/lib/outline/PieChartOutline';
+export { default as DesktopOutline } from '@ant-design/icons/lib/outline/DesktopOutline';
 export { default as FolderOpenOutline } from '@ant-design/icons/lib/outline/FolderOpenOutline';
 export { default as FolderOutline } from '@ant-design/icons/lib/outline/FolderOutline';
 export { default as PaperClipOutline } from '@ant-design/icons/lib/outline/PaperClipOutline';

@@ -18,7 +18,7 @@
     "no-empty-source": null,
     "color-no-invalid-hex": true,
     "block-closing-brace-empty-line-before": "never",
-    "rule-empty-line-before": "never",
+    "rule-empty-line-before": "always",
     "no-duplicate-selectors": true,
     "declaration-colon-space-after": "always",
     "indentation": 2,
