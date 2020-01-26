@@ -27,7 +27,7 @@ const App: React.FC = () => {
           <Sidebar />
           <Layout>
             <Header />
-            <Content style={{ padding: '0 16px', marginTop: 80 }}>
+            <Content style={{ padding: '16px' }}>
               <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                 <AppRouter />
               </div>

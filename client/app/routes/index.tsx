@@ -2,19 +2,34 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import PrivateRoute from './PrivateRoute';
-
-import Dashboard from '../components/Dashboard';
-import Homepage from '../components/Homepage';
-import Login from '../components/Login';
+import routes from './routes';
 
 const AppRouter = () => (
   <Switch>
-    <Route exact path="/" component={Homepage} />
-    <Route path="/login" component={Login} />
-    <PrivateRoute>
-      <Route path="/dashboard" component={Dashboard} />
-    </PrivateRoute>
+    {routes.map((route, idx) => {
+      return <RouteFrom key={idx} {...route} />;
+    })}
   </Switch>
 );
 
 export default AppRouter;
+
+const RouteFrom = route => {
+  return route.private ? (
+    <PrivateRoute>
+      <Route
+        path={route.path}
+        exact={route.exact}
+        name={route.name}
+        render={props => <route.component {...props} />}
+      />
+    </PrivateRoute>
+  ) : (
+    <Route
+      path={route.path}
+      exact={route.exact}
+      name={route.name}
+      render={props => <route.component {...props} />}
+    />
+  );
+};

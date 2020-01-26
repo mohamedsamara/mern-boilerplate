@@ -1,3 +1,29 @@
-// html,body{
-//   min-height: 100vh;
-// }
+html, body {
+  min-height: 100vh;
+}
+
+a {
+  color: @blue;
+  text-decoration: none;
+  text-transform: capitalize;
+  font-size: @font-size-medium;
+
+  &:hover {
+    color: @gray;
+    text-decoration: underline;
+  }
+  
+  &:focus {
+    color: @gray;
+    text-decoration: underline;
+  }
+      
+  &:active {
+    color: @black;
+  }
+      
+  &:visited {
+    color: @purple;
+  }
+}
+  

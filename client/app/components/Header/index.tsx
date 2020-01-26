@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <HeaderAntd className="header" style={{ background: '#fff', padding: 0 }}>
       <Row>
-        <Col span={12}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Menu
             theme="light"
             mode="horizontal"
@@ -28,7 +28,7 @@ const Header = () => {
             <Menu.Item key="3">nav 3</Menu.Item>
           </Menu>
         </Col>
-        <Col span={12}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <div className="header-dropdown-coulmn">
             <Dropdown
               overlay={menu}

@@ -28,6 +28,10 @@ export { default as PlusOutline } from '@ant-design/icons/lib/outline/PlusOutlin
 export { default as FileOutline } from '@ant-design/icons/lib/outline/FileOutline';
 export { default as TeamOutline } from '@ant-design/icons/lib/outline/TeamOutline';
 export { default as UserOutline } from '@ant-design/icons/lib/outline/UserOutline';
+export { default as LoginOutline } from '@ant-design/icons/lib/outline/LoginOutline';
+export { default as DashboardOutline } from '@ant-design/icons/lib/outline/DashboardOutline';
+export { default as HomeOutline } from '@ant-design/icons/lib/outline/HomeOutline';
+export { default as LogoutOutline } from '@ant-design/icons/lib/outline/LogoutOutline';
 export { default as PieChartOutline } from '@ant-design/icons/lib/outline/PieChartOutline';
 export { default as DesktopOutline } from '@ant-design/icons/lib/outline/DesktopOutline';
 export { default as FolderOpenOutline } from '@ant-design/icons/lib/outline/FolderOpenOutline';
