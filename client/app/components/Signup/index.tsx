@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Form, Input, Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 const formItemLayout = {
   labelCol: {
@@ -135,6 +136,10 @@ const Signup = props => {
         <Button type="primary" htmlType="submit" className="signup-form-button">
           Register
         </Button>
+        Or{' '}
+        <Link to="/login" className="login-link">
+          Login
+        </Link>
       </Form.Item>
     </Form>
   );
