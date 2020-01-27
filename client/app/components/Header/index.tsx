@@ -5,7 +5,7 @@ const Header = () => {
   const { Header: HeaderAntd } = Layout;
 
   const handleMenuToggle = () => {
-    document.body.classList.toggle('sidebar-active');
+    document.body.classList.add('sidebar-active');
   };
 
   return (

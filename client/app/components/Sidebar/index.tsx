@@ -10,7 +10,7 @@ const SideBar = () => {
   const { Sider } = Layout;
 
   const handleMenuToggle = () => {
-    document.body.classList.toggle('sidebar-active');
+    document.body.classList.remove('sidebar-active');
   };
 
   return (

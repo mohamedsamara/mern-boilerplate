@@ -38,8 +38,9 @@ export { default as FolderOpenOutline } from '@ant-design/icons/lib/outline/Fold
 export { default as FolderOutline } from '@ant-design/icons/lib/outline/FolderOutline';
 export { default as PaperClipOutline } from '@ant-design/icons/lib/outline/PaperClipOutline';
 export { default as PictureOutline } from '@ant-design/icons/lib/outline/PictureOutline';
-export { default as EyeOutline } from '@ant-design/icons/lib/outline/EyeOutline';
 export { default as DeleteOutline } from '@ant-design/icons/lib/outline/DeleteOutline';
 export { default as MenuOutline } from '@ant-design/icons/lib/outline/MenuOutline';
 export { default as ArrowLeftOutline } from '@ant-design/icons/lib/outline/ArrowLeftOutline';
 export { default as LockOutline } from '@ant-design/icons/lib/outline/LockOutline';
+export { default as EyeOutline } from '@ant-design/icons/lib/outline/EyeOutline';
+export { default as EyeInvisibleOutline } from '@ant-design/icons/lib/outline/EyeInvisibleOutline';
