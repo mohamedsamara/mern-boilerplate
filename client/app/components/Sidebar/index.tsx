@@ -5,20 +5,26 @@ import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 
 const SideBar = () => {
-  const [collapsed, setCollapse] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const { Sider } = Layout;
+
+  const handleMenuToggle = () => {
+    document.body.classList.toggle('sidebar-active');
+  };
 
   return (
     <Sider
       collapsible
       collapsed={collapsed}
-      onCollapse={setCollapse}
+      onCollapse={setCollapsed}
       className="antd-sidebar"
     >
-      <div className="app-brand"></div>
+      <div className="app-brand">
+        <Icon type="close" onClick={handleMenuToggle} />
+      </div>
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-        <Menu.Item key="1" className="test">
+        <Menu.Item key="1">
           <Icon type="home" />
           <span className="sidebar-link">
             <Link to="/">Home</Link>

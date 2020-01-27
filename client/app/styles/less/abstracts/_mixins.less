@@ -233,7 +233,6 @@
 }
 
 // Others
-
 .backface-visibility(@visibility) {
   -webkit-backface-visibility: @visibility;
   -moz-backface-visibility: @visibility;
@@ -427,4 +426,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+// breakpoints
+.responsive(@maxWidth; @rules) {
+  @media only screen and (max-width: @maxWidth) {
+      @rules();
+  }
 }

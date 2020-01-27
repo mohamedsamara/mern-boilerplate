@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { Row, Col, Layout, Menu, Dropdown, Icon } from 'antd';
+import React from 'react';
+import { Row, Col, Layout, Menu, Icon } from 'antd';
 
 const Header = () => {
-  const [visible, setVisible] = useState(false);
   const { Header: HeaderAntd } = Layout;
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="1">Clicking me will not close the menu.</Menu.Item>
-      <Menu.Item key="2">Clicking me will not close the menu also.</Menu.Item>
-      <Menu.Item key="3">Clicking me will close the menu</Menu.Item>
-    </Menu>
-  );
+  const handleMenuToggle = () => {
+    document.body.classList.toggle('sidebar-active');
+  };
 
   return (
     <HeaderAntd className="header" style={{ background: '#fff', padding: 0 }}>
       <Row>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col xs={3} sm={3}>
+          <div className="menu-bars">
+            <Icon type="menu" onClick={handleMenuToggle} />
+          </div>
+        </Col>
+        <Col xs={21} sm={21} md={12} lg={12} xl={12}>
           <Menu
             theme="light"
             mode="horizontal"
@@ -27,19 +27,6 @@ const Header = () => {
             <Menu.Item key="2">nav 2</Menu.Item>
             <Menu.Item key="3">nav 3</Menu.Item>
           </Menu>
-        </Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <div className="header-dropdown-coulmn">
-            <Dropdown
-              overlay={menu}
-              onVisibleChange={setVisible}
-              visible={visible}
-            >
-              <a className="ant-dropdown-link" href="#">
-                Hover me <Icon type="down" />
-              </a>
-            </Dropdown>
-          </div>
         </Col>
       </Row>
     </HeaderAntd>

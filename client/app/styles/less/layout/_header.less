@@ -4,8 +4,20 @@
   margin: 16px;
 }
 
-.header-dropdown-coulmn {
-  background-color: @white;
-  text-align: right;
-  padding-right: 16px;
+.header {
+
+  .ant-col {
+
+    &:nth-child(1) {
+      display: none;
+
+      .responsive(576px, {
+        display: block;
+      });
+    }
+  }
+
+  .menu-bars {
+    padding-left: 20px;
+  }
 }

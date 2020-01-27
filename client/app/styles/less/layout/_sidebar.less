@@ -1,5 +1,15 @@
 .antd-sidebar {
 
+  .app-brand {
+
+    .anticon-close {
+      display: none;
+      color: @white;
+      text-align: right;
+      padding: 10px;
+    }
+  }
+
   .ant-menu-item {
     .flex();
     align-items: center;
@@ -19,3 +29,56 @@
   }
 }
   
+
+.responsive(576px, {
+
+  .antd-sidebar.ant-layout-sider-collapsed{
+    position:fixed;
+       height: 100%;
+    z-index:2;
+        left:-90px;
+    }
+
+
+    .antd-sidebar {
+        position:fixed;
+        height: 100%;
+        z-index:2;      
+        left:0px;
+    }
+    
+
+    .ant-layout-sider-trigger{
+        display: none;                
+    }
+    
+
+     .sidebar-active{
+
+        .app-brand{
+            background-color: inherit;
+            .anticon-close{
+                display: block;
+             }
+         }
+
+        .ant-menu-inline-collapsed{
+        width: auto;
+    
+        .sidebar-link {
+            max-width: 100% !important;
+            opacity: 1!important;
+            padding-left: 16px;
+         }
+        }
+    
+        .antd-sidebar{
+            width: 200px !important;
+            min-width: 200px !important;
+            max-width: 200px !important;
+            left:0!important;
+            }
+        }
+
+
+    });
