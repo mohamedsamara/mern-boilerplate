@@ -33,7 +33,7 @@ const SideBar = () => {
         <Menu.Item key="2">
           <Icon type="dashboard" />
           <span className="sidebar-link">
-            <Link to="/">dashboard</Link>
+            <Link to="/dashboard">dashboard</Link>
           </span>
         </Menu.Item>
         <Menu.Item key="3">
