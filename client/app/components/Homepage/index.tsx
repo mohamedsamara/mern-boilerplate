@@ -1,16 +1,28 @@
 import React from 'react';
 
-import { PageHeader } from 'antd';
+import { Typography } from 'antd';
 
 const Homepage = () => {
+  const { Title, Paragraph, Text } = Typography;
+
   return (
     <div className="homepage">
-      <PageHeader
-        style={{
-          border: '1px solid rgb(235, 237, 240)',
-        }}
-        title="MERN Boilerplate"
-      />
+      <Typography>
+        <Title>Mern Boilerplate</Title>
+        <Paragraph>
+          This is a MERN stack boilerplate and starter, MongoDB, Express JS,
+          React, Node JS.
+        </Paragraph>
+        <Paragraph>
+          This is a foundation project where others can use it as starter for
+          their projects.
+          <Text strong>
+            {' '}
+            To help in easy and faster development, tools integrations and
+            scalability.
+          </Text>
+        </Paragraph>
+      </Typography>
       <div className="cube-animation">
         <div className="scene">
           <div className="cube">
