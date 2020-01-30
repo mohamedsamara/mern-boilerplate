@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import useFetch from 'use-http';
-import { Row, Col } from 'antd';
+import { Row, Col, Icon } from 'antd';
 
 import Empty from '../Empty';
 import Loading from '../Loading';
-import Editor from '../Editor';
+import RichTextEditor from '../RichTextEditor';
+import RichTextField from '../RichTextField';
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -23,14 +24,25 @@ const Notes = () => {
     fetchNotes();
   }, []);
 
-  // const addNote = async () => {
-  //   const result = await request.post('/notes', {
-  //     title: 'test',
-  //   });
-  //   if (response.ok) {
-  //     console.log();
-  //   }
-  // };
+  const handleAddEmptyNote = () => {
+    const emptyNote = {
+      title: '',
+      content: '',
+      empty: true,
+    };
+
+    const newNotes = [...notes, emptyNote];
+    setNotes(newNotes);
+  };
+
+  const addNote = async note => {
+    console.log(note);
+
+    const result = await request.post('/notes', note);
+    if (response.ok) {
+      console.log(result);
+    }
+  };
 
   const updateNote = async note => {
     const newNote = {
@@ -44,16 +56,26 @@ const Notes = () => {
     }
   };
 
+  const handleFieldChange = value => {
+    console.log(value);
+  };
+
   const handleEditorChange = (value, data) => {
     console.log(value, data);
   };
 
   const getNotes = () => {
-    return notes.map(note => (
-      <Col xs={24} sm={8} md={8} key={note._id} className="gutter-row note">
-        <Editor data={note} handleChange={handleEditorChange} />
+    return notes.map((note, idx) => (
+      <Col xs={24} sm={8} md={8} key={idx} className="gutter-row note">
+        <RichTextField data={note.title} handleChange={handleFieldChange} />
+        <RichTextEditor data={note} handleChange={handleEditorChange} />
         <div className="note-actions">
-          <button onClick={() => updateNote(note)}>Save</button>
+          <Icon type="plus" onClick={handleAddEmptyNote} />
+          {note.empty ? (
+            <button onClick={() => addNote(note)}>Save</button>
+          ) : (
+            <button onClick={() => updateNote(note)}>Save</button>
+          )}
         </div>
       </Col>
     ));

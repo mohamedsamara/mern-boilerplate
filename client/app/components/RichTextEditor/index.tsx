@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Editor as EditorDraft,
+  Editor,
   EditorState,
   ContentState,
   convertFromHTML,
@@ -9,7 +9,7 @@ import {
 
 import { stateToHTML } from 'draft-js-export-html';
 
-const Editor = props => {
+const RichTextEditor = props => {
   const { data, handleChange } = props;
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
@@ -23,7 +23,7 @@ const Editor = props => {
 
       setEditorState(EditorState.createWithContent(state));
     }
-  }, []);
+  }, [data]);
 
   const onChange = value => {
     setEditorState(value);
@@ -57,7 +57,7 @@ const Editor = props => {
   };
 
   return (
-    <div className="editor-container">
+    <div className="rich-text-editor">
       <div className="editor-actions">
         <button onClick={onUnderlineClick}>U</button>
         <button onClick={onBoldClick}>
@@ -67,7 +67,7 @@ const Editor = props => {
           <em>I</em>
         </button>{' '}
       </div>
-      <EditorDraft
+      <Editor
         editorState={editorState}
         onChange={onChange}
         handleKeyCommand={handleKeyCommand}
@@ -76,4 +76,4 @@ const Editor = props => {
   );
 };
 
-export default Editor;
+export default RichTextEditor;
