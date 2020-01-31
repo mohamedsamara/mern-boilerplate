@@ -10,12 +10,12 @@ import {
 import { stateToHTML } from 'draft-js-export-html';
 
 const RichTextEditor = props => {
-  const { data, handleChange } = props;
+  const { value, handleChange } = props;
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   useEffect(() => {
-    if (data) {
-      const blocksFromHTML = convertFromHTML(data.content);
+    if (value) {
+      const blocksFromHTML = convertFromHTML(value.content);
       const state = ContentState.createFromBlockArray(
         blocksFromHTML.contentBlocks,
         blocksFromHTML.entityMap,
@@ -23,15 +23,15 @@ const RichTextEditor = props => {
 
       setEditorState(EditorState.createWithContent(state));
     }
-  }, [data]);
+  }, [value]);
 
-  const onChange = value => {
-    setEditorState(value);
+  const onChange = val => {
+    setEditorState(val);
 
     if (typeof handleChange === 'function') {
-      const html = stateToHTML(editorState.getCurrentContent());
-      data.content = html;
-      return handleChange(html, data);
+      const newValue = stateToHTML(editorState.getCurrentContent());
+
+      return handleChange(newValue);
     }
   };
 
@@ -65,7 +65,7 @@ const RichTextEditor = props => {
         </button>
         <button onClick={onItalicClick}>
           <em>I</em>
-        </button>{' '}
+        </button>
       </div>
       <Editor
         editorState={editorState}

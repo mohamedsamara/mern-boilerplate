@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const RichTextField = props => {
-  const { data, handleChange } = props;
-  const [input, setInput] = useState();
+  const { value, handleChange } = props;
+  const [input, setInput] = useState(undefined);
   const [editable, setEditable] = useState(false);
+  const [style, setStyle] = useState(false);
   const inputRef = useRef(null);
   const prevInputRef = useRef(null);
-  const fieldRef = useRef(null);
 
   useEffect(() => {
-    if (data) {
-      setInput(data);
+    console.log('is reloading');
+
+    if (value) {
+      setInput(value);
+    } else {
+      setEditable(true);
     }
-  }, [data]);
+  }, [value]);
 
   useEffect(() => {
     if (editable) {
@@ -28,25 +32,27 @@ const RichTextField = props => {
 
   const handleClick = () => {
     setEditable(true);
+    setStyle(true);
     prevInputRef.current = inputRef.current.innerText;
   };
 
   const handleBlur = () => {
-    setEditable(false);
+    setStyle(false);
   };
 
   const handleKeyDown = e => {
     if (e.keyCode === 27) {
       setEditable(false);
+      setStyle(true);
       setInput(inputRef.current.innerText);
       setInput(prevInputRef.current);
     }
   };
 
   return (
-    <div ref={fieldRef} className="rich-text-field">
+    <div className={`rich-text-field${style ? ' focused' : ''}`}>
       <div
-        className={`content-editable${editable ? ' focused' : ''}`}
+        className="content-editable"
         role="textbox"
         tabIndex={0}
         ref={inputRef}

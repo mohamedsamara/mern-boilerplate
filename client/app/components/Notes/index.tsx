@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import useFetch from 'use-http';
-import { Row, Col, Icon } from 'antd';
+import { Row, Col } from 'antd';
 
 import Empty from '../Empty';
 import Loading from '../Loading';
@@ -24,26 +24,6 @@ const Notes = () => {
     fetchNotes();
   }, []);
 
-  const handleAddEmptyNote = () => {
-    const emptyNote = {
-      title: '',
-      content: '',
-      empty: true,
-    };
-
-    const newNotes = [...notes, emptyNote];
-    setNotes(newNotes);
-  };
-
-  const addNote = async note => {
-    console.log(note);
-
-    const result = await request.post('/notes', note);
-    if (response.ok) {
-      console.log(result);
-    }
-  };
-
   const updateNote = async note => {
     const newNote = {
       title: note.title,
@@ -56,26 +36,31 @@ const Notes = () => {
     }
   };
 
-  const handleFieldChange = value => {
-    console.log(value);
+  const handleFieldChange = (id, value) => {
+    const noteIndex = notes.findIndex(note => note._id === id);
+    notes[noteIndex].title = value;
+    setNotes(notes);
   };
 
-  const handleEditorChange = (value, data) => {
-    console.log(value, data);
+  const handleEditorChange = (id, value) => {
+    const noteIndex = notes.findIndex(note => note._id === id);
+    notes[noteIndex].content = value;
+    setNotes(notes);
   };
 
   const getNotes = () => {
     return notes.map((note, idx) => (
-      <Col xs={24} sm={8} md={8} key={idx} className="gutter-row note">
-        <RichTextField data={note.title} handleChange={handleFieldChange} />
-        <RichTextEditor data={note} handleChange={handleEditorChange} />
+      <Col xs={24} sm={12} md={6} key={idx} className="note">
+        <RichTextField
+          value={note.title}
+          handleChange={value => handleFieldChange(note._id, value)}
+        />
+        <RichTextEditor
+          value={note}
+          handleChange={value => handleEditorChange(note._id, value)}
+        />
         <div className="note-actions">
-          <Icon type="plus" onClick={handleAddEmptyNote} />
-          {note.empty ? (
-            <button onClick={() => addNote(note)}>Save</button>
-          ) : (
-            <button onClick={() => updateNote(note)}>Save</button>
-          )}
+          <button onClick={() => updateNote(note)}>Save</button>
         </div>
       </Col>
     ));
@@ -85,7 +70,7 @@ const Notes = () => {
     <div className="notes">
       {loading && <Loading />}
       {notes && notes.length > 0 ? (
-        <Row gutter={2}>{getNotes()}</Row>
+        <Row gutter={16}>{getNotes()}</Row>
       ) : (
         <Empty />
       )}
