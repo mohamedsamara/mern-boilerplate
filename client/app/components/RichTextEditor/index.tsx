@@ -23,7 +23,7 @@ const RichTextEditor = props => {
 
       setEditorState(EditorState.createWithContent(state));
     }
-  }, [value]);
+  }, []);
 
   const onChange = val => {
     setEditorState(val);

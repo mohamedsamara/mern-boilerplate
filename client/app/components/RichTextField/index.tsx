@@ -9,14 +9,12 @@ const RichTextField = props => {
   const prevInputRef = useRef(null);
 
   useEffect(() => {
-    console.log('is reloading');
-
     if (value) {
       setInput(value);
     } else {
       setEditable(true);
     }
-  }, [value]);
+  }, []);
 
   useEffect(() => {
     if (editable) {
