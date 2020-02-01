@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 import useFetch from 'use-http';
-import { Row, Col, Icon } from 'antd';
+import { Row, Col, Button, Typography } from 'antd';
 
 import Empty from '../Empty';
 import Loading from '../Loading';
 import RichTextEditor from '../RichTextEditor';
 import RichTextField from '../RichTextField';
 import AddNoteForm from './AddNoteForm';
+
+const { Text } = Typography;
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -27,15 +29,16 @@ const Notes = () => {
   }, []);
 
   const addNote = async note => {
-    console.log('note is', note);
+    setEmpty(false);
 
     const newNote = {
       title: note.title,
       content: note.content,
     };
-    const result = await request.post('/notes', newNote);
+
+    await request.post('/notes', newNote);
     if (response.ok) {
-      console.log(result);
+      fetchNotes();
     }
   };
 
@@ -45,10 +48,7 @@ const Notes = () => {
       content: note.content,
     };
 
-    const result = await request.put(`/notes/${note._id}`, newNote);
-    if (response.ok) {
-      console.log('update', result);
-    }
+    await request.put(`/notes/${note._id}`, newNote);
   };
 
   const handleFieldChange = (id, value) => {
@@ -73,18 +73,23 @@ const Notes = () => {
 
   const getNotes = () => {
     return notes.map((note, idx) => (
-      <Col xs={24} sm={12} md={6} key={idx} className="note">
-        <RichTextField
-          value={note.title}
-          handleChange={value => handleFieldChange(note._id, value)}
-        />
-        <RichTextEditor
-          value={note}
-          handleChange={value => handleEditorChange(note._id, value)}
-        />
-        <div className="note-actions">
-          <Icon type="plus" onClick={handleSetEmpty} />
-          <button onClick={() => updateNote(note)}>Save</button>
+      <Col sm={24} md={24} lg={12} xl={8} key={idx} className="gutter-row">
+        <div className="note">
+          <RichTextField
+            label="title"
+            value={note.title}
+            handleChange={value => handleFieldChange(note._id, value)}
+          />
+          <RichTextEditor
+            label="content"
+            value={note}
+            handleChange={value => handleEditorChange(note._id, value)}
+          />
+          <div className="note-actions">
+            <Button block onClick={() => updateNote(note)}>
+              Save
+            </Button>
+          </div>
         </div>
       </Col>
     ));
@@ -92,12 +97,21 @@ const Notes = () => {
 
   return (
     <div className="notes">
-      {loading && <Loading />}
+      <div className="loading-box">{loading && <Loading />}</div>
       {notes && notes.length > 0 ? (
-        <Row gutter={16}>
-          {empty && (
-            <Col xs={24} sm={12} md={6} className="note">
+        <Row gutter={[16, 16]}>
+          {empty ? (
+            <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
               <AddNoteForm addNote={addNote} />
+            </Col>
+          ) : (
+            <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
+              <div className="add-note-hidden">
+                <Button shape="circle" icon="plus" onClick={handleSetEmpty} />
+                <Text strong className="add-note-text">
+                  Add New Note
+                </Text>
+              </div>
             </Col>
           )}
           {getNotes()}

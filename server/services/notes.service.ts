@@ -25,6 +25,7 @@ class NotesService {
 
       if (noteToUpdate) {
         await notesModelInstance.updateOne(newNote);
+
         return newNote;
       }
       return null;
@@ -35,7 +36,7 @@ class NotesService {
 
   public async addNote(newNote: any) {
     try {
-      return await notesModelInstance.create(newNote);
+      return notesModelInstance.create(newNote);
     } catch (error) {
       throw error;
     }

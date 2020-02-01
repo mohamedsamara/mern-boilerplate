@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Typography, Icon, Row, Col } from 'antd';
 
+const { Paragraph } = Typography;
+
 const Logout = () => {
   const [seconds, setSeconds] = useState(3);
   const history = useHistory();
-  const { Paragraph } = Typography;
 
   useEffect(() => {
     let interval = null;

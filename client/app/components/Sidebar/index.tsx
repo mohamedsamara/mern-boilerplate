@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 import { Layout, Menu, Icon } from 'antd';
 
+const { Sider } = Layout;
+
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(true);
-
-  const { Sider } = Layout;
 
   const handleMenuToggle = () => {
     document.body.classList.remove('sidebar-active');

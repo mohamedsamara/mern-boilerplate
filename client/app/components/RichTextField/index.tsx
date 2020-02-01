@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+import Label from '../Label';
+
 const RichTextField = props => {
-  const { value, handleChange } = props;
+  const { value, handleChange, label } = props;
   const [input, setInput] = useState(undefined);
   const [editable, setEditable] = useState(false);
   const [style, setStyle] = useState(false);
@@ -48,9 +50,10 @@ const RichTextField = props => {
   };
 
   return (
-    <div className={`rich-text-field${style ? ' focused' : ''}`}>
+    <div className="rich-text-field">
+      <Label text={label} />
       <div
-        className="content-editable"
+        className={`content-editable${style ? ' focused' : ''}`}
         role="textbox"
         tabIndex={0}
         ref={inputRef}

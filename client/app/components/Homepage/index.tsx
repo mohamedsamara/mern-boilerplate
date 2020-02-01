@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Typography } from 'antd';
 
-const Homepage = () => {
-  const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
+const Homepage = () => {
   return (
     <div className="homepage">
       <Typography>

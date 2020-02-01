@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Col, Layout, Menu, Icon } from 'antd';
 
-const Header = () => {
-  const { Header: HeaderAntd } = Layout;
+const { Header: HeaderAntd } = Layout;
 
+const Header = () => {
   const handleMenuToggle = () => {
     document.body.classList.add('sidebar-active');
   };

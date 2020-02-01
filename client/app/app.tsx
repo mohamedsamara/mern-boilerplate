@@ -28,14 +28,7 @@ const App: React.FC = () => {
           <Layout>
             <Header />
             <Content style={{ padding: '16px' }}>
-              <div
-                style={{
-                  padding: 24,
-                  background: '#fff',
-                  minHeight: 360,
-                  height: '100%',
-                }}
-              >
+              <div className="container">
                 <AppRouter />
               </div>
             </Content>

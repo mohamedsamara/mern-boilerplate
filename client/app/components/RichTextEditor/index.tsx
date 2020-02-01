@@ -7,10 +7,15 @@ import {
   RichUtils,
 } from 'draft-js';
 
+import { Button } from 'antd';
 import { stateToHTML } from 'draft-js-export-html';
 
+import Label from '../Label';
+
+const ButtonGroup = Button.Group;
+
 const RichTextEditor = props => {
-  const { value, handleChange } = props;
+  const { value, handleChange, label } = props;
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   useEffect(() => {
@@ -59,19 +64,25 @@ const RichTextEditor = props => {
   return (
     <div className="rich-text-editor">
       <div className="editor-actions">
-        <button onClick={onUnderlineClick}>U</button>
-        <button onClick={onBoldClick}>
-          <b>B</b>
-        </button>
-        <button onClick={onItalicClick}>
-          <em>I</em>
-        </button>
+        <ButtonGroup>
+          <Button onClick={onBoldClick}>
+            <b>B</b>
+          </Button>
+          <Button onClick={onUnderlineClick}>U</Button>
+          <Button onClick={onItalicClick}>
+            <em>I</em>
+          </Button>
+        </ButtonGroup>
       </div>
-      <Editor
-        editorState={editorState}
-        onChange={onChange}
-        handleKeyCommand={handleKeyCommand}
-      />
+      <Label text={label} />
+      <div className="draft-editor">
+        <Editor
+          className="draft-input"
+          editorState={editorState}
+          onChange={onChange}
+          handleKeyCommand={handleKeyCommand}
+        />
+      </div>
     </div>
   );
 };
