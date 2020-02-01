@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import useFetch from 'use-http';
-import { Row, Col, Button, Typography } from 'antd';
+import { Row, Col, Button, Icon, Typography, Modal, message } from 'antd';
 
 import Empty from '../Empty';
 import Loading from '../Loading';
@@ -14,6 +14,7 @@ const { Text } = Typography;
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [empty, setEmpty] = useState(false);
+  const [open, openModal] = useState(false);
   const { request, response, loading } = useFetch('/api');
 
   const fetchNotes = async () => {
@@ -36,9 +37,10 @@ const Notes = () => {
       content: note.content,
     };
 
-    await request.post('/notes', newNote);
+    const result = await request.post('/notes', newNote);
     if (response.ok) {
       fetchNotes();
+      message.success(result.message);
     }
   };
 
@@ -48,33 +50,47 @@ const Notes = () => {
       content: note.content,
     };
 
-    await request.put(`/notes/${note._id}`, newNote);
+    const result = await request.put(`/notes/${note._id}`, newNote);
+
+    message.success(result.message);
+  };
+
+  const deleteNote = async note => {
+    const result = await request.delete(`/notes/${note._id}`);
+
+    const newNotes = [...notes];
+    setNotes(newNotes.filter(x => x._id !== note._id));
+
+    message.info(result.message);
   };
 
   const handleFieldChange = (id, value) => {
-    const noteIndex = notes.findIndex(note => note._id === id);
+    const index = notes.findIndex(x => x._id === id);
 
     const newNotes = [...notes];
-    newNotes[noteIndex].title = value;
+    newNotes[index].title = value;
     setNotes(newNotes);
   };
 
   const handleEditorChange = (id, value) => {
-    const noteIndex = notes.findIndex(note => note._id === id);
+    const index = notes.findIndex(x => x._id === id);
 
     const newNotes = [...notes];
-    newNotes[noteIndex].content = value;
+    newNotes[index].content = value;
     setNotes(newNotes);
   };
 
-  const handleSetEmpty = () => {
-    setEmpty(true);
-  };
-
   const getNotes = () => {
-    return notes.map((note, idx) => (
-      <Col sm={24} md={24} lg={12} xl={8} key={idx} className="gutter-row">
+    return notes.map(note => (
+      <Col sm={24} md={24} lg={12} xl={8} key={note._id} className="gutter-row">
         <div className="note">
+          <Button
+            type="danger"
+            shape="circle"
+            icon="close"
+            className="delete-note"
+            onClick={() => deleteNote(note)}
+          />
           <RichTextField
             label="title"
             value={note.title}
@@ -102,12 +118,16 @@ const Notes = () => {
         <Row gutter={[16, 16]}>
           {empty ? (
             <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
-              <AddNoteForm addNote={addNote} />
+              <AddNoteForm addNote={addNote} cancel={() => setEmpty(false)} />
             </Col>
           ) : (
             <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
               <div className="add-note-hidden">
-                <Button shape="circle" icon="plus" onClick={handleSetEmpty} />
+                <Button
+                  shape="circle"
+                  icon="plus"
+                  onClick={() => setEmpty(true)}
+                />
                 <Text strong className="add-note-text">
                   Add New Note
                 </Text>
@@ -117,7 +137,22 @@ const Notes = () => {
           {getNotes()}
         </Row>
       ) : (
-        <Empty />
+        <>
+          <div className="add-note-link">
+            <Button type="link" size="large" onClick={() => openModal(true)}>
+              <Icon type="plus" /> New account
+            </Button>
+          </div>
+          <Modal
+            visible={open}
+            footer={null}
+            className="notes-modal"
+            onCancel={() => openModal(false)}
+          >
+            <AddNoteForm addNote={addNote} />
+          </Modal>
+          <Empty />
+        </>
       )}
     </div>
   );

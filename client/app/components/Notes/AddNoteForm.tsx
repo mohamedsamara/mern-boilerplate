@@ -13,7 +13,7 @@ interface TextNode {
 const AddNoteForm = props => {
   const [note, setNote] = useState<TextNode>({ title: '', content: '' });
 
-  const { addNote } = props;
+  const { addNote, cancel } = props;
 
   const handleFieldChange = value => {
     const newNote = { ...note };
@@ -45,9 +45,10 @@ const AddNoteForm = props => {
           handleChange={value => handleEditorChange(value)}
         />
         <div className="note-actions">
-          <Button block onClick={() => handleSubmit(note)}>
+          <Button block={!cancel && true} onClick={() => handleSubmit(note)}>
             Save
           </Button>
+          {cancel && <Button onClick={cancel}>Cancel</Button>}
         </div>
       </div>
     </div>

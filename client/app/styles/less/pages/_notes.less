@@ -3,18 +3,33 @@
 .notes {
 
   .note {
+    position: relative;
     padding: 15px;
     background-color: @theme-secondary;
+
+    .delete-note {
+      position: absolute;
+      right: -12px;
+      top: -15px;
+    }
   }
 
   .loading-box {
     margin: 5px 0px;
     height: 50px;
+
+    .responsive(450px, {
+      height: 30px;
+      });
   }
 
   .note-actions {
     margin-bottom: 15px;
     width: 100%;
+
+    .ant-btn {
+      margin-right: 10px;
+    }
   }
 
   .draft-editor {
@@ -25,14 +40,14 @@
 // Add note form styles
 
 .add-note-form {
-  background-color: @theme-light-blue;
+  background-color: @theme-light-gray;
   height: 100%;
   flex-direction: column;
   align-items: center;
   .flex();
 
   .label {
-    color: @white;
+    // color: @white;
   }
 
   .add-note-box {
@@ -49,10 +64,10 @@
   }
 }
 
-// Hidden add note form
+// Hidden add note form styles
 
 .add-note-hidden {
-  background-color: @theme-light-blue;
+  background-color: @theme-light-gray;
   height: 100%;
   min-height: 357px;
   flex-direction: column;
@@ -61,7 +76,31 @@
   .flex();
 
   .add-note-text {
-    color: @white;
+    // color: @white;
     margin-top: 10px;
+  }
+}
+
+
+// Add note link & Modal styles
+
+.add-note-link {
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+.notes-modal {
+
+  .add-note-form {
+    background-color: @white;
+  }
+
+  .content-editable {
+    background-color: @theme-light-gray!important;
+  }
+
+  .draft-editor {
+    background-color: @theme-light-gray!important;
+    min-height: 100px;
   }
 }
