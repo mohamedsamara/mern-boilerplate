@@ -8,8 +8,8 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
 import AppRouter from './routes';
-import './styles/less/main.less'; // Import application less styles
 import styles from './app.css';
+import './styles/less/main.less'; // Import application less styles
 
 // No need to import the antd styles. babel-plugin-import has been configured in babel config file to help in importing individually components on demand and automatically import the corresponding stylesheet.
 // import 'antd/dist/antd.less';
@@ -17,9 +17,9 @@ import styles from './app.css';
 // Import application sass styles
 // import './styles/sass/main.scss';
 
-const App: React.FC = () => {
-  const { Content } = Layout;
+const { Content } = Layout;
 
+const App: React.FC = () => {
   return (
     <div className={styles.application}>
       <Router history={history}>
@@ -27,7 +27,7 @@ const App: React.FC = () => {
           <Sidebar />
           <Layout>
             <Header />
-            <Content style={{ padding: '16px' }}>
+            <Content style={{ padding: '16px', marginTop: '64px' }}>
               <div className="container">
                 <AppRouter />
               </div>

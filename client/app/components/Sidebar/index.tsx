@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
-
 import { Layout, Menu, Icon } from 'antd';
 
 const { Sider } = Layout;
@@ -14,54 +13,57 @@ const SideBar = () => {
   };
 
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={setCollapsed}
-      className="antd-sidebar"
-    >
-      <div className="app-brand">
-        <Icon type="close" onClick={handleMenuToggle} />
-      </div>
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-        <Menu.Item key="1">
-          <Icon type="home" />
-          <span className="sidebar-link">
-            <Link to="/">Home</Link>
-          </span>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <Icon type="dashboard" />
-          <span className="sidebar-link">
-            <Link to="/dashboard">dashboard</Link>
-          </span>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <Icon type="file" />
-          <span className="sidebar-link">
-            <Link to="/notes">notes</Link>
-          </span>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <Icon type="user" />
-          <span className="sidebar-link">
-            <Link to="/register">sign up</Link>
-          </span>
-        </Menu.Item>
-        <Menu.Item key="5">
-          <Icon type="login" />
-          <span className="sidebar-link">
-            <Link to="/login">login</Link>
-          </span>
-        </Menu.Item>
-        <Menu.Item key="6">
-          <Icon type="logout" />
-          <span className="sidebar-link">
-            <Link to="/logout">Logout</Link>
-          </span>
-        </Menu.Item>
-      </Menu>
-    </Sider>
+    <>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+        className="sidebar"
+      >
+        <div className="app-brand">
+          <Icon type="close" onClick={handleMenuToggle} />
+        </div>
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu.Item key="1">
+            <Link to="/" className="sidebar-link">
+              <Icon type="home" />
+              <span>Home</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <Link to="/dashboard" className="sidebar-link">
+              <Icon type="dashboard" />
+              <span>dashboard</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link to="/notes" className="sidebar-link">
+              <Icon type="file" />
+              <span>notes</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Link to="/register" className="sidebar-link">
+              <Icon type="user" />
+              <span>sign up</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="5">
+            <Link to="/login" className="sidebar-link">
+              <Icon type="login" />
+              <span>login</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="6">
+            <Link to="/logout" className="sidebar-link">
+              <Icon type="logout" />
+              <span>Logout</span>
+            </Link>
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <div className="dark-shadow-bg" aria-hidden onClick={handleMenuToggle} />
+    </>
   );
 };
 

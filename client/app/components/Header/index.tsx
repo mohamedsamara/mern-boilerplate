@@ -9,7 +9,16 @@ const Header = () => {
   };
 
   return (
-    <HeaderAntd className="header" style={{ background: '#fff', padding: 0 }}>
+    <HeaderAntd
+      className="header"
+      style={{
+        position: 'fixed',
+        zIndex: 1,
+        width: '100%',
+        background: '#fff',
+        padding: 0,
+      }}
+    >
       <Row>
         <Col xs={3} sm={3}>
           <div className="menu-bars">

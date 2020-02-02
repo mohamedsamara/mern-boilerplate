@@ -1,91 +1,109 @@
-.antd-sidebar {
+.sidebar {
 
   .app-brand {
+    background-color: @theme-light-blue;
+    padding: 16px;
+    margin: 16px;
 
     .anticon-close {
-      display: none;
       color: @white;
+      display: none;
       text-align: right;
       padding: 10px;
     }
   }
 
-  .ant-menu-item {
-    .flex();
+  .ant-menu-item { 
     align-items: center;
+    .flex();
   }
 
   .sidebar-link {
     width: 100%;
+    display: block;
 
-    a {
-      color: @white;
-      display: block;
+    &:visited {
 
-      &:hover {
-        color: @link-color;
+      span {
+        color: @white !important;
       }
     }
   }
 }
-  
+
+// Sidebar tooltip styles
+
+.ant-tooltip {
+
+  .sidebar-link {
+    width: 100%;
+    display: block;
+
+    &:visited {
+
+      span {
+        color: @white !important;
+      }
+    }
+  }
+}
 
 .responsive(576px, {
-
-  .antd-sidebar.ant-layout-sider-collapsed{
+  .sidebar {
     position:fixed;
     height: 100%;
-    z-index:2;
-    left:-90px;
-
-
-  }
-
-
-  .app-brand{
-    background-color: inherit;
-    .anticon-close{
-      display: block !important;
-    }
-  }
-
-  .antd-sidebar {
-    position:fixed;
-    height: 100%;
-    z-index:2;      
+    z-index: 3;      
     width: 0px !important;
     min-width: 0px !important;
-        max-width: 0px !important;
+    max-width: 0px !important;
+    left:-90px !important;
 
-        left:-90px !important;
-        // visibility: hidden;
 
-    }
-    
+    .app-brand {
+      background-color: inherit;
+      padding: 0px;
+      margin: 10px;
 
-    .ant-layout-sider-trigger{
-        display: none;                
-    }
-    
-     .sidebar-active{
+      .anticon-close {
+        display: block !important;
+      }
+     }
 
-        .ant-menu-inline-collapsed{
-        width: auto;
+     .ant-layout-sider-trigger {
+       display: none;                
+     }
+  }
+
+     .sidebar-active {
+        .ant-menu-inline-collapsed {
+           width: auto;
     
         .sidebar-link {
+
+          span {
             max-width: 100% !important;
-            opacity: 1!important;
+            opacity: 1! important;
             padding-left: 16px;
           }
         }
+      }
     
-        .antd-sidebar{
-            width: 200px !important;
-            min-width: 200px !important;
-            max-width: 200px !important;
-            left:0!important;
-            }
+        .sidebar {
+          width: 50% !important;
+          min-width: 50%  !important;
+          max-width: 50% !important;
+          left:0 !important;
         }
 
-
-    });
+        .dark-shadow-bg {
+          background: @transparent-black;
+          cursor: pointer;
+          height: 100%;
+          left: 0;
+          position: fixed;
+          top: 0;
+          width: 100%;
+          z-index: 2;
+        }
+     }
+ });

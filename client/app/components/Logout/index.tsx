@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Typography, Icon, Row, Col } from 'antd';
 
-const { Paragraph } = Typography;
+const { Paragraph, Text } = Typography;
 
 const Logout = () => {
-  const [seconds, setSeconds] = useState(3);
+  const [seconds, setSeconds] = useState(4);
   const history = useHistory();
 
   useEffect(() => {
@@ -26,15 +26,17 @@ const Logout = () => {
   return (
     <div className="logout">
       <Row type="flex" align="middle">
-        <Col span={3}>
+        <Col xs={3} md={2}>
           <Icon
             type="check-circle"
             theme="outlined"
             style={{ fontSize: '30px', color: '#08c' }}
           />
         </Col>
-        <Col span={21}>
-          <Paragraph>You have logged out successfully!</Paragraph>
+        <Col xs={21} md={22}>
+          <Paragraph>
+            <Text strong>You have logged out successfully!</Text>
+          </Paragraph>
           <Paragraph>
             You will be redirected to the home page in{' '}
             <span className="seconds">{seconds}</span> seconds
