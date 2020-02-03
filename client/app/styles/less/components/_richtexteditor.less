@@ -2,16 +2,20 @@
   margin-bottom: 15px;
 
   .draft-editor {
-    background-color: @white;
-    padding: 10px;
-    margin-bottom: 15px;
-    width: 100%;
-  }
 
-  .draft-editor.focused {
-    outline-style: solid;
-    outline-width: 1px;
-    outline-color: @outline-color;
+    .public-DraftEditor-content {
+      background-color: @white;
+      padding: 10px;
+      min-height: 100px;
+      margin-bottom: 15px;
+      width: 100%;
+
+      &:focus {
+        outline-style: solid !important;
+        outline-width: 1px !important;
+        outline-color: @outline-color !important; 
+      }
+    }
   }
 
   .editor-actions {

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button } from 'antd';
-
+import Button from '../Button';
 import RichTextEditor from '../RichTextEditor';
 import RichTextField from '../RichTextField';
 
@@ -45,10 +44,12 @@ const AddNoteForm = props => {
           handleChange={value => handleEditorChange(value)}
         />
         <div className="note-actions">
-          <Button block={!cancel && true} onClick={() => handleSubmit(note)}>
-            Save
-          </Button>
-          {cancel && <Button onClick={cancel}>Cancel</Button>}
+          <Button
+            text="Save"
+            block={!cancel && true}
+            onClick={() => handleSubmit(note)}
+          />
+          {cancel && <Button onClick={cancel} text="Cancel" />}
         </div>
       </div>
     </div>

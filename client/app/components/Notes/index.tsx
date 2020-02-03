@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import useFetch from 'use-http';
-import { Row, Col, Button, Icon, Typography, Modal, message } from 'antd';
+import { Row, Col, Icon, Typography, Modal, message } from 'antd';
 
+import Button from '../Button';
 import Empty from '../Empty';
 import Loading from '../Loading';
 import RichTextEditor from '../RichTextEditor';
@@ -85,11 +86,11 @@ const Notes = () => {
       <Col sm={24} md={24} lg={12} xl={8} key={note._id} className="gutter-row">
         <div className="note">
           <Button
+            onClick={() => deleteNote(note)}
             type="danger"
             shape="circle"
             icon="close"
             className="delete-note"
-            onClick={() => deleteNote(note)}
           />
           <RichTextField
             label="title"
@@ -102,9 +103,7 @@ const Notes = () => {
             handleChange={value => handleEditorChange(note._id, value)}
           />
           <div className="note-actions">
-            <Button block onClick={() => updateNote(note)}>
-              Save
-            </Button>
+            <Button text="Save" block onClick={() => updateNote(note)} />
           </div>
         </div>
       </Col>

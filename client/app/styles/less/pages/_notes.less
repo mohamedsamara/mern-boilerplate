@@ -31,10 +31,6 @@
       margin-right: 10px;
     }
   }
-
-  .draft-editor {
-    min-height: 100px;
-  }
 }
 
 // Add note form styles
@@ -95,7 +91,10 @@
   }
 
   .draft-editor {
-    background-color: @theme-light-gray!important;
-    min-height: 100px;
+
+    .public-DraftEditor-content {
+      background-color: @theme-light-gray!important;
+      min-height: 100px;
+    }
   }
 }

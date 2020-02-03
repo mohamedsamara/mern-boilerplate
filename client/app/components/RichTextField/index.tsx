@@ -5,24 +5,14 @@ import Label from '../Label';
 const RichTextField = props => {
   const { value, handleChange, label } = props;
   const [input, setInput] = useState(undefined);
-  const [editable, setEditable] = useState(false);
-  const [style, setStyle] = useState(false);
   const inputRef = useRef(null);
-  const prevInputRef = useRef(null);
+  // console.log(value);
 
   useEffect(() => {
     if (value) {
       setInput(value);
-    } else {
-      setEditable(true);
     }
   }, []);
-
-  useEffect(() => {
-    if (editable) {
-      inputRef.current.focus();
-    }
-  }, [editable]);
 
   const onChange = () => {
     if (typeof handleChange === 'function') {
@@ -30,38 +20,16 @@ const RichTextField = props => {
     }
   };
 
-  const handleClick = () => {
-    setEditable(true);
-    setStyle(true);
-    prevInputRef.current = inputRef.current.innerText;
-  };
-
-  const handleBlur = () => {
-    setStyle(false);
-  };
-
-  const handleKeyDown = e => {
-    if (e.keyCode === 27) {
-      setEditable(false);
-      setStyle(true);
-      setInput(inputRef.current.innerText);
-      setInput(prevInputRef.current);
-    }
-  };
-
   return (
     <div className="rich-text-field">
       <Label text={label} />
       <div
-        className={`content-editable${style ? ' focused' : ''}`}
+        className="content-editable"
         role="textbox"
         tabIndex={0}
         ref={inputRef}
-        contentEditable={editable}
+        contentEditable
         onInput={onChange}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        onBlur={handleBlur}
         suppressContentEditableWarning
       >
         {input}
