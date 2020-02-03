@@ -11,7 +11,6 @@ interface TextNode {
 
 const AddNoteForm = props => {
   const [note, setNote] = useState<TextNode>({ title: '', content: '' });
-
   const { addNote, cancel } = props;
 
   const handleFieldChange = value => {
@@ -26,8 +25,8 @@ const AddNoteForm = props => {
     setNote(newNote);
   };
 
-  const handleSubmit = newNote => {
-    addNote(newNote);
+  const handleSubmit = () => {
+    addNote(note);
   };
 
   return (
@@ -36,19 +35,15 @@ const AddNoteForm = props => {
         <RichTextField
           label="title"
           value={note.title}
-          handleChange={value => handleFieldChange(value)}
+          handleChange={handleFieldChange}
         />
         <RichTextEditor
           label="content"
           value={note}
-          handleChange={value => handleEditorChange(value)}
+          handleChange={handleEditorChange}
         />
         <div className="note-actions">
-          <Button
-            text="Save"
-            block={!cancel && true}
-            onClick={() => handleSubmit(note)}
-          />
+          <Button text="Save" block={!cancel && true} onClick={handleSubmit} />
           {cancel && <Button onClick={cancel} text="Cancel" />}
         </div>
       </div>

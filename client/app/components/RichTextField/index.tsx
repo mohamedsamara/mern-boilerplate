@@ -6,7 +6,6 @@ const RichTextField = props => {
   const { value, handleChange, label } = props;
   const [input, setInput] = useState(undefined);
   const inputRef = useRef(null);
-  // console.log(value);
 
   useEffect(() => {
     if (value) {

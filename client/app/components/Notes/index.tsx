@@ -6,9 +6,8 @@ import { Row, Col, Icon, Typography, Modal, message } from 'antd';
 import Button from '../Button';
 import Empty from '../Empty';
 import Loading from '../Loading';
-import RichTextEditor from '../RichTextEditor';
-import RichTextField from '../RichTextField';
 import AddNoteForm from './AddNoteForm';
+import NoteItem from './NoteItem';
 
 const { Text } = Typography;
 
@@ -30,7 +29,7 @@ const Notes = () => {
     fetchNotes();
   }, []);
 
-  const addNote = async note => {
+  const addNoteApi = async note => {
     setEmpty(false);
 
     const newNote = {
@@ -45,7 +44,7 @@ const Notes = () => {
     }
   };
 
-  const updateNote = async note => {
+  const updateNoteApi = async note => {
     const newNote = {
       title: note.title,
       content: note.content,
@@ -56,11 +55,11 @@ const Notes = () => {
     message.success(result.message);
   };
 
-  const deleteNote = async note => {
-    const result = await request.delete(`/notes/${note._id}`);
+  const deleteNoteApi = async id => {
+    const result = await request.delete(`/notes/${id}`);
 
     const newNotes = [...notes];
-    setNotes(newNotes.filter(x => x._id !== note._id));
+    setNotes(newNotes.filter(x => x._id !== id));
 
     message.info(result.message);
   };
@@ -81,32 +80,44 @@ const Notes = () => {
     setNotes(newNotes);
   };
 
+  const handleSetEmpty = () => {
+    setEmpty(true);
+  };
+
+  const handleUnsetEmpty = () => {
+    setEmpty(false);
+  };
+
+  const handleOpenModal = () => {
+    openModal(true);
+  };
+
+  const handleCloseModal = () => {
+    openModal(false);
+  };
+
+  const addNote = note => {
+    addNoteApi(note);
+  };
+
+  const updateNote = note => {
+    updateNoteApi(note);
+  };
+
+  const deleteNote = id => {
+    deleteNoteApi(id);
+  };
+
   const getNotes = () => {
     return notes.map(note => (
-      <Col sm={24} md={24} lg={12} xl={8} key={note._id} className="gutter-row">
-        <div className="note">
-          <Button
-            onClick={() => deleteNote(note)}
-            type="danger"
-            shape="circle"
-            icon="close"
-            className="delete-note"
-          />
-          <RichTextField
-            label="title"
-            value={note.title}
-            handleChange={value => handleFieldChange(note._id, value)}
-          />
-          <RichTextEditor
-            label="content"
-            value={note}
-            handleChange={value => handleEditorChange(note._id, value)}
-          />
-          <div className="note-actions">
-            <Button text="Save" block onClick={() => updateNote(note)} />
-          </div>
-        </div>
-      </Col>
+      <NoteItem
+        key={note._id}
+        note={note}
+        handleFieldChange={handleFieldChange}
+        handleEditorChange={handleEditorChange}
+        updateNote={updateNote}
+        deleteNote={deleteNote}
+      />
     ));
   };
 
@@ -115,30 +126,25 @@ const Notes = () => {
       <div className="loading-box">{loading && <Loading />}</div>
       {notes && notes.length > 0 ? (
         <Row gutter={[16, 16]}>
-          {empty ? (
-            <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
-              <AddNoteForm addNote={addNote} cancel={() => setEmpty(false)} />
-            </Col>
-          ) : (
-            <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
+          <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
+            {empty ? (
+              <AddNoteForm addNote={addNoteApi} cancel={handleUnsetEmpty} />
+            ) : (
               <div className="add-note-hidden">
-                <Button
-                  shape="circle"
-                  icon="plus"
-                  onClick={() => setEmpty(true)}
-                />
+                <Button shape="circle" icon="plus" onClick={handleSetEmpty} />
                 <Text strong className="add-note-text">
                   Add New Note
                 </Text>
               </div>
-            </Col>
-          )}
+            )}
+          </Col>
+
           {getNotes()}
         </Row>
       ) : (
         <>
           <div className="add-note-link">
-            <Button type="link" size="large" onClick={() => openModal(true)}>
+            <Button type="link" size="large" onClick={handleOpenModal}>
               <Icon type="plus" /> New account
             </Button>
           </div>
@@ -146,7 +152,7 @@ const Notes = () => {
             visible={open}
             footer={null}
             className="notes-modal"
-            onCancel={() => openModal(false)}
+            onCancel={handleCloseModal}
           >
             <AddNoteForm addNote={addNote} />
           </Modal>
