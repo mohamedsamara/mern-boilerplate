@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-shadow */
+import React, { useEffect, useState, useRef } from 'react';
 
 import useFetch from 'use-http';
 import { Row, Col, Icon, Typography, Modal, message } from 'antd';
@@ -9,12 +10,16 @@ import Loading from '../Loading';
 import AddNoteForm from './AddNoteForm';
 import NoteItem from './NoteItem';
 
+import useActive from '../../hooks/useActive';
+import useClickAway from '../../hooks/useClickAway';
+
 const { Text } = Typography;
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
-  const [empty, setEmpty] = useState(false);
-  const [open, openModal] = useState(false);
+  const [empty, setEmpty] = useActive(false);
+  const [open, openModal] = useActive(false);
+  const emptyRef = useRef();
   const { request, response, loading } = useFetch('/api');
 
   const fetchNotes = async () => {
@@ -28,6 +33,12 @@ const Notes = () => {
   useEffect(() => {
     fetchNotes();
   }, []);
+
+  useClickAway(emptyRef, () => {
+    if (empty) {
+      setEmpty(false);
+    }
+  });
 
   const addNoteApi = async note => {
     setEmpty(false);
@@ -125,20 +136,21 @@ const Notes = () => {
     <div className="notes">
       <div className="loading-box">{loading && <Loading />}</div>
       {notes && notes.length > 0 ? (
-        <Row gutter={[16, 16]}>
+        <Row gutter={[24, 30]}>
           <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
-            {empty ? (
-              <AddNoteForm addNote={addNoteApi} cancel={handleUnsetEmpty} />
-            ) : (
-              <div className="add-note-hidden">
-                <Button shape="circle" icon="plus" onClick={handleSetEmpty} />
-                <Text strong className="add-note-text">
-                  Add New Note
-                </Text>
-              </div>
-            )}
+            <div ref={emptyRef}>
+              {empty ? (
+                <AddNoteForm addNote={addNoteApi} cancel={handleUnsetEmpty} />
+              ) : (
+                <div className="add-note-hidden">
+                  <Button shape="circle" icon="plus" onClick={handleSetEmpty} />
+                  <Text strong className="add-note-text">
+                    Add New Note
+                  </Text>
+                </div>
+              )}
+            </div>
           </Col>
-
           {getNotes()}
         </Row>
       ) : (

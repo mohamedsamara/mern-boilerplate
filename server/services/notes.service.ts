@@ -24,7 +24,7 @@ class NotesService {
       const noteToUpdate = await notesModelInstance.findById(id);
 
       if (noteToUpdate) {
-        await notesModelInstance.updateOne(newNote);
+        await noteToUpdate.updateOne(newNote);
 
         return newNote;
       }

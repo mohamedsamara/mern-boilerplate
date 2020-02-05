@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 
+import useToggle from '../../hooks/useToggle';
+
 const { Sider } = Layout;
 
 const SideBar = () => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useToggle(true);
 
   const handleMenuToggle = () => {
     document.body.classList.remove('sidebar-active');
