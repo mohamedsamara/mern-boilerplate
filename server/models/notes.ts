@@ -9,7 +9,7 @@ class NotesModel {
     this.initSchema();
   }
 
-  public async initSchema() {
+  public initSchema() {
     const schema = new Schema({
       title: {
         type: String,
