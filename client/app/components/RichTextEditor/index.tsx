@@ -15,12 +15,12 @@ import Label from '../Label';
 const ButtonGroup = Button.Group;
 
 const RichTextEditor = props => {
-  const { value, handleChange, label } = props;
+  const { className, value, handleChange, label, name } = props;
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   useEffect(() => {
     if (value) {
-      const blocksFromHTML = convertFromHTML(value.content);
+      const blocksFromHTML = convertFromHTML(value);
       const state = ContentState.createFromBlockArray(
         blocksFromHTML.contentBlocks,
         blocksFromHTML.entityMap,
@@ -32,11 +32,14 @@ const RichTextEditor = props => {
 
   const onChange = val => {
     setEditorState(val);
+    const e = {
+      name,
+      value,
+    };
 
     if (typeof handleChange === 'function') {
-      const newValue = stateToHTML(editorState.getCurrentContent());
-
-      return handleChange(newValue);
+      e.value = stateToHTML(editorState.getCurrentContent());
+      return handleChange(e);
     }
   };
 
@@ -61,6 +64,8 @@ const RichTextEditor = props => {
     onChange(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
   };
 
+  const styles = `draft-editor ${className}`;
+
   return (
     <div className="rich-text-editor">
       <div className="editor-actions">
@@ -75,7 +80,7 @@ const RichTextEditor = props => {
         </ButtonGroup>
       </div>
       <Label text={label} />
-      <div className="draft-editor">
+      <div className={styles}>
         <Editor
           className="draft-input"
           editorState={editorState}

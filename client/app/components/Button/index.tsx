@@ -7,10 +7,12 @@ const Button = props => {
     children,
     className,
     type,
+    size,
     shape,
     icon,
     text,
     block,
+    loading,
     onClick,
   } = props;
 
@@ -18,10 +20,12 @@ const Button = props => {
     <ButtonAntd
       className={className}
       type={type}
+      size={size}
       shape={shape}
       icon={icon}
       onClick={onClick}
       block={block}
+      loading={loading}
     >
       {text}
       {children}

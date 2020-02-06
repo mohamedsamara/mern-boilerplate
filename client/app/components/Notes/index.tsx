@@ -78,19 +78,19 @@ const Notes = () => {
     message.info(result.message);
   };
 
-  const handleFieldChange = (id, value) => {
+  const handleFieldChange = (id, e) => {
     const index = notes.findIndex(x => x._id === id);
 
     const newNotes = [...notes];
-    newNotes[index].title = value;
+    newNotes[index].title = e.value;
     setNotes(newNotes);
   };
 
-  const handleEditorChange = (id, value) => {
+  const handleEditorChange = (id, e) => {
     const index = notes.findIndex(x => x._id === id);
 
     const newNotes = [...notes];
-    newNotes[index].content = value;
+    newNotes[index].content = e.value;
     setNotes(newNotes);
   };
 

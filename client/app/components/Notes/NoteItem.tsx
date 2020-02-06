@@ -42,13 +42,15 @@ const NoteItem = props => {
           className="delete-note"
         />
         <RichTextField
+          name="title"
           label="title"
           value={note.title}
           handleChange={fieldChange}
         />
         <RichTextEditor
+          name="content"
           label="content"
-          value={note}
+          value={note.content}
           handleChange={editorChange}
         />
         <div className="note-actions">

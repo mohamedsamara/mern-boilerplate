@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Button from '../Button';
 import RichTextEditor from '../RichTextEditor';
 import RichTextField from '../RichTextField';
+
+import validate from './validate';
 
 interface TextNode {
   title?: string;
@@ -10,44 +12,61 @@ interface TextNode {
 }
 
 const AddNoteForm = props => {
-  const [note, setNote] = useState<TextNode>({ title: '', content: '' });
+  const [values, setValues] = useState({ title: '', content: '' });
+  const [errors, setErrors] = useState({
+    title: '',
+    content: '',
+    valid: false,
+  });
+  const [isSubmitting, setSubmitting] = useState(false);
   const { addNote, cancel } = props;
 
-  const handleFieldChange = value => {
-    const newNote = { ...note };
-    newNote.title = value;
-    setNote(newNote);
-  };
+  useEffect(() => {
+    if (errors.valid === true && isSubmitting) {
+      addNote(values);
+    }
+  }, [errors, isSubmitting]);
 
-  const handleEditorChange = value => {
-    const newNote = { ...note };
-    newNote.content = value;
-    setNote(newNote);
+  const handleChange = e => {
+    setValues(val => ({
+      ...val,
+      [e.name]: e.value,
+    }));
   };
 
   const handleSubmit = () => {
-    addNote(note);
+    setErrors(validate(values));
+    setSubmitting(true);
   };
 
   return (
-    <div className="add-note-form">
+    <form className="add-note-form">
       <div className="add-note-box">
         <RichTextField
+          className={`${errors.title && 'danger'}`}
+          name="title"
           label="title"
-          value={note.title}
-          handleChange={handleFieldChange}
+          value={values.title}
+          handleChange={handleChange}
         />
         <RichTextEditor
+          className={`${errors.content && 'danger'}`}
+          name="content"
           label="content"
-          value={note}
-          handleChange={handleEditorChange}
+          value={values.content}
+          handleChange={handleChange}
         />
         <div className="note-actions">
-          <Button text="Save" block={!cancel && true} onClick={handleSubmit} />
+          <Button
+            text="Save"
+            block={!cancel && true}
+            loading={isSubmitting}
+            onClick={handleSubmit}
+          />
           {cancel && <Button onClick={cancel} text="Cancel" />}
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
