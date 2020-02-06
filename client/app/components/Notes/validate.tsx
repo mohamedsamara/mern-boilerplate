@@ -1,5 +1,7 @@
+import { between } from '../../utils/expression';
+
 const validate = values => {
-  const r1 = values.content.match(new RegExp('<br>(.*)</p>')) || values.content;
+  const r1 = between(values.content, '<br>', '</p>');
 
   const errors = {
     title: '',
@@ -15,7 +17,7 @@ const validate = values => {
   } else if (!r1[1]) {
     errors.content = 'Content is required KK';
   } else if (
-    errors.title.includes('required') !== true ||
+    errors.title.includes('required') !== true &&
     errors.content.includes('required') !== true
   ) {
     errors.valid = true;
