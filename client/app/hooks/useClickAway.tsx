@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useClickAway = (ref, callback) => {
+const useClickAway = (ref, callback, deps) => {
   useEffect(() => {
     const handleClick = event => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -13,7 +13,7 @@ const useClickAway = (ref, callback) => {
     return () => {
       document.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [deps]);
 };
 
 export default useClickAway;

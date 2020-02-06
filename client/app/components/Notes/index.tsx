@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import React, { useEffect, useState, useRef } from 'react';
 
 import useFetch from 'use-http';
@@ -22,6 +21,16 @@ const Notes = () => {
   const emptyRef = useRef();
   const { request, response, loading } = useFetch('/api');
 
+  useClickAway(
+    emptyRef,
+    () => {
+      if (empty) {
+        setEmpty(false);
+      }
+    },
+    [empty],
+  );
+
   const fetchNotes = async () => {
     const result = await request.get('/notes');
 
@@ -33,12 +42,6 @@ const Notes = () => {
   useEffect(() => {
     fetchNotes();
   }, []);
-
-  useClickAway(emptyRef, () => {
-    if (empty) {
-      setEmpty(false);
-    }
-  });
 
   const addNoteApi = async note => {
     setEmpty(false);
