@@ -64,7 +64,7 @@ const RichTextEditor = props => {
     onChange(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
   };
 
-  const styles = `draft-editor ${className}`;
+  const styles = `draft-editor${className ? ` ${className}` : ''}`;
 
   return (
     <div className="rich-text-editor">

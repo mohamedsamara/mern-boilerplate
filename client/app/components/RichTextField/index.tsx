@@ -25,7 +25,7 @@ const RichTextField = props => {
     }
   };
 
-  const styles = `content-editable ${className}`;
+  const styles = `content-editable${className ? ` ${className}` : ''}`;
 
   return (
     <div className="rich-text-field">

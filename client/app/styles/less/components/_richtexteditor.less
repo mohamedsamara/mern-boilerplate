@@ -1,13 +1,14 @@
 .rich-text-editor {
-  margin-bottom: 15px;
-
+  width: 100%;
+  margin-bottom: 8px;
+ 
   .draft-editor {
 
     .public-DraftEditor-content {
       background-color: @white;
       padding: 10px;
       min-height: 100px;
-      margin-bottom: 15px;
+      margin-bottom: 8px;
       width: 100%;
 
       &:focus {
@@ -18,8 +19,13 @@
     }
   }
 
+  .draft-editor.danger {
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: @error-color; 
+  }
+
   .editor-actions {
-    margin-bottom: 15px;
     text-align: center;
   }
 }

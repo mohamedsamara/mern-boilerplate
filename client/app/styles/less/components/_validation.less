@@ -1,0 +1,17 @@
+.validation-error {
+  color: @error-color;
+  margin: 0;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  .transition(all 0.8s ease-in);
+}
+ 
+.validation.danger {
+
+  .validation-error {
+    height: 100%;
+    opacity: 1;
+    visibility: visible;
+  }
+}

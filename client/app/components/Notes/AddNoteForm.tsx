@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../Button';
 import RichTextEditor from '../RichTextEditor';
 import RichTextField from '../RichTextField';
+import ValidationMessage from '../ValidationMessage';
 
 import validate from './validate';
 
@@ -61,12 +62,20 @@ const AddNoteForm = props => {
           value={values.title}
           handleChange={handleChange}
         />
+        <ValidationMessage
+          text={errors.title}
+          className={`${errors.title && 'danger'}`}
+        />
         <RichTextEditor
           className={`${errors.content && 'danger'}`}
           name="content"
           label="content"
           value={values.content}
           handleChange={handleChange}
+        />
+        <ValidationMessage
+          text={errors.content}
+          className={`${errors.content && 'danger'}`}
         />
         <div className="note-actions">
           <Button

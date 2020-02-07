@@ -1,6 +1,6 @@
 .rich-text-field {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 
   .content-editable {
     background-color: @white;
@@ -13,5 +13,11 @@
       outline-width: 1px;
       outline-color: @outline-color; 
     }
+  }
+
+  .content-editable.danger {
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: @error-color; 
   }
 }
