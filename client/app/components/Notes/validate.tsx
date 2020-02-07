@@ -15,16 +15,13 @@ const validate = values => {
   if (!values.content) {
     errors.content = 'Content is required';
   } else if (!r1[1]) {
-    errors.content = 'Content is required KK';
+    errors.content = 'Content is required';
   } else if (
     errors.title.includes('required') !== true &&
     errors.content.includes('required') !== true
   ) {
     errors.valid = true;
   }
-  // else {
-  //   errors.valid = true;
-  // }
 
   return errors;
 };

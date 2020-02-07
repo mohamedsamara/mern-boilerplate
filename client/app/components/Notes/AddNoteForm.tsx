@@ -18,14 +18,22 @@ const AddNoteForm = props => {
     content: '',
     valid: false,
   });
+
   const [isSubmitting, setSubmitting] = useState(false);
   const { addNote, cancel } = props;
 
   useEffect(() => {
     if (errors.valid === true && isSubmitting) {
+      setSubmitting(false);
       addNote(values);
     }
-  }, [errors, isSubmitting]);
+  }, [errors]);
+
+  useEffect(() => {
+    if (isSubmitting) {
+      setSubmitting(false);
+    }
+  }, [values]);
 
   const handleChange = e => {
     setValues(val => ({
@@ -34,13 +42,17 @@ const AddNoteForm = props => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = event => {
+    if (event) {
+      event.preventDefault();
+    }
+
     setErrors(validate(values));
     setSubmitting(true);
   };
 
   return (
-    <form className="add-note-form">
+    <form className="add-note-form" onSubmit={handleSubmit} noValidate>
       <div className="add-note-box">
         <RichTextField
           className={`${errors.title && 'danger'}`}
@@ -61,7 +73,7 @@ const AddNoteForm = props => {
             text="Save"
             block={!cancel && true}
             loading={isSubmitting}
-            onClick={handleSubmit}
+            htmlType="submit"
           />
           {cancel && <Button onClick={cancel} text="Cancel" />}
         </div>

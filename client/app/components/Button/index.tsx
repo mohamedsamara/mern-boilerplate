@@ -12,7 +12,9 @@ const Button = props => {
     icon,
     text,
     block,
+    ghost,
     loading,
+    htmlType,
     onClick,
   } = props;
 
@@ -25,7 +27,9 @@ const Button = props => {
       icon={icon}
       onClick={onClick}
       block={block}
+      htmlType={htmlType}
       loading={loading}
+      ghost={ghost}
     >
       {text}
       {children}
