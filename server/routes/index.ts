@@ -1,25 +1,25 @@
 import * as express from 'express';
 
-import ApiRoute from './api';
+import NotesRoute from './api/notes';
 
-class BaseRoute {
-  public static path = '/';
+class ApiRoute {
+  public static path = '/api' || '';
 
   private router = express.Router();
 
   private constructor() {
     this.router.get('/', this.get);
-    this.router.use(ApiRoute.path, ApiRoute.router);
+    this.router.use(NotesRoute.path, NotesRoute.router);
   }
 
   static get router() {
-    const baseInstance = new BaseRoute();
-    return baseInstance.router;
+    const apiInstance = new ApiRoute();
+    return apiInstance.router;
   }
 
   private async get(req: express.Request, res: express.Response) {
-    res.status(200).json({ message: 'Welcome to base route!' });
+    res.status(200).json({ message: 'Welcome to APIs route!' });
   }
 }
 
-export default BaseRoute;
+export default ApiRoute;

@@ -19,11 +19,14 @@ class App {
   constructor() {
     this.app = express();
 
-    // configuration & middlewares
-    this.config();
+    // express setup
+    this.setup();
 
     // add routes
     this.routes();
+
+    // configuration & middlewares
+    this.config();
 
     // add database
     this.database();
@@ -45,12 +48,14 @@ class App {
       });
   }
 
-  private config(): void {
+  private setup() {
     this.app.use(express.static(path.resolve(__dirname, '../client')));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(cors());
+  }
 
+  private config(): void {
     if (process.env.NODE_ENV === 'production') {
       this.app.use(compression());
       this.app.get('*', (req: express.Request, res: express.Response) => {
