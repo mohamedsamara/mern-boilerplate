@@ -8,7 +8,7 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <Typography>
-        <Title>Mern Boilerplate</Title>
+        <Title level={2}>Mern Boilerplate</Title>
         <Paragraph>
           This is a MERN stack boilerplate and starter, MongoDB, Express JS,
           React, Node JS.
