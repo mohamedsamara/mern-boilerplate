@@ -3,26 +3,34 @@
   margin-bottom: 8px;
  
   .draft-editor {
+    margin-bottom: 8px;
 
     .public-DraftEditor-content {
       background-color: @white;
       padding: 10px;
       min-height: 100px;
-      margin-bottom: 8px;
       width: 100%;
+      .border-radius(4px);
 
       &:focus {
-        outline-style: solid !important;
-        outline-width: 1px !important;
-        outline-color: @outline-color !important; 
+        border: @border-default;
+        border-color: @border-color;
+        .box-shadow(@box-shadow);
       }
     }
   }
 
   .draft-editor.danger {
-    outline-style: solid;
-    outline-width: 1px;
-    outline-color: @error-color; 
+
+    .public-DraftEditor-content {
+      border: @border-default;
+      border-color: @error-color;
+
+      &:focus {
+        border-color: @error-color;
+        .box-shadow(none);
+      }
+    }
   }
 
   .editor-actions {

@@ -7,17 +7,19 @@
     padding: 10px;
     .flex();
     .text-ellipsis();
+    .border-radius(4px);
 
     &:focus {
-      outline-style: solid;
-      outline-width: 1px;
-      outline-color: @outline-color; 
+      outline: 0;
+      border: @border-default;
+      border-color: @border-color;
+      .box-shadow(@box-shadow);
     }
   }
 
   .content-editable.danger {
-    outline-style: solid;
-    outline-width: 1px;
-    outline-color: @error-color; 
+    border: @border-default;
+    border-color: @error-color;
+    .box-shadow(none);
   }
 }

@@ -44,8 +44,6 @@ const Notes = () => {
   }, []);
 
   const addNoteApi = async note => {
-    setEmpty(false);
-
     const newNote = {
       title: note.title,
       content: note.content,
@@ -55,6 +53,7 @@ const Notes = () => {
     if (response.ok) {
       fetchNotes();
       message.success(result.message);
+      setEmpty(false);
     }
   };
 
@@ -143,7 +142,7 @@ const Notes = () => {
           <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
             <div ref={emptyRef}>
               {empty ? (
-                <AddNoteForm addNote={addNoteApi} cancel={handleUnsetEmpty} />
+                <AddNoteForm addNote={addNote} cancel={handleUnsetEmpty} />
               ) : (
                 <div className="add-note-hidden">
                   <Button shape="circle" icon="plus" onClick={handleSetEmpty} />

@@ -25,8 +25,8 @@ const AddNoteForm = props => {
 
   useEffect(() => {
     if (errors.valid === true && isSubmitting) {
-      setSubmitting(false);
       addNote(values);
+      setSubmitting(false);
     }
   }, [errors]);
 
