@@ -48,10 +48,17 @@ class NotesController {
 
     try {
       const createdUser = await usersServiceInstance.register(newUser);
+      const jwt = auth.createToken(createdUser);
+
+      const data = {
+        token: `Bearer ${jwt}`,
+        user: createdUser,
+      };
+
       responderInstance.setSuccess(
         201,
         'user has been added successfully',
-        createdUser,
+        data,
       );
       return responderInstance.send(res);
     } catch (error) {
