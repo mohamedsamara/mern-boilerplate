@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Result } from 'antd';
 
 const Logout = () => {
-  const [seconds, setSeconds] = useState(4);
+  const [seconds, setSeconds] = useState(3);
   const history = useHistory();
 
   useEffect(() => {
