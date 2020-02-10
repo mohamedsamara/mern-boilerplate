@@ -4,8 +4,8 @@ import { Container } from 'typedi';
 import NotesService from '../services/notes.service';
 import Responder from '../helpers/responder';
 
-const responderInstance = Container.get(Responder);
 const notesServiceInstance = Container.get(NotesService);
+const responderInstance = Container.get(Responder);
 
 class NotesController {
   public async getNotes(req: Request, res: Response) {

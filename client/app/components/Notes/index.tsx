@@ -136,7 +136,7 @@ const Notes = () => {
 
   return (
     <div className="notes">
-      <div className="loading-box">{loading && <Loading />}</div>
+      <Loading loading={loading} />
       {notes && notes.length > 0 ? (
         <Row gutter={[24, 30]}>
           <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
