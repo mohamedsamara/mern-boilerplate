@@ -1,6 +1,6 @@
 import { Container } from 'typedi';
 
-import NotesModel from '../models/notes';
+import NotesModel from '../models/notes.model';
 
 const notesModelInstance = Container.get(NotesModel);
 const notesModel = notesModelInstance.getModel();

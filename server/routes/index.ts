@@ -4,7 +4,7 @@ import NotesRoute from './api/notes';
 import UsersRoute from './api/users';
 
 class ApiRoute {
-  public static path = '/api' || '';
+  public static path = '/api';
 
   private router = express.Router();
 

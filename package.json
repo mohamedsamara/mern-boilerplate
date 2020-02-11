@@ -142,6 +142,8 @@
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.3.7",
+    "@types/passport": "^1.0.2",
+    "@types/passport-jwt": "^3.0.3",
     "antd": "^3.26.6",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -154,6 +156,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.9",
     "morgan": "^1.9.1",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",

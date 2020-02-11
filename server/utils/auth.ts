@@ -1,4 +1,4 @@
-import { genSaltSync, hashSync } from 'bcryptjs';
+import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 export function hashPassword(password: string): string {
@@ -7,10 +7,14 @@ export function hashPassword(password: string): string {
   return hashedPassword;
 }
 
+export function verifyPassword(password: any, hashedPassword: any): boolean {
+  return compareSync(password, hashedPassword);
+}
+
 export function createToken(user: any) {
   const payload = {
     id: user._id,
-    email: user.email,
+    // email: user.email,
   };
 
   const secret = process.env.SECRET_KEY;

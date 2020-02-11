@@ -21,7 +21,7 @@ class UsersRoute {
   }
 
   private async login() {
-    this.router.post('/login', usersControllerInstance.signin);
+    this.router.post('/login', usersControllerInstance.login);
   }
 
   private async register() {

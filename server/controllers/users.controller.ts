@@ -9,9 +9,44 @@ const usersServiceInstance = Container.get(UsersService);
 const responderInstance = Container.get(Responder);
 
 class NotesController {
-  public async signin(req: Request, res: Response) {
+  public async login(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      responderInstance.setError(400, 'some details are missing');
+      return responderInstance.send(res);
+    }
+
     try {
-      responderInstance.setSuccess(200, 'found user');
+      const user = await usersServiceInstance.findByEmail(email);
+
+      if (!user) {
+        responderInstance.setError(
+          400,
+          'No user found for this email address.',
+        );
+        return responderInstance.send(res);
+      }
+
+      const passwordMatches = auth.verifyPassword(password, user.password);
+
+      if (passwordMatches) {
+        const jwt = auth.createToken(user);
+
+        const data = {
+          token: `Bearer ${jwt}`,
+          user,
+        };
+
+        responderInstance.setSuccess(
+          201,
+          'You have logged in successfully',
+          data,
+        );
+      } else {
+        responderInstance.setError(400, 'Wrong password.');
+        return responderInstance.send(res);
+      }
 
       return responderInstance.send(res);
     } catch (error) {
@@ -28,25 +63,28 @@ class NotesController {
       return responderInstance.send(res);
     }
 
-    const user = await usersServiceInstance.findByEmail(email);
-
-    if (user) {
-      responderInstance.setError(400, 'That email address is already in use.');
-      return responderInstance.send(res);
-    }
-
-    const hashedPassword = auth.hashPassword(req.body.password);
-
-    const newUser = {
-      email,
-      password: hashedPassword,
-      profile: {
-        firstName,
-        lastName,
-      },
-    };
-
     try {
+      const user = await usersServiceInstance.findByEmail(email);
+
+      if (user) {
+        responderInstance.setError(
+          400,
+          'That email address is already in use.',
+        );
+        return responderInstance.send(res);
+      }
+
+      const hashedPassword = auth.hashPassword(req.body.password);
+
+      const newUser = {
+        email,
+        password: hashedPassword,
+        profile: {
+          firstName,
+          lastName,
+        },
+      };
+
       const createdUser = await usersServiceInstance.register(newUser);
       const jwt = auth.createToken(createdUser);
 
@@ -57,7 +95,7 @@ class NotesController {
 
       responderInstance.setSuccess(
         201,
-        'user has been added successfully',
+        'You have been registered successfully.',
         data,
       );
       return responderInstance.send(res);
