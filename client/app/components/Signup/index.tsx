@@ -32,7 +32,7 @@ const tailFormItemLayout = {
 const Signup = props => {
   const { getFieldDecorator } = props.form;
   const [confirmDirty, setConfirmDirty] = useState(false);
-  const { request, response, loading } = useFetch('/api/user');
+  const { request, response, loading } = useFetch('/api/auth');
 
   const handleSubmit = e => {
     e.preventDefault();

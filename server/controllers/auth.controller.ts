@@ -8,7 +8,7 @@ import * as auth from '../utils/auth';
 const usersServiceInstance = Container.get(UsersService);
 const responderInstance = Container.get(Responder);
 
-class NotesController {
+class AuthController {
   public async login(req: Request, res: Response) {
     const { email, password } = req.body;
 
@@ -106,4 +106,4 @@ class NotesController {
   }
 }
 
-export default NotesController;
+export default AuthController;

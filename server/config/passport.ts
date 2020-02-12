@@ -21,8 +21,6 @@ class PassportConfig {
     };
 
     const strategy = new Strategy(opts, (jwtPayload, done) => {
-      console.log('jwtPayload>>>>', jwtPayload);
-
       const user = usersServiceInstance.findById(jwtPayload._id);
 
       if (user) {

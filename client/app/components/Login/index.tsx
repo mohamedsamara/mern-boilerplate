@@ -31,7 +31,7 @@ const tailFormItemLayout = {
 
 const Login = props => {
   const { getFieldDecorator } = props.form;
-  const { request, response, loading } = useFetch('/api/user');
+  const { request, response, loading } = useFetch('/api/auth');
 
   const handleSubmit = e => {
     e.preventDefault();

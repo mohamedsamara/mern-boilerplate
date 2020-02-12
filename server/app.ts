@@ -4,8 +4,10 @@ import * as cors from 'cors';
 import * as compression from 'compression';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
+import * as passport from 'passport';
 
 import BaseRoute from './routes';
+import PassportConfig from './config/passport';
 
 class App {
   public app: express.Application;
@@ -19,13 +21,13 @@ class App {
   constructor() {
     this.app = express();
 
-    // express setup
-    this.setup();
+    // express middleware
+    this.middleware();
 
     // add routes
     this.routes();
 
-    // configuration & middlewares
+    // configuration
     this.config();
 
     // add database
@@ -48,11 +50,17 @@ class App {
       });
   }
 
-  private setup(): void {
+  private middleware(): void {
     this.app.use(express.static(path.resolve(__dirname, '../client')));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(cors());
+
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
+
+    const passportInstance = new PassportConfig(passport);
+    passportInstance.init();
   }
 
   private config(): void {

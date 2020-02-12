@@ -2,6 +2,7 @@ import * as express from 'express';
 import { Container } from 'typedi';
 
 import NotesController from '../../controllers/notes.controller';
+import * as auth from '../../utils/auth';
 
 const notesControllerInstance = Container.get(NotesController);
 
@@ -24,23 +25,31 @@ class NotesRoute {
   }
 
   private async get() {
-    this.router.get('/', notesControllerInstance.getNotes);
+    this.router.get('/', auth.verifyRoute, notesControllerInstance.getNotes);
   }
 
   private async getOne() {
-    this.router.get('/:id', notesControllerInstance.getNote);
+    this.router.get('/:id', auth.verifyRoute, notesControllerInstance.getNote);
   }
 
   private async put() {
-    this.router.put('/:id', notesControllerInstance.updateNote);
+    this.router.put(
+      '/:id',
+      auth.verifyRoute,
+      notesControllerInstance.updateNote,
+    );
   }
 
   private async post() {
-    this.router.post('/', notesControllerInstance.addNote);
+    this.router.post('/', auth.verifyRoute, notesControllerInstance.addNote);
   }
 
   private async delete() {
-    this.router.delete('/:id', notesControllerInstance.deleteNote);
+    this.router.delete(
+      '/:id',
+      auth.verifyRoute,
+      notesControllerInstance.deleteNote,
+    );
   }
 }
 

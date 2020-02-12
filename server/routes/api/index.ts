@@ -1,7 +1,5 @@
 import * as express from 'express';
 
-import NotesRoute from './notes';
-
 class ApiRoute {
   public static path = '/api';
 
@@ -9,7 +7,6 @@ class ApiRoute {
 
   private constructor() {
     this.router.get('/', this.get);
-    this.router.use(NotesRoute.path, NotesRoute.router);
   }
 
   static get router() {
