@@ -3,6 +3,8 @@ import { Response } from 'express';
 class Responder {
   public statusCode: number = null;
 
+  public code: string = null;
+
   public type: string = null;
 
   public data: any = null;
@@ -16,8 +18,9 @@ class Responder {
     this.data = data;
   }
 
-  public async setError(statusCode: number, message: string) {
+  public async setError(statusCode: number, message: string, code?: string) {
     this.statusCode = statusCode;
+    this.code = code;
     this.type = 'error';
     this.message = message;
   }
@@ -33,6 +36,7 @@ class Responder {
       return res.status(this.statusCode).json(result);
     }
     return res.status(this.statusCode).json({
+      code: this.code,
       status: this.type,
       message: this.message,
     });

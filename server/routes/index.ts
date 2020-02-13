@@ -10,6 +10,7 @@ class ApiRoute {
 
   private constructor() {
     this.router.get('/', this.get);
+
     this.router.use(NotesRoute.path, NotesRoute.router);
     this.router.use(AuthRoute.path, AuthRoute.router);
   }

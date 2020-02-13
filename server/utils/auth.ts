@@ -2,6 +2,11 @@ import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import * as passport from 'passport';
+import { Container } from 'typedi';
+
+import Responder from '../helpers/responder';
+
+const responderInstance = Container.get(Responder);
 
 export function hashPassword(password: string): string {
   const salt = genSaltSync(12);
@@ -30,10 +35,20 @@ export function createToken(user: any) {
 export function verifyRoute(req: Request, res: Response, next: NextFunction) {
   passport.authenticate('jwt', (err, user) => {
     if (err) {
-      return res.status(401).json({ status: 'error', code: 'unauthorized' });
+      responderInstance.setError(
+        401,
+        'Sorry, you are not authorized to access this resource.',
+        'unauthorized',
+      );
+      return responderInstance.send(res);
     }
     if (!user) {
-      return res.status(401).json({ status: 'error', code: 'unauthorized' });
+      responderInstance.setError(
+        401,
+        'Sorry, you are not authorized to access this resource.',
+        'unauthorized',
+      );
+      return responderInstance.send(res);
     }
     return next();
   })(req, res, next);

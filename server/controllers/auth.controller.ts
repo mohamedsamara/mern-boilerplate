@@ -39,7 +39,7 @@ class AuthController {
         };
 
         responderInstance.setSuccess(
-          201,
+          200,
           'You have logged in successfully',
           data,
         );
