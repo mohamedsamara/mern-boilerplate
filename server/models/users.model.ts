@@ -9,6 +9,8 @@ class UsersModel {
     this.initSchema();
   }
 
+  // change field names from lastName to last_name
+  // rename models from plural into singular
   public initSchema() {
     const schema = new Schema({
       email: {

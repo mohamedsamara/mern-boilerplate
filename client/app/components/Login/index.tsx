@@ -40,6 +40,8 @@ const Login = props => {
         const result = await request.post('/login', values);
         if (response.ok) {
           console.log(result);
+
+          localStorage.setItem('token', result.data.token);
         }
       }
     });

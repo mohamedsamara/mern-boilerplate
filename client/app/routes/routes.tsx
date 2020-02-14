@@ -9,7 +9,7 @@ import Logout from '../components/Logout';
 
 const routes = [
   { path: '/', exact: true, name: 'Homepage', component: Homepage },
-  { path: '/notes', name: 'Notes', component: Notes },
+  { path: '/notes', name: 'Notes', private: true, component: Notes },
   { path: '/login', name: 'Login', component: Login },
   { path: '/register', name: 'Signup', component: Signup },
   { path: '/logout', name: 'Logout', component: Logout },

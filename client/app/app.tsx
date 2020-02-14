@@ -2,12 +2,15 @@ import React from 'react';
 
 import { Router } from 'react-router-dom';
 import { Layout } from 'antd';
+import { Provider } from 'use-http';
 
 import history from './utils/history';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
 import AppRouter from './routes';
+import * as utils from './utils/token';
+
 import styles from './app.css';
 import './styles/less/main.less'; // Import application less styles
 
@@ -19,23 +22,31 @@ import './styles/less/main.less'; // Import application less styles
 
 const { Content } = Layout;
 
+const options = {
+  headers: {
+    Authorization: utils.getToken(),
+  },
+};
+
 const App: React.FC = () => {
   return (
     <div className={styles.application}>
-      <Router history={history}>
-        <Layout style={{ minHeight: '100vh' }}>
-          <Sidebar />
-          <Layout>
-            <Header />
-            <Content style={{ padding: '16px', marginTop: '64px' }}>
-              <div className="container">
-                <AppRouter />
-              </div>
-            </Content>
-            <Footer />
+      <Provider options={options}>
+        <Router history={history}>
+          <Layout style={{ minHeight: '100vh' }}>
+            <Sidebar />
+            <Layout>
+              <Header />
+              <Content style={{ padding: '16px', marginTop: '64px' }}>
+                <div className="container">
+                  <AppRouter />
+                </div>
+              </Content>
+              <Footer />
+            </Layout>
           </Layout>
-        </Layout>
-      </Router>
+        </Router>
+      </Provider>
     </div>
   );
 };

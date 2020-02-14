@@ -1,8 +1,22 @@
 import { useHistory } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 export const auth = {
-  authenticated: true,
+  authenticated: false,
 };
+
+const token = localStorage.getItem('token');
+
+if (token) {
+  const { exp } = jwtDecode(token);
+  const currentTime = Date.now() / 1000;
+
+  auth.authenticated = true;
+
+  if (exp < currentTime) {
+    //
+  }
+}
 
 const PrivateRoute = ({ children }) => {
   const history = useHistory();
