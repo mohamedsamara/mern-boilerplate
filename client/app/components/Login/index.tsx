@@ -2,7 +2,7 @@ import React from 'react';
 
 import useFetch from 'use-http';
 import { Form, Icon, Input, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Loading from '../Loading';
 import { useAuth } from '../../containers/Auth';
@@ -32,6 +32,7 @@ const tailFormItemLayout = {
 
 const Login = props => {
   const { getFieldDecorator } = props.form;
+  const history = useHistory();
   const { request, response, loading } = useFetch('/api/auth');
   const { setAuth } = useAuth();
 
@@ -42,6 +43,7 @@ const Login = props => {
         const result = await request.post('/login', values);
         if (response.ok) {
           setAuth(result.data.token);
+          history.push('/dashboard');
         }
       }
     });

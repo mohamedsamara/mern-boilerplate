@@ -1,7 +1,7 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
-import PrivateRoute from './PrivateRoute';
+import RouteFrom from './RouteFrom';
 import routes from './routes';
 
 const AppRouter = () => (
@@ -13,23 +13,3 @@ const AppRouter = () => (
 );
 
 export default AppRouter;
-
-const RouteFrom = route => {
-  return route.private ? (
-    <PrivateRoute>
-      <Route
-        path={route.path}
-        exact={route.exact}
-        name={route.name}
-        render={props => <route.component {...props} />}
-      />
-    </PrivateRoute>
-  ) : (
-    <Route
-      path={route.path}
-      exact={route.exact}
-      name={route.name}
-      render={props => <route.component {...props} />}
-    />
-  );
-};

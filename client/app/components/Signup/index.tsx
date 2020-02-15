@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 import useFetch from 'use-http';
 import { Form, Input, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Loading from '../Loading';
+import { useAuth } from '../../containers/Auth';
 
 const formItemLayout = {
   labelCol: {
@@ -30,9 +31,11 @@ const tailFormItemLayout = {
 };
 
 const Signup = props => {
+  const history = useHistory();
   const { getFieldDecorator } = props.form;
   const [confirmDirty, setConfirmDirty] = useState(false);
   const { request, response, loading } = useFetch('/api/auth');
+  const { setAuth } = useAuth();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -40,7 +43,8 @@ const Signup = props => {
       if (!err) {
         const result = await request.post('/register', values);
         if (response.ok) {
-          console.log(result);
+          setAuth(result.data.token);
+          history.push('/dashboard');
         }
       }
     });
