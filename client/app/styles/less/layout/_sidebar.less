@@ -15,12 +15,15 @@
 
   .ant-menu-item { 
     align-items: center;
+    padding: 0 !important;
     .flex();
   }
 
   .sidebar-link {
     width: 100%;
     display: block;
+    padding: 0px 20px;
+    
 
     &:visited {
 
@@ -29,7 +32,19 @@
       }
     }
   }
+
+  .sidebar-link.active {
+    background-color: @btn-bg;
+  }
 }
+
+.ant-layout-sider-collapsed {
+
+  .sidebar-link {
+    padding: 0 32px !important;
+  }
+}
+
 
 // Sidebar tooltip styles
 
@@ -88,8 +103,8 @@
       }
     }
     
-        .sidebar {
-          width: 50% !important;
+    .sidebar {
+      width: 50% !important;
           min-width: 50%  !important;
           max-width: 50% !important;
           left:0 !important;

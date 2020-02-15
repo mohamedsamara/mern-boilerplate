@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 
 import useToggle from '../../hooks/useToggle';
@@ -18,24 +18,39 @@ const SideBar = () => {
 
   const loggedInMenuItems = () => {
     return (
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+      <Menu theme="dark" mode="inline">
         <Menu.Item key="1">
-          <Link to="/dashboard" className="sidebar-link">
+          <NavLink
+            to="/dashboard"
+            className="sidebar-link"
+            activeClassName="active"
+            exact
+          >
             <Icon type="dashboard" />
             <span>dashboard</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="2">
-          <Link to="/notes" className="sidebar-link">
+          <NavLink
+            to="/notes"
+            className="sidebar-link"
+            activeClassName="active"
+            exact
+          >
             <Icon type="file" />
             <span>notes</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="3">
-          <Link to="/logout" className="sidebar-link">
+          <NavLink
+            to="/logout"
+            className="sidebar-link"
+            activeClassName="active"
+            exact
+          >
             <Icon type="logout" />
             <span>Logout</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
       </Menu>
     );
@@ -43,24 +58,39 @@ const SideBar = () => {
 
   const menuItems = () => {
     return (
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+      <Menu theme="dark" mode="inline">
         <Menu.Item key="1">
-          <Link to="/" className="sidebar-link">
+          <NavLink
+            to="/"
+            className="sidebar-link"
+            activeClassName="active"
+            exact
+          >
             <Icon type="home" />
             <span>Home</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="2">
-          <Link to="/login" className="sidebar-link">
+          <NavLink
+            to="/login"
+            className="sidebar-link"
+            activeClassName="active"
+            exact
+          >
             <Icon type="login" />
             <span>login</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="3">
-          <Link to="/register" className="sidebar-link">
+          <NavLink
+            to="/register"
+            className="sidebar-link"
+            activeClassName="active"
+            exact
+          >
             <Icon type="user" />
             <span>sign up</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
       </Menu>
     );
