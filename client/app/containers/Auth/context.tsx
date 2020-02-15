@@ -1,5 +1,7 @@
 import React from 'react';
 
-const AuthContext = React.createContext(null);
+import { initialState } from './reducer';
+
+const AuthContext = React.createContext(initialState);
 
 export default AuthContext;

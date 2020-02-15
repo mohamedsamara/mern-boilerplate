@@ -21,6 +21,10 @@ const Notes = () => {
   const emptyRef = useRef();
   const { request, response, loading } = useFetch('/api');
 
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
   useClickAway(
     emptyRef,
     () => {
@@ -38,10 +42,6 @@ const Notes = () => {
       setNotes(result.data);
     }
   };
-
-  useEffect(() => {
-    fetchNotes();
-  }, []);
 
   const addNoteApi = async note => {
     const newNote = {

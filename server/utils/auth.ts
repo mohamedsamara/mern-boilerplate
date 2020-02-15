@@ -21,7 +21,7 @@ export function verifyPassword(password: any, hashedPassword: any): boolean {
 export function createToken(user: any) {
   const payload = {
     id: user._id,
-    // email: user.email,
+    email: user.email,
   };
   const secret = process.env.SECRET_KEY;
 

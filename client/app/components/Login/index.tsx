@@ -5,6 +5,7 @@ import { Form, Icon, Input, Button } from 'antd';
 import { Link } from 'react-router-dom';
 
 import Loading from '../Loading';
+import { useAuth } from '../../containers/Auth';
 
 const formItemLayout = {
   labelCol: {
@@ -32,6 +33,7 @@ const tailFormItemLayout = {
 const Login = props => {
   const { getFieldDecorator } = props.form;
   const { request, response, loading } = useFetch('/api/auth');
+  const { setAuth } = useAuth();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -39,9 +41,7 @@ const Login = props => {
       if (!err) {
         const result = await request.post('/login', values);
         if (response.ok) {
-          console.log(result);
-
-          localStorage.setItem('token', result.data.token);
+          setAuth(result.data.token);
         }
       }
     });
