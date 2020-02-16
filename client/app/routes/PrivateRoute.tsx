@@ -1,14 +1,13 @@
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+
+import { Redirect } from 'react-router-dom';
 
 import { useAuth } from '../containers/Auth';
 
 const PrivateRoute = ({ children }) => {
-  const history = useHistory();
   const { state } = useAuth();
 
-  if (!state.authenticated) {
-    history.push('/login');
-  }
+  if (!state.authenticated && !state.loading) return <Redirect to="/login" />;
 
   return children;
 };

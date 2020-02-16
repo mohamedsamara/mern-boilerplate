@@ -7,13 +7,13 @@ import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import AppRouter from '../../routes';
 
-import { AuthProvider } from '../Auth';
+import styles from './styles.css';
 
 const { Content } = Layout;
 
 const Application = () => {
   return (
-    <AuthProvider>
+    <div className={styles.application}>
       <Layout style={{ minHeight: '100vh' }}>
         <Sidebar />
         <Layout>
@@ -26,7 +26,7 @@ const Application = () => {
           <Footer />
         </Layout>
       </Layout>
-    </AuthProvider>
+    </div>
   );
 };
 

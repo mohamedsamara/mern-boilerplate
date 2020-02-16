@@ -21,5 +21,9 @@
     border: @border-default;
     border-color: @error-color;
     .box-shadow(none);
+
+    &:focus {
+      .box-shadow(@box-shadow-error);
+    }
   }
 }

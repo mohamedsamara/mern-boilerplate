@@ -5,8 +5,8 @@ import { Router } from 'react-router-dom';
 import history from './utils/history';
 
 import Application from './containers/Application';
+import { AuthProvider } from './containers/Auth';
 
-import styles from './app.css';
 import './styles/less/main.less'; // Import application less styles
 
 // No need to import the antd styles. babel-plugin-import has been configured in babel config file to help in importing individually components on demand and automatically import the corresponding stylesheet.
@@ -17,11 +17,11 @@ import './styles/less/main.less'; // Import application less styles
 
 const App: React.FC = () => {
   return (
-    <div className={styles.application}>
+    <AuthProvider>
       <Router history={history}>
         <Application />
       </Router>
-    </div>
+    </AuthProvider>
   );
 };
 

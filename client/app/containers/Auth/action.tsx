@@ -12,8 +12,3 @@ export const unsetAuthData = () => {
     type: UNSET_AUTH_DATA,
   };
 };
-
-// export const getToken = () => {
-//   const token = localStorage.getItem('token');
-//   return token;
-// };

@@ -13,19 +13,20 @@ const AuthProvider = ({ children }) => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    handleToken();
-  }, [state.authenticated]);
+    if (token) {
+      setAuth(token);
+      handleToken();
+    } else {
+      unsetAuth();
+    }
+  }, []);
 
   const handleToken = () => {
-    if (token) {
-      const { exp } = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      setAuth(token);
+    const { exp } = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
 
-      if (exp < currentTime) {
-        localStorage.removeItem('token');
-        unsetAuth();
-      }
+    if (exp < currentTime) {
+      unsetAuth();
     }
   };
 

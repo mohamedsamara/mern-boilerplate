@@ -6,7 +6,7 @@ import { Result } from 'antd';
 import { useAuth } from '../../containers/Auth';
 
 const Logout = () => {
-  const [seconds, setSeconds] = useState(3);
+  const [seconds, setSeconds] = useState(2);
   const history = useHistory();
   const { unsetAuth } = useAuth();
 
@@ -19,7 +19,7 @@ const Logout = () => {
 
     if (seconds === 0) {
       clearInterval(interval);
-      history.push('/');
+      history.push('/login');
     }
 
     return () => clearInterval(interval);
