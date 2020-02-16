@@ -32,14 +32,14 @@ const NoteItem = props => {
   };
 
   return (
-    <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
+    <Col sm={24} md={12} lg={12} xl={6} className="gutter-row">
       <div className="note">
         <Button
           onClick={handleDelete}
           type="danger"
           shape="circle"
           icon="close"
-          className="delete-note"
+          className="delete-note-btn"
         />
         <RichTextField
           name="title"

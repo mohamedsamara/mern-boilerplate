@@ -9,6 +9,7 @@ export { default as InfoCircleOutline } from '@ant-design/icons/lib/outline/Info
 export { default as CloseCircleOutline } from '@ant-design/icons/lib/outline/CloseCircleOutline';
 export { default as ExclamationCircleOutline } from '@ant-design/icons/lib/outline/ExclamationCircleOutline';
 export { default as CheckCircleFill } from '@ant-design/icons/lib/fill/CheckCircleFill';
+export { default as PlusCircleFill } from '@ant-design/icons/lib/fill/PlusCircleFill';
 export { default as InfoCircleFill } from '@ant-design/icons/lib/fill/InfoCircleFill';
 export { default as CloseCircleFill } from '@ant-design/icons/lib/fill/CloseCircleFill';
 export { default as ExclamationCircleFill } from '@ant-design/icons/lib/fill/ExclamationCircleFill';

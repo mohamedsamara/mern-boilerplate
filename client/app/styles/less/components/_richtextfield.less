@@ -4,14 +4,20 @@
 
   .content-editable {
     background-color: @white;
+    border: @border-default;
     padding: 10px;
     .flex();
     .text-ellipsis();
     .border-radius(4px);
+    .transition(@transition-speed);
+
+    &:hover {
+      border-color: @border-color;
+      .transition(@transition-speed);
+    }
 
     &:focus {
       outline: 0;
-      border: @border-default;
       border-color: @border-color;
       .box-shadow(@box-shadow);
     }

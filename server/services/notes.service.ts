@@ -39,7 +39,9 @@ class NotesService {
 
   public async addNote(newNote: any) {
     try {
-      return notesModel.create(newNote);
+      const createdNote = await notesModel.create(newNote);
+
+      return createdNote;
     } catch (error) {
       throw error;
     }

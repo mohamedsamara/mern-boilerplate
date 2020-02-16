@@ -2,22 +2,17 @@
   margin: 0;
   visibility: hidden;
   opacity: 0;
-  height: 0;
-  padding: 5px;
-  .transition(all 0.8s ease-in);
+  .transition(all @transition-speed ease-in);
 }
  
 .validation {
-  // background-color: transparent;
   margin-bottom: 8px;
   color: @error-color;
 }
 
 .validation.danger {
-  // background-color: @error-bg;
 
   .validation-error {
-    height: 100%;
     opacity: 1;
     visibility: visible;
   }

@@ -51,7 +51,9 @@ const Notes = () => {
 
     const result = await request.post('/notes', newNote);
     if (response.ok) {
-      fetchNotes();
+      const note = result.data;
+      setNotes([{ ...note }, ...notes]);
+
       message.success(result.message);
       setEmpty(false);
     }
@@ -139,16 +141,16 @@ const Notes = () => {
       <Loading loading={loading} />
       {notes && notes.length > 0 ? (
         <Row gutter={[24, 30]}>
-          <Col sm={24} md={24} lg={12} xl={8} className="gutter-row">
+          <Col sm={24} md={12} lg={12} xl={6} className="gutter-row">
             <div ref={emptyRef}>
               {empty ? (
                 <AddNoteForm addNote={addNote} cancel={handleUnsetEmpty} />
               ) : (
                 <div className="add-note-hidden">
-                  <Button shape="circle" icon="plus" onClick={handleSetEmpty} />
-                  <Text strong className="add-note-text">
-                    Add New Note
-                  </Text>
+                  <Button type="link" size="large" onClick={handleSetEmpty}>
+                    <Icon type="plus" />
+                    <Text>Add New Note</Text>
+                  </Button>
                 </div>
               )}
             </div>
@@ -159,7 +161,8 @@ const Notes = () => {
         <>
           <div className="add-note-link">
             <Button type="link" size="large" onClick={handleOpenModal}>
-              <Icon type="plus" /> New account
+              <Icon type="plus" />
+              <Text>New account</Text>
             </Button>
           </div>
           <Modal

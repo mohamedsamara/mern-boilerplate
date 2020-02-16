@@ -8,10 +8,20 @@ const useClickAway = (ref, callback, deps) => {
       }
     };
 
+    const handleKeydown = event => {
+      if (event.keyCode === 27) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          callback();
+        }
+      }
+    };
+
     document.addEventListener('click', handleClick);
+    document.addEventListener('keydown', handleKeydown);
 
     return () => {
       document.removeEventListener('click', handleClick);
+      document.addEventListener('keydown', handleKeydown);
     };
   }, [deps]);
 };
