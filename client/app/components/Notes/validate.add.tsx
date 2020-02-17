@@ -6,21 +6,19 @@ const validate = values => {
   const errors = {
     title: '',
     content: '',
-    valid: false,
+    valid: true,
   };
 
   if (!values.title) {
     errors.title = 'Title is required';
+    errors.valid = false;
   }
   if (!values.content) {
     errors.content = 'Content is required';
+    errors.valid = false;
   } else if (!r1[1]) {
     errors.content = 'Content is required';
-  } else if (
-    errors.title.includes('required') !== true &&
-    errors.content.includes('required') !== true
-  ) {
-    errors.valid = true;
+    errors.valid = false;
   }
 
   return errors;

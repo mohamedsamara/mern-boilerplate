@@ -26,6 +26,9 @@ class NotesService {
     try {
       const noteToUpdate = await notesModel.findById(id);
 
+      console.log('noteToUpdate', noteToUpdate);
+      console.log('id', id);
+
       if (noteToUpdate) {
         await noteToUpdate.updateOne(newNote);
 
@@ -50,6 +53,8 @@ class NotesService {
   public async deleteNote(id: any) {
     try {
       const noteToDelete = await notesModel.findById(id);
+
+      console.log('noteToDelete', noteToDelete);
 
       if (noteToDelete) {
         const deletedNote = await notesModel.deleteOne({

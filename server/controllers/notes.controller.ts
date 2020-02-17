@@ -90,7 +90,7 @@ class NotesController {
     const { id } = req.params;
 
     try {
-      const noteToDelete = notesServiceInstance.deleteNote(id);
+      const noteToDelete = await notesServiceInstance.deleteNote(id);
 
       if (noteToDelete) {
         responderInstance.setSuccess(200, 'note has been deleted successfully');

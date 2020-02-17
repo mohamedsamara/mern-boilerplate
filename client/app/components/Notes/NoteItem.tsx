@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Col } from 'antd';
 
 import Button from '../Button';
 import RichTextEditor from '../RichTextEditor';
 import RichTextField from '../RichTextField';
+import ValidationMessage from '../ValidationMessage';
+
+import validate from './validate.edit';
 
 const NoteItem = props => {
   const {
@@ -15,6 +18,30 @@ const NoteItem = props => {
     deleteNote,
   } = props;
 
+  const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState({
+    title: note.title,
+    content: note.content,
+    valid: true,
+    details: {
+      title: '',
+      content: '',
+    },
+  });
+
+  useEffect(() => {
+    if (errors.valid === true && submitting) {
+      updateNote(note);
+      setSubmitting(false);
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    if (submitting) {
+      setSubmitting(false);
+    }
+  }, [handleFieldChange, handleEditorChange]);
+
   const fieldChange = value => {
     handleFieldChange(note._id, value);
   };
@@ -24,7 +51,8 @@ const NoteItem = props => {
   };
 
   const handleSave = () => {
-    updateNote(note);
+    setErrors(validate(note));
+    setSubmitting(true);
   };
 
   const handleDelete = () => {
@@ -42,19 +70,29 @@ const NoteItem = props => {
           className="delete-note-btn"
         />
         <RichTextField
+          className={`${errors.details.title && 'danger'}`}
           name="title"
           label="title"
           value={note.title}
           handleChange={fieldChange}
         />
+        <ValidationMessage
+          text={errors.title}
+          className={`${errors.details.title && 'danger'}`}
+        />
         <RichTextEditor
+          className={`${errors.details.content && 'danger'}`}
           name="content"
           label="content"
           value={note.content}
           handleChange={editorChange}
         />
+        <ValidationMessage
+          text={errors.content}
+          className={`${errors.details.content && 'danger'}`}
+        />
         <div className="note-actions">
-          <Button text="Save" block onClick={handleSave} />
+          <Button text="Save" block loading={submitting} onClick={handleSave} />
         </div>
       </div>
     </Col>

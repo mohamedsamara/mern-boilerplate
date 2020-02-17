@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
 import useFetch from 'use-http';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, message } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 
+import Button from '../Button';
 import Loading from '../Loading';
 import { useAuth } from '../../containers/Auth';
 
@@ -45,6 +46,9 @@ const Signup = props => {
         if (response.ok) {
           setAuth(result.data.token);
           history.push('/dashboard');
+          message.success(result.message);
+        } else {
+          message.error(result.message);
         }
       }
     });
@@ -147,11 +151,10 @@ const Signup = props => {
         <Form.Item {...tailFormItemLayout}>
           <Button
             type="primary"
+            text="Register"
             htmlType="submit"
             className="signup-form-button"
-          >
-            Register
-          </Button>
+          ></Button>
           Or{' '}
           <Link to="/login" className="login-link">
             Login

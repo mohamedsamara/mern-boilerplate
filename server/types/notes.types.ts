@@ -1,7 +1,7 @@
 import { Document, Model } from 'mongoose';
 
 export interface INote extends Document {
-  _id: string;
+  id: string;
   title: string;
   content: string;
 }

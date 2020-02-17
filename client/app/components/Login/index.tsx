@@ -1,8 +1,10 @@
 import React from 'react';
 
 import useFetch from 'use-http';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, message } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
+
+import Button from '../Button';
 
 import Loading from '../Loading';
 import { useAuth } from '../../containers/Auth';
@@ -44,6 +46,9 @@ const Login = props => {
         if (response.ok) {
           setAuth(result.data.token);
           history.push('/dashboard');
+          message.success(result.message);
+        } else {
+          message.error(result.message);
         }
       }
     });
@@ -81,11 +86,10 @@ const Login = props => {
           </Link>
           <Button
             type="primary"
+            text="Log in"
             htmlType="submit"
             className="login-form-button"
-          >
-            Log in
-          </Button>
+          ></Button>
           Or{' '}
           <Link to="/register" className="register-link">
             register now!

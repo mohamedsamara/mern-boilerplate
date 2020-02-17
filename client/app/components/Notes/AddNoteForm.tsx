@@ -5,7 +5,7 @@ import RichTextEditor from '../RichTextEditor';
 import RichTextField from '../RichTextField';
 import ValidationMessage from '../ValidationMessage';
 
-import validate from './validate';
+import validate from './validate.add';
 
 interface TextNode {
   title?: string;
@@ -17,21 +17,21 @@ const AddNoteForm = props => {
   const [errors, setErrors] = useState({
     title: '',
     content: '',
-    valid: false,
+    valid: true,
   });
 
-  const [isSubmitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const { addNote, cancel } = props;
 
   useEffect(() => {
-    if (errors.valid === true && isSubmitting) {
+    if (errors.valid === true && submitting) {
       addNote(values);
       setSubmitting(false);
     }
   }, [errors]);
 
   useEffect(() => {
-    if (isSubmitting) {
+    if (submitting) {
       setSubmitting(false);
     }
   }, [values]);
@@ -81,7 +81,7 @@ const AddNoteForm = props => {
           <Button
             text="Save"
             block={!cancel && true}
-            loading={isSubmitting}
+            loading={submitting}
             htmlType="submit"
           />
           {cancel && <Button onClick={cancel} text="Cancel" />}

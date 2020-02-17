@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState, useRef } from 'react';
 
 import useFetch from 'use-http';
@@ -22,7 +23,18 @@ const Notes = () => {
   const { request, response, loading } = useFetch('/api');
 
   useEffect(() => {
-    fetchNotes();
+    let subscribe = false;
+
+    if (notes) {
+      subscribe = true;
+      fetchNotes();
+    }
+
+    return () => {
+      subscribe = false;
+
+      request.abort();
+    };
   }, []);
 
   useClickAway(
@@ -38,7 +50,7 @@ const Notes = () => {
   const fetchNotes = async () => {
     const result = await request.get('/notes');
 
-    if (response.ok) {
+    if (response.ok && result.data) {
       setNotes(result.data);
     }
   };
@@ -50,12 +62,16 @@ const Notes = () => {
     };
 
     const result = await request.post('/notes', newNote);
+
     if (response.ok) {
       const note = result.data;
+
       setNotes([{ ...note }, ...notes]);
 
       message.success(result.message);
       setEmpty(false);
+    } else {
+      message.error(result.message);
     }
   };
 
@@ -67,7 +83,11 @@ const Notes = () => {
 
     const result = await request.put(`/notes/${note._id}`, newNote);
 
-    message.success(result.message);
+    if (response.ok) {
+      message.success(result.message);
+    } else {
+      message.error(result.message);
+    }
   };
 
   const deleteNoteApi = async id => {
@@ -75,8 +95,11 @@ const Notes = () => {
 
     const newNotes = [...notes];
     setNotes(newNotes.filter(x => x._id !== id));
-
-    message.info(result.message);
+    if (response.ok) {
+      message.info(result.message);
+    } else {
+      message.error(result.message);
+    }
   };
 
   const handleFieldChange = (id, e) => {
