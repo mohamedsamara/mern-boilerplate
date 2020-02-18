@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
+import useFetch from 'use-http';
 import { useHistory } from 'react-router-dom';
-import { Result } from 'antd';
+import { Result, message } from 'antd';
 
 import { useAuth } from '../../containers/Auth';
 
 const Logout = () => {
+  const { request, response } = useFetch('/api/auth');
   const [seconds, setSeconds] = useState(2);
   const history = useHistory();
   const { unsetAuth } = useAuth();
 
   useEffect(() => {
     let interval = null;
-    unsetAuth();
+
     interval = setInterval(() => {
       setSeconds(seconds - 1);
     }, 1000);
@@ -24,6 +26,18 @@ const Logout = () => {
 
     return () => clearInterval(interval);
   }, [seconds]);
+
+  useEffect(() => {
+    logoutApi();
+  }, []);
+
+  const logoutApi = async () => {
+    const result = await request.post('/logout');
+    if (response.ok) {
+      unsetAuth();
+      message.success(result.message);
+    }
+  };
 
   return (
     <Result

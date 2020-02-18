@@ -17,7 +17,8 @@ const AuthProvider = ({ children }) => {
       setAuth(token);
       handleToken();
     } else {
-      unsetAuth();
+      //   unsetAuth();
+      dispatch(unsetAuthData());
     }
   }, []);
 

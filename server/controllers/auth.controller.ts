@@ -128,6 +128,16 @@ class AuthController {
     }
   }
 
+  public async logout(req: Request, res: Response) {
+    res.cookie('refresh_token', '', {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+
+    responderInstance.setSuccess(200, 'You have been logged out successfully.');
+    return responderInstance.send(res);
+  }
+
   public async getToken(req: Request, res: Response) {
     const { refreshToken } = req.cookies['refresh_token'];
 

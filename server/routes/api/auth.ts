@@ -13,6 +13,7 @@ class AuthRoute {
   private constructor() {
     this.login();
     this.register();
+    this.logout();
     this.token();
   }
 
@@ -27,6 +28,10 @@ class AuthRoute {
 
   private async register() {
     this.router.post('/register', authControllerInstance.register);
+  }
+
+  private async logout() {
+    this.router.post('/logout', authControllerInstance.logout);
   }
 
   private async token() {
