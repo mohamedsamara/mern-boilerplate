@@ -13,7 +13,7 @@ const Header = () => {
       className="header"
       style={{
         position: 'fixed',
-        zIndex: 1,
+        zIndex: 3,
         width: '100%',
         background: '#fff',
         padding: 0,

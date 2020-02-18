@@ -5,8 +5,9 @@ export interface IUser extends Document {
   email: string;
   profile: IUserProfile;
   password: string;
-  resetPasswordToken: string;
-  resetPasswordExpires: Date;
+  refresh_token: string;
+  reset_password_token: string;
+  reset_password_expires: Date;
 }
 
 interface IUserProfile {

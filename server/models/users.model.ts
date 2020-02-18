@@ -9,8 +9,6 @@ class UsersModel {
     this.initSchema();
   }
 
-  // change field names from lastName to last_name
-  // rename models from plural into singular
   public initSchema() {
     const schema = new Schema({
       email: {
@@ -28,6 +26,9 @@ class UsersModel {
       password: {
         type: String,
         required: true,
+      },
+      refresh_token: {
+        type: String,
       },
       resetPasswordToken: { type: String },
       resetPasswordExpires: { type: Date },

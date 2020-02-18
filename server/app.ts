@@ -5,6 +5,7 @@ import * as compression from 'compression';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
 import * as passport from 'passport';
+import * as cookieParser from 'cookie-parser';
 import { Container } from 'typedi';
 
 import Responder from './helpers/responder';
@@ -91,6 +92,8 @@ class App {
     this.app.use(express.json());
     this.app.use(passport.initialize());
     this.app.use(passport.session());
+    this.app.use(cookieParser());
+    this.app.disable('x-powered-by');
 
     const passportInstance = new PassportConfig(passport);
     passportInstance.init();

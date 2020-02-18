@@ -13,6 +13,7 @@ class AuthRoute {
   private constructor() {
     this.login();
     this.register();
+    this.token();
   }
 
   static get router() {
@@ -26,6 +27,10 @@ class AuthRoute {
 
   private async register() {
     this.router.post('/register', authControllerInstance.register);
+  }
+
+  private async token() {
+    this.router.post('/refresh-token', authControllerInstance.getToken);
   }
 }
 

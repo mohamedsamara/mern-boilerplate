@@ -140,6 +140,7 @@
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.6",
     "@types/jsonwebtoken": "^8.3.7",
     "@types/jwt-decode": "^2.2.1",
@@ -149,6 +150,7 @@
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "connect-history-api-fallback": "^1.6.0",
+    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv-webpack": "^1.7.0",
     "draft-js": "^0.11.4",

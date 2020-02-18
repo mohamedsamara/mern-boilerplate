@@ -20,16 +20,31 @@ export function verifyPassword(password: any, hashedPassword: any): boolean {
 }
 
 export function createToken(user: any) {
+  const { secret, tokenLife } = config.jwt;
+
   const payload = {
     id: user._id,
-    email: user.email,
   };
-  const { secret, tokenLife } = config.jwt;
 
   const signedToken = sign(payload, secret, {
     algorithm: 'HS256',
     expiresIn: tokenLife,
   });
+  return signedToken;
+}
+
+export function createRefreshToken(user: any) {
+  const { refreshSecret, refreshTokenLife } = config.jwt;
+
+  const payload = {
+    id: user._id,
+  };
+
+  const signedToken = sign(payload, refreshSecret, {
+    algorithm: 'HS256',
+    expiresIn: refreshTokenLife,
+  });
+
   return signedToken;
 }
 

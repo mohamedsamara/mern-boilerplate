@@ -25,6 +25,9 @@ const AuthProvider = ({ children }) => {
     const { exp } = jwtDecode(token);
     const currentTime = Date.now() / 1000;
 
+    console.log('exp', exp);
+    console.log('currentTime', currentTime);
+
     if (exp < currentTime) {
       console.log('expired');
 

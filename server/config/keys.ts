@@ -17,5 +17,7 @@ export default {
   jwt: {
     secret: process.env.SECRET_KEY,
     tokenLife: '15m',
+    refreshSecret: process.env.REFRESH_SECRET_KEY,
+    refreshTokenLife: 60 * 24 * 30,
   },
 };
