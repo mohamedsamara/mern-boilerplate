@@ -26,6 +26,8 @@ const AuthProvider = ({ children }) => {
     const currentTime = Date.now() / 1000;
 
     if (exp < currentTime) {
+      console.log('expired');
+
       unsetAuth();
     }
   };

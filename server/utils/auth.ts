@@ -5,6 +5,7 @@ import * as passport from 'passport';
 import { Container } from 'typedi';
 
 import Responder from '../helpers/responder';
+import config from '../config/keys';
 
 const responderInstance = Container.get(Responder);
 
@@ -23,11 +24,11 @@ export function createToken(user: any) {
     id: user._id,
     email: user.email,
   };
-  const secret = process.env.SECRET_KEY;
+  const { secret, tokenLife } = config.jwt;
 
   const signedToken = sign(payload, secret, {
     algorithm: 'HS256',
-    expiresIn: '1h',
+    expiresIn: tokenLife,
   });
   return signedToken;
 }

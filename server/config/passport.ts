@@ -2,13 +2,14 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Container } from 'typedi';
 
 import UsersService from '../services/users.service';
+import config from './keys';
 
 const usersServiceInstance = Container.get(UsersService);
 
 class PassportConfig {
   public passport: any;
 
-  public secret: string = process.env.SECRET_KEY;
+  public secret: string = config.jwt.secret;
 
   constructor(passport: any) {
     this.passport = passport;

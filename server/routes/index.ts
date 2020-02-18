@@ -3,8 +3,10 @@ import * as express from 'express';
 import NotesRoute from './api/notes';
 import AuthRoute from './api/auth';
 
+import config from '../config/keys';
+
 class ApiRoute {
-  public static path = '/api';
+  public static path = config.api.prefix;
 
   private router = express.Router();
 

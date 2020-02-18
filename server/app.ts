@@ -10,13 +10,14 @@ import { Container } from 'typedi';
 import Responder from './helpers/responder';
 import BaseRoute from './routes';
 import PassportConfig from './config/passport';
+import config from './config/keys';
 
 const responderInstance = Container.get(Responder);
 
 class App {
   public app: express.Application;
 
-  public mongoURI: string = process.env.MONGO_URI;
+  public mongoURI: string = config.database.url;
 
   public static bootstrap(): App {
     return new App();

@@ -1,9 +1,11 @@
 import * as http from 'http';
 
+import config from './config/keys';
+
 class Server {
   public static server: http.Server;
 
-  public static PORT: number = Number(process.env.PORT) || 3000;
+  public static PORT: number = Number(config.port) || 3000;
 
   public static start(app: any): void {
     this.server = http.createServer(app);
