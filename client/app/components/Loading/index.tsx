@@ -4,13 +4,13 @@ import { Icon } from 'antd';
 
 const Loading = ({ fullscreen = false, loading = false }) => {
   return (
-    <div className="loading-box">
-      {loading && (
+    loading && (
+      <div className="loading-box">
         <div className={`loading${fullscreen ? ' fullscreen' : ''}`}>
           <Icon type="loading" style={{ fontSize: '30px', color: '#08c' }} />
         </div>
-      )}
-    </div>
+      </div>
+    )
   );
 };
 

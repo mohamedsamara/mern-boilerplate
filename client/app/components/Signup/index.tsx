@@ -44,7 +44,7 @@ const Signup = props => {
       if (!err) {
         const result = await request.post('/register', values);
         if (response.ok) {
-          setAuth(result.data.token);
+          setAuth(result.data);
           history.push('/dashboard');
           message.success(result.message);
         } else {

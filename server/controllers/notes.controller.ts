@@ -72,6 +72,7 @@ class NotesController {
     }
 
     const newNote = req.body;
+
     try {
       const createdNote = await notesServiceInstance.addNote(newNote);
       responderInstance.setSuccess(

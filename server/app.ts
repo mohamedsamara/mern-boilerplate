@@ -48,6 +48,7 @@ class App {
       .connect(this.mongoURI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false,
       })
       .then(() => {
         console.log('MongoDB is connected!');

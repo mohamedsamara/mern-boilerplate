@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
+import * as uuidv4 from 'uuid/v4';
 
 import UsersService from '../services/users.service';
 import Responder from '../helpers/responder';
@@ -14,7 +15,7 @@ class AuthController {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      responderInstance.setError(400, 'some details are missing');
+      responderInstance.setError(400, 'Some details are missing');
       return responderInstance.send(res);
     }
 
@@ -32,17 +33,18 @@ class AuthController {
       const passwordMatches = auth.verifyPassword(password, user.password);
 
       if (passwordMatches) {
-        const jwt = auth.createToken(user);
-        const refreshToken = auth.createRefreshToken(user);
+        const updatedUser = await usersServiceInstance.saveRefreshToken(
+          user._id,
+          uuidv4(),
+        );
 
-        if (refreshToken && user) {
-          await usersServiceInstance.saveRefreshToken(user._id, refreshToken);
-        }
+        const jwt = auth.createToken(updatedUser);
+        const refreshToken = auth.createRefreshToken(updatedUser);
 
         const data = {
           token: `Bearer ${jwt}`,
           refresh_token: refreshToken,
-          user,
+          user: updatedUser,
         };
 
         cookie.setCookie(res, refreshToken);
@@ -68,7 +70,7 @@ class AuthController {
     const { email, password, firstName, lastName } = req.body;
 
     if (!email || !password) {
-      responderInstance.setError(400, 'some details are missing');
+      responderInstance.setError(400, 'Some details are missing');
       return responderInstance.send(res);
     }
 
@@ -92,21 +94,13 @@ class AuthController {
           firstName,
           lastName,
         },
+        refresh_token: uuidv4(),
       };
 
-      let jwt;
-      let refreshToken;
+      const createdUser = await usersServiceInstance.register(newUser);
 
-      const createdUser = await usersServiceInstance
-        .register(newUser)
-        .then(async user => {
-          jwt = auth.createToken(user);
-          refreshToken = auth.createRefreshToken(user);
-
-          if (refreshToken && user) {
-            await usersServiceInstance.saveRefreshToken(user._id, refreshToken);
-          }
-        });
+      const jwt = auth.createToken(createdUser);
+      const refreshToken = auth.createRefreshToken(createdUser);
 
       const data = {
         token: `Bearer ${jwt}`,
@@ -139,41 +133,50 @@ class AuthController {
   }
 
   public async getToken(req: Request, res: Response) {
-    const { refreshToken } = req.cookies['refresh_token'];
+    const refreshTokenHeader = req.cookies.refresh_token;
 
-    console.log('refresh_token is', refreshToken);
+    if (!refreshTokenHeader) {
+      responderInstance.setError(400, 'Invalid refresh token');
+      return responderInstance.send(res);
+    }
 
-    const { email } = req.body;
+    const payload: any = auth.verifyRefreshToken(refreshTokenHeader);
+
+    if (!payload) {
+      responderInstance.setError(400, 'Invalid refresh token');
+      return responderInstance.send(res);
+    }
+
     try {
-      const user = await usersServiceInstance.findByEmail(email);
+      const user = await usersServiceInstance.findById(payload.id);
 
       if (!user) {
-        responderInstance.setError(
-          400,
-          'No user found for this email address.',
-        );
+        responderInstance.setError(400, 'Invalid refresh token');
         return responderInstance.send(res);
       }
 
-      const jwt = auth.createToken(user);
-      const refreshToken = auth.createRefreshToken(user);
-
-      if (refreshToken && user) {
-        await usersServiceInstance.saveRefreshToken(user._id, refreshToken);
+      if (user.refresh_token !== payload.refresh_token) {
+        responderInstance.setError(400, 'Invalid refresh token');
+        return responderInstance.send(res);
       }
+
+      const updatedUser = await usersServiceInstance.saveRefreshToken(
+        user._id,
+        uuidv4(),
+      );
+
+      const jwt = auth.createToken(updatedUser);
+      const refreshToken = auth.createRefreshToken(updatedUser);
 
       const data = {
         token: `Bearer ${jwt}`,
+        refresh_token: refreshToken,
         user,
       };
 
       cookie.setCookie(res, refreshToken);
 
-      responderInstance.setSuccess(
-        200,
-        'You have logged in successfully',
-        data,
-      );
+      responderInstance.setSuccess(200, 'You are authorized again', data);
 
       return responderInstance.send(res);
     } catch (error) {

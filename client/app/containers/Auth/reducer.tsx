@@ -4,6 +4,7 @@ const initialState = {
   authenticated: false,
   loading: true,
   token: null,
+  refresh_token: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -13,7 +14,8 @@ const authReducer = (state = initialState, action) => {
         ...state,
         authenticated: true,
         loading: false,
-        token: action.payload,
+        token: action.payload.token,
+        refresh_token: action.payload.refresh_token,
       };
     case UNSET_AUTH_DATA:
       return {
@@ -21,6 +23,7 @@ const authReducer = (state = initialState, action) => {
         authenticated: false,
         loading: false,
         token: null,
+        refresh_token: null,
       };
     default:
       return state;

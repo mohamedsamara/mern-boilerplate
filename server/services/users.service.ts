@@ -8,7 +8,7 @@ const usersModel = usersModelInstance.getModel();
 class NotesService {
   public async register(newUser: any) {
     try {
-      return usersModel.create(newUser, { refresh_token: 0 });
+      return usersModel.create(newUser);
     } catch (error) {
       throw error;
     }
@@ -16,13 +16,19 @@ class NotesService {
 
   public async saveRefreshToken(id: any, refreshToken: string) {
     try {
-      const userToUpdate = await usersModel.findById(id);
+      const query = { _id: id };
+      const update = { refresh_token: refreshToken };
+      const options = { new: true };
 
-      if (userToUpdate) {
-        await userToUpdate.updateOne({ refresh_token: refreshToken });
-        return refreshToken;
-      }
-      return null;
+      return await usersModel.findOneAndUpdate(query, update, options);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async findByRefreshToken(refreshToken: any) {
+    try {
+      return await usersModel.findOne({ refresh_token: refreshToken });
     } catch (error) {
       throw error;
     }
@@ -44,7 +50,7 @@ class NotesService {
     }
   }
 
-  public async findById(id: string) {
+  public async findById(id: any) {
     try {
       return await usersModel.findById(id);
     } catch (error) {

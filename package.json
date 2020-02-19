@@ -146,6 +146,7 @@
     "@types/jwt-decode": "^2.2.1",
     "@types/passport": "^1.0.2",
     "@types/passport-jwt": "^3.0.3",
+    "@types/uuid": "^3.4.7",
     "antd": "^3.26.6",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -166,6 +167,7 @@
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "typedi": "^0.8.0",
-    "use-http": "^0.2.5"
+    "use-http": "^0.2.5",
+    "uuid": "^3.4.0"
   }
 }

@@ -1,5 +1,5 @@
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import * as passport from 'passport';
 import { Container } from 'typedi';
@@ -33,11 +33,20 @@ export function createToken(user: any) {
   return signedToken;
 }
 
+export function verifyRefreshToken(refreshToken: any) {
+  const { refreshSecret } = config.jwt;
+
+  const payload = verify(refreshToken, refreshSecret);
+
+  return payload;
+}
+
 export function createRefreshToken(user: any) {
   const { refreshSecret, refreshTokenLife } = config.jwt;
 
   const payload = {
     id: user._id,
+    refresh_token: user.refresh_token,
   };
 
   const signedToken = sign(payload, refreshSecret, {
