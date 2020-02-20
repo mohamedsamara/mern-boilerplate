@@ -35,6 +35,13 @@ class Responder {
     if (this.type === 'success') {
       return res.status(this.statusCode).json(result);
     }
+
+    // return res.json({
+    //   status: this.statusCode,
+    //   code: this.code,
+    //   message: this.message,
+    // });
+
     return res.status(this.statusCode).json({
       code: this.code,
       status: this.type,

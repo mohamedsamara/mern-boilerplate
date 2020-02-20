@@ -32,7 +32,6 @@ const Notes = () => {
 
     return () => {
       subscribe = false;
-
       request.abort();
     };
   }, []);

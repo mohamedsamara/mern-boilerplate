@@ -26,17 +26,9 @@ class NotesService {
     }
   }
 
-  public async findByRefreshToken(refreshToken: any) {
+  public async findUser(id: any) {
     try {
-      return await usersModel.findOne({ refresh_token: refreshToken });
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  public async login(email: string) {
-    try {
-      await usersModel.findOne({ email });
+      return await usersModel.findById(id, ['-refresh_token', '-password']);
     } catch (error) {
       throw error;
     }
@@ -44,7 +36,7 @@ class NotesService {
 
   public async findByEmail(email: string) {
     try {
-      return await usersModel.findOne({ email }, '-refresh_token');
+      return await usersModel.findOne({ email });
     } catch (error) {
       throw error;
     }

@@ -21,6 +21,17 @@ const SideBar = () => {
       <Menu theme="dark" mode="inline">
         <Menu.Item key="1">
           <NavLink
+            to="/"
+            className="sidebar-link"
+            activeClassName="active"
+            exact
+          >
+            <Icon type="home" />
+            <span>Home</span>
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <NavLink
             to="/dashboard"
             className="sidebar-link"
             activeClassName="active"
@@ -30,7 +41,7 @@ const SideBar = () => {
             <span>dashboard</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="2">
+        <Menu.Item key="3">
           <NavLink
             to="/notes"
             className="sidebar-link"
@@ -41,7 +52,7 @@ const SideBar = () => {
             <span>notes</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="3">
+        <Menu.Item key="4">
           <NavLink
             to="/logout"
             className="sidebar-link"

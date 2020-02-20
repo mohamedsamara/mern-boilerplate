@@ -33,14 +33,6 @@ export function createToken(user: any) {
   return signedToken;
 }
 
-export function verifyRefreshToken(refreshToken: any) {
-  const { refreshSecret } = config.jwt;
-
-  const payload = verify(refreshToken, refreshSecret);
-
-  return payload;
-}
-
 export function createRefreshToken(user: any) {
   const { refreshSecret, refreshTokenLife } = config.jwt;
 
@@ -57,9 +49,29 @@ export function createRefreshToken(user: any) {
   return signedToken;
 }
 
+export async function verifyRefreshToken(refreshToken: any) {
+  const { refreshSecret } = config.jwt;
+
+  // try {
+  //   const payload = verify(refreshToken, refreshSecret);
+  //   return payload;
+  // } catch (error) {
+  //   console.log('error', error);
+
+  //   return error;
+  // }
+
+  try {
+    return await verify(refreshToken, refreshSecret);
+  } catch (error) {
+    return false;
+    // throw error;
+  }
+}
+
 export function verifyRoute(req: Request, res: Response, next: NextFunction) {
-  passport.authenticate('jwt', (err, user) => {
-    if (err) {
+  passport.authenticate('jwt', (error, user) => {
+    if (error) {
       responderInstance.setError(
         401,
         'Sorry, you are not authorized to access this resource.',

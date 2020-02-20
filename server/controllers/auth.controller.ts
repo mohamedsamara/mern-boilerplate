@@ -40,11 +40,12 @@ class AuthController {
 
         const jwt = auth.createToken(updatedUser);
         const refreshToken = auth.createRefreshToken(updatedUser);
+        const foundUser = await usersServiceInstance.findUser(user._id);
 
         const data = {
           token: `Bearer ${jwt}`,
-          refresh_token: refreshToken,
-          user: updatedUser,
+          //   refresh_token: refreshToken,
+          user: foundUser,
         };
 
         cookie.setCookie(res, refreshToken);
@@ -102,10 +103,12 @@ class AuthController {
       const jwt = auth.createToken(createdUser);
       const refreshToken = auth.createRefreshToken(createdUser);
 
+      const foundUser = await usersServiceInstance.findUser(createdUser._id);
+
       const data = {
         token: `Bearer ${jwt}`,
-        refresh_token: refreshToken,
-        user: createdUser,
+        // refresh_token: refreshToken,
+        user: foundUser,
       };
 
       cookie.setCookie(res, refreshToken);
@@ -134,20 +137,23 @@ class AuthController {
 
   public async getToken(req: Request, res: Response) {
     const refreshTokenHeader = req.cookies.refresh_token;
-
     if (!refreshTokenHeader) {
-      responderInstance.setError(400, 'Invalid refresh token');
-      return responderInstance.send(res);
-    }
-
-    const payload: any = auth.verifyRefreshToken(refreshTokenHeader);
-
-    if (!payload) {
-      responderInstance.setError(400, 'Invalid refresh token');
+      responderInstance.setError(400, 'Invalid no header refresh token');
       return responderInstance.send(res);
     }
 
     try {
+      const payload: any = await auth.verifyRefreshToken(refreshTokenHeader);
+
+      if (!payload) {
+        responderInstance.setError(
+          401,
+          'Sorry, you are not authorized to access this resource.',
+          'unauthorized',
+        );
+        return responderInstance.send(res);
+      }
+
       const user = await usersServiceInstance.findById(payload.id);
 
       if (!user) {
@@ -167,23 +173,24 @@ class AuthController {
 
       const jwt = auth.createToken(updatedUser);
       const refreshToken = auth.createRefreshToken(updatedUser);
+      const foundUser = await usersServiceInstance.findUser(user._id);
 
       const data = {
         token: `Bearer ${jwt}`,
-        refresh_token: refreshToken,
-        user,
+        // refresh_token: refreshToken,
+        user: foundUser,
       };
 
       cookie.setCookie(res, refreshToken);
-
       responderInstance.setSuccess(200, 'You are authorized again', data);
-
       return responderInstance.send(res);
     } catch (error) {
       responderInstance.setError(400, error);
       return responderInstance.send(res);
     }
   }
+
+  //   public async verifyRefreshToken(){}
 }
 
 export default AuthController;
