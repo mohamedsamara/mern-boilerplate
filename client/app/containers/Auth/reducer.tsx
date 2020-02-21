@@ -1,9 +1,10 @@
-import { SET_AUTH_DATA, UNSET_AUTH_DATA } from './constants';
+import { SET_AUTH_DATA, UNSET_AUTH_DATA, SET_USER_DATA } from './constants';
 
 const initialState = {
   authenticated: false,
   loading: true,
   token: null,
+  user: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -22,6 +23,12 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         token: null,
       };
+    case SET_USER_DATA: {
+      return {
+        ...state,
+        user: action.payload,
+      };
+    }
     default:
       return state;
   }

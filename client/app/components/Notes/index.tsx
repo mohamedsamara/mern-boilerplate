@@ -12,6 +12,7 @@ import NoteItem from './NoteItem';
 
 import useActive from '../../hooks/useActive';
 import useClickAway from '../../hooks/useClickAway';
+import { useAuth } from '../../containers/Auth';
 
 const { Text } = Typography;
 
@@ -21,6 +22,7 @@ const Notes = () => {
   const [open, openModal] = useActive(false);
   const emptyRef = useRef();
   const { request, response, loading } = useFetch('/api');
+  const { state } = useAuth();
 
   useEffect(() => {
     let subscribe = false;
@@ -47,7 +49,7 @@ const Notes = () => {
   );
 
   const fetchNotes = async () => {
-    const result = await request.get('/notes');
+    const result = await request.get(`/notes`);
 
     if (response.ok && result.data) {
       setNotes(result.data);

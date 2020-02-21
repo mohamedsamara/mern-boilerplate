@@ -1,9 +1,15 @@
 import React from 'react';
 import { Row, Col, Layout, Menu, Icon } from 'antd';
 
+import { useAuth } from '../../containers/Auth';
+
 const { Header: HeaderAntd } = Layout;
 
 const Header = () => {
+  const { state } = useAuth();
+
+  console.log(state);
+
   const handleMenuToggle = () => {
     document.body.classList.add('sidebar-active');
   };
@@ -32,7 +38,12 @@ const Header = () => {
             defaultSelectedKeys={['2']}
             style={{ lineHeight: '60px', borderBottom: 'none' }}
           >
-            <Menu.Item key="1">nav 1</Menu.Item>
+            {state.user && (
+              <Menu.Item key="1">
+                Welcome {state.user.profile.firstName}!
+              </Menu.Item>
+            )}
+
             <Menu.Item key="2">nav 2</Menu.Item>
             <Menu.Item key="3">nav 3</Menu.Item>
           </Menu>

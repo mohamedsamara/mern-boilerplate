@@ -7,7 +7,7 @@ import { message } from 'antd';
 
 import AuthContext from './context';
 import { authReducer, initialState } from './reducer';
-import { setAuthData, unsetAuthData } from './action';
+import { setAuthData, unsetAuthData, setUserData } from './action';
 import Loading from '../../components/Loading';
 
 const AuthProvider = ({ children }) => {
@@ -39,16 +39,17 @@ const AuthProvider = ({ children }) => {
     const { exp } = jwtDecode(token);
     const currentTime = Date.now() / 1000;
 
-    // if (exp - exp + 5 < currentTime) {
-    if (exp < currentTime) {
+    if (exp - exp + 5 < currentTime) {
+      // if (exp < currentTime) {
       getToken();
     }
   };
 
-  const setAuth = token => {
-    localStorage.setItem('token', token);
+  const setAuth = auth => {
+    localStorage.setItem('token', auth.token);
     // localStorage.setItem('refresh_token', authData.refresh_token);
-    dispatch(setAuthData(token));
+    dispatch(setAuthData(auth.token));
+    dispatch(setUserData(auth.user));
   };
 
   const unsetAuth = () => {
@@ -63,8 +64,8 @@ const AuthProvider = ({ children }) => {
     },
     interceptors: {
       request: async (options, url) => {
-        if (url !== '/api/auth') {
-          if (token) {
+        if (token) {
+          if (url !== '/api/auth') {
             handleToken();
           }
         }
