@@ -40,12 +40,12 @@ class AuthController {
 
         const jwt = auth.createToken(updatedUser);
         const refreshToken = auth.createRefreshToken(updatedUser);
-        const foundUser = await usersServiceInstance.findUser(user._id);
+        // const foundUser = await usersServiceInstance.findUser(user._id);
 
         const data = {
           token: `Bearer ${jwt}`,
           //   refresh_token: refreshToken,
-          user: foundUser,
+          //   user: foundUser,
         };
 
         cookie.setCookie(res, refreshToken);
@@ -103,12 +103,12 @@ class AuthController {
       const jwt = auth.createToken(createdUser);
       const refreshToken = auth.createRefreshToken(createdUser);
 
-      const foundUser = await usersServiceInstance.findUser(createdUser._id);
+      //   const foundUser = await usersServiceInstance.findUser(createdUser._id);
 
       const data = {
         token: `Bearer ${jwt}`,
         // refresh_token: refreshToken,
-        user: foundUser,
+        // user: foundUser,
       };
 
       cookie.setCookie(res, refreshToken);
@@ -173,12 +173,12 @@ class AuthController {
 
       const jwt = auth.createToken(updatedUser);
       const refreshToken = auth.createRefreshToken(updatedUser);
-      const foundUser = await usersServiceInstance.findUser(user._id);
+      //   const foundUser = await usersServiceInstance.findUser(user._id);
 
       const data = {
         token: `Bearer ${jwt}`,
         // refresh_token: refreshToken,
-        user: foundUser,
+        // user: foundUser,
       };
 
       cookie.setCookie(res, refreshToken);

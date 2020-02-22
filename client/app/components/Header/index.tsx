@@ -1,14 +1,14 @@
 import React from 'react';
-import { Row, Col, Layout, Menu, Icon } from 'antd';
+import { Row, Col, Layout, Icon } from 'antd';
 
-import { useAuth } from '../../containers/Auth';
+// import { useAuth } from '../../containers/Auth';
 
 const { Header: HeaderAntd } = Layout;
 
 const Header = () => {
-  const { state } = useAuth();
+  // const { state } = useAuth();
 
-  console.log(state);
+  // console.log(state);
 
   const handleMenuToggle = () => {
     document.body.classList.add('sidebar-active');
@@ -32,21 +32,9 @@ const Header = () => {
           </div>
         </Col>
         <Col xs={21} sm={21} md={12} lg={12} xl={12}>
-          <Menu
-            theme="light"
-            mode="horizontal"
-            defaultSelectedKeys={['2']}
-            style={{ lineHeight: '60px', borderBottom: 'none' }}
-          >
-            {state.user && (
-              <Menu.Item key="1">
-                Welcome {state.user.profile.firstName}!
-              </Menu.Item>
-            )}
-
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
+          <div className="header-info">
+            {/* {state.user && <div>Welcome {state.user.profile.firstName}!</div>} */}
+          </div>
         </Col>
       </Row>
     </HeaderAntd>

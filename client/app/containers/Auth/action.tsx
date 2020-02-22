@@ -1,4 +1,4 @@
-import { SET_AUTH_DATA, UNSET_AUTH_DATA, SET_USER_DATA } from './constants';
+import { SET_AUTH_DATA, UNSET_AUTH_DATA } from './constants';
 
 export const setAuthData = token => {
   return {
@@ -10,12 +10,5 @@ export const setAuthData = token => {
 export const unsetAuthData = () => {
   return {
     type: UNSET_AUTH_DATA,
-  };
-};
-
-export const setUserData = user => {
-  return {
-    type: SET_USER_DATA,
-    payload: user,
   };
 };

@@ -44,7 +44,7 @@ const Login = props => {
       if (!err) {
         const result = await request.post('/login', values);
         if (response.ok) {
-          setAuth(result.data);
+          setAuth(result.data.token);
           history.push('/dashboard');
           message.success(result.message);
         } else {

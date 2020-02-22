@@ -7,7 +7,7 @@ import { message } from 'antd';
 
 import AuthContext from './context';
 import { authReducer, initialState } from './reducer';
-import { setAuthData, unsetAuthData, setUserData } from './action';
+import { setAuthData, unsetAuthData } from './action';
 import Loading from '../../components/Loading';
 
 const AuthProvider = ({ children }) => {
@@ -45,16 +45,15 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const setAuth = auth => {
-    localStorage.setItem('token', auth.token);
+  const setAuth = token => {
     // localStorage.setItem('refresh_token', authData.refresh_token);
-    dispatch(setAuthData(auth.token));
-    dispatch(setUserData(auth.user));
+    localStorage.setItem('token', token);
+    dispatch(setAuthData(token));
   };
 
   const unsetAuth = () => {
-    localStorage.removeItem('token');
     // localStorage.removeItem('refresh_token');
+    localStorage.removeItem('token');
     dispatch(unsetAuthData());
   };
 
@@ -78,8 +77,8 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ state, setAuth, unsetAuth }}>
-      <Loading loading={loading} fullscreen />
+    <AuthContext.Provider value={{ state, setAuth, unsetAuth, loading }}>
+      <Loading loading={loading} auth fullscreen />
       <Provider options={options}>{children}</Provider>
     </AuthContext.Provider>
   );

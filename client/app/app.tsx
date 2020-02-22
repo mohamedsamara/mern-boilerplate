@@ -6,6 +6,7 @@ import history from './utils/history';
 
 import Application from './containers/Application';
 import { AuthProvider } from './containers/Auth';
+import { UserProvider } from './containers/User';
 
 import './styles/less/main.less'; // Import application less styles
 
@@ -18,9 +19,11 @@ import './styles/less/main.less'; // Import application less styles
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <Router history={history}>
-        <Application />
-      </Router>
+      <UserProvider>
+        <Router history={history}>
+          <Application />
+        </Router>
+      </UserProvider>
     </AuthProvider>
   );
 };
