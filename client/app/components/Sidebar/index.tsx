@@ -49,7 +49,7 @@ const SideBar = () => {
             exact
           >
             <Icon type="file" />
-            <span>notes</span>
+            <span>My Notes</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key="4">

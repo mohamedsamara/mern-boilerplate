@@ -19,6 +19,10 @@ class NotesModel {
         type: String,
         required: true,
       },
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'Users',
+      },
     });
 
     this.model = <NoteModel>model<INote>('notes', schema);

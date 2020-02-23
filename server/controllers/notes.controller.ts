@@ -9,8 +9,10 @@ const responderInstance = Container.get(Responder);
 
 class NotesController {
   public async getNotes(req: Request, res: Response) {
+    const { id } = req.params;
+
     try {
-      const notes = await notesServiceInstance.getNotes();
+      const notes = await notesServiceInstance.getNotes(id);
 
       if (notes.length > 0) {
         responderInstance.setSuccess(

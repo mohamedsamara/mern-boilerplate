@@ -31,6 +31,7 @@ export { default as TeamOutline } from '@ant-design/icons/lib/outline/TeamOutlin
 export { default as UserOutline } from '@ant-design/icons/lib/outline/UserOutline';
 export { default as LoginOutline } from '@ant-design/icons/lib/outline/LoginOutline';
 export { default as DashboardOutline } from '@ant-design/icons/lib/outline/DashboardOutline';
+export { default as ProfileOutline } from '@ant-design/icons/lib/outline/ProfileOutline';
 export { default as HomeOutline } from '@ant-design/icons/lib/outline/HomeOutline';
 export { default as LogoutOutline } from '@ant-design/icons/lib/outline/LogoutOutline';
 export { default as PieChartOutline } from '@ant-design/icons/lib/outline/PieChartOutline';

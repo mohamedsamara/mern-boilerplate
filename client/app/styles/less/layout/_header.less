@@ -3,7 +3,16 @@
 
   .header-info {
     padding-left: 16px;
+
+    .ant-btn {
+      border: none;
+      
+      &:after {
+        content: none;
+      }
+    }
   }
+ 
 
   .ant-col {
 
@@ -16,5 +25,16 @@
 
   .menu-bars {
     padding-left: 20px;
+  }
+}
+
+.header-user-dropdown {
+
+  i {
+    padding-right: 10px;
+  }
+
+  a {
+    text-decoration: none;
   }
 }

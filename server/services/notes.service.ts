@@ -6,9 +6,9 @@ const notesModelInstance = Container.get(NotesModel);
 const notesModel = notesModelInstance.getModel();
 
 class NotesService {
-  public async getNotes() {
+  public async getNotes(id: any) {
     try {
-      return await notesModel.find();
+      return await notesModel.find({ user: id });
     } catch (error) {
       throw error;
     }

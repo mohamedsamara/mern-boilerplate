@@ -22,7 +22,7 @@ const Notes = () => {
   const [open, openModal] = useActive(false);
   const emptyRef = useRef();
   const { request, response, loading } = useFetch('/api');
-  const { state } = useAuth();
+  const { getUserId } = useAuth();
 
   useEffect(() => {
     let subscribe = false;
@@ -49,7 +49,8 @@ const Notes = () => {
   );
 
   const fetchNotes = async () => {
-    const result = await request.get(`/notes`);
+    const id = getUserId();
+    const result = await request.get(`/notes/user/${id}`);
 
     if (response.ok && result.data) {
       setNotes(result.data);
@@ -60,6 +61,7 @@ const Notes = () => {
     const newNote = {
       title: note.title,
       content: note.content,
+      user: getUserId(),
     };
 
     const result = await request.post('/notes', newNote);

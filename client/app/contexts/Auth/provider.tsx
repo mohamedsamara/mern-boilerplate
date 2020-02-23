@@ -41,6 +41,11 @@ const AuthProvider = ({ children }) => {
     dispatch(unsetAuthData());
   };
 
+  const getUserId = () => {
+    const { id } = jwtDecode(token);
+    return id;
+  };
+
   const getToken = async () => {
     const result = await request.post('/refresh-token');
 
@@ -78,6 +83,7 @@ const AuthProvider = ({ children }) => {
       request: (options, url, path, route) => {
         if (token) {
           if (url !== '/api/auth' && route !== '/user/initial') {
+            console.log('is intercepted');
             handleToken();
           }
         }
@@ -90,7 +96,9 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ state, setAuth, unsetAuth, loading }}>
+    <AuthContext.Provider
+      value={{ state, setAuth, unsetAuth, loading, getUserId }}
+    >
       <Loading loading={loading} auth fullscreen />
       <Provider options={options}>{children}</Provider>
     </AuthContext.Provider>

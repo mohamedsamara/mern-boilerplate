@@ -25,7 +25,11 @@ class NotesRoute {
   }
 
   private async get() {
-    this.router.get('/', auth.verifyRoute, notesControllerInstance.getNotes);
+    this.router.get(
+      '/user/:id',
+      auth.verifyRoute,
+      notesControllerInstance.getNotes,
+    );
   }
 
   private async getOne() {
