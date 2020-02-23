@@ -1,32 +1,36 @@
 import React, { useEffect, useReducer } from 'react';
 
 import useFetch from 'use-http';
-// import { message } from 'antd';
 
 import UserContext from './context';
 import { userReducer, initialState } from './reducer';
 import { setUserData, unsetUserData } from './action';
 
-// import { useAuth } from '../Auth';
+import { useAuth } from '../Auth';
 
 const UserProvider = ({ children }) => {
-  const { request, response } = useFetch('/api');
   const [state, dispatch] = useReducer(userReducer, initialState);
+  const { request, response } = useFetch('api', globalOptions => {
+    return {
+      ...globalOptions,
+    };
+  });
 
-  // const { state: auth } = useAuth();
-  // console.log('state', auth);
+  const { state: auth } = useAuth();
 
   useEffect(() => {
-    if (state.user) {
+    if (!auth.loading && auth.authenticated) {
       fetchUser();
+    } else {
+      unsetUser();
     }
-  }, []);
+  }, [auth.authenticated]);
 
   const fetchUser = async () => {
-    const result = await request.get('/user');
+    const result = await request.get('/user/initial');
 
     if (response.ok) {
-      console.log('result', result);
+      setUser(result.data.user);
     }
   };
 

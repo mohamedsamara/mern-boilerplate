@@ -5,7 +5,7 @@ import UsersModel from '../models/users.model';
 const usersModelInstance = Container.get(UsersModel);
 const usersModel = usersModelInstance.getModel();
 
-class NotesService {
+class UserService {
   public async register(newUser: any) {
     try {
       return usersModel.create(newUser);
@@ -51,4 +51,4 @@ class NotesService {
   }
 }
 
-export default NotesService;
+export default UserService;

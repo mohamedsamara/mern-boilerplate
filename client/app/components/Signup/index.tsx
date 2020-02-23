@@ -6,7 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../Button';
 import Loading from '../Loading';
-import { useAuth } from '../../containers/Auth';
+import { useAuth } from '../../contexts/Auth';
 
 const formItemLayout = {
   labelCol: {

@@ -40,12 +40,12 @@ class AuthController {
 
         const jwt = auth.createToken(updatedUser);
         const refreshToken = auth.createRefreshToken(updatedUser);
-        // const foundUser = await usersServiceInstance.findUser(user._id);
+        const foundUser = await usersServiceInstance.findUser(user._id);
 
         const data = {
           token: `Bearer ${jwt}`,
           //   refresh_token: refreshToken,
-          //   user: foundUser,
+          user: foundUser,
         };
 
         cookie.setCookie(res, refreshToken);
@@ -102,13 +102,12 @@ class AuthController {
 
       const jwt = auth.createToken(createdUser);
       const refreshToken = auth.createRefreshToken(createdUser);
-
-      //   const foundUser = await usersServiceInstance.findUser(createdUser._id);
+      const foundUser = await usersServiceInstance.findUser(createdUser._id);
 
       const data = {
         token: `Bearer ${jwt}`,
         // refresh_token: refreshToken,
-        // user: foundUser,
+        user: foundUser,
       };
 
       cookie.setCookie(res, refreshToken);
@@ -182,15 +181,13 @@ class AuthController {
       };
 
       cookie.setCookie(res, refreshToken);
-      responderInstance.setSuccess(200, 'You are authorized again', data);
+      responderInstance.setSuccess(200, null, data);
       return responderInstance.send(res);
     } catch (error) {
       responderInstance.setError(400, error);
       return responderInstance.send(res);
     }
   }
-
-  //   public async verifyRefreshToken(){}
 }
 
 export default AuthController;

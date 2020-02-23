@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Redirect } from 'react-router-dom';
 
-import { useAuth } from '../containers/Auth';
+import { useAuth } from '../contexts/Auth';
 
 const PrivateRoute = ({ children }) => {
   const { state } = useAuth();

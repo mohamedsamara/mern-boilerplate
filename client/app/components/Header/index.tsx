@@ -1,14 +1,12 @@
 import React from 'react';
 import { Row, Col, Layout, Icon } from 'antd';
 
-// import { useAuth } from '../../containers/Auth';
+import { useUser } from '../../contexts/User';
 
 const { Header: HeaderAntd } = Layout;
 
 const Header = () => {
-  // const { state } = useAuth();
-
-  // console.log(state);
+  const { state } = useUser();
 
   const handleMenuToggle = () => {
     document.body.classList.add('sidebar-active');
@@ -33,7 +31,7 @@ const Header = () => {
         </Col>
         <Col xs={21} sm={21} md={12} lg={12} xl={12}>
           <div className="header-info">
-            {/* {state.user && <div>Welcome {state.user.profile.firstName}!</div>} */}
+            {state.user && <div>Welcome {state.user.profile.firstName}!</div>}
           </div>
         </Col>
       </Row>

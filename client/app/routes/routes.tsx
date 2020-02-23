@@ -7,6 +7,8 @@ import ForgotPassword from '../components/ForgotPassword';
 import page404 from '../components/404';
 import Logout from '../components/Logout';
 
+// import User from '../containers/User';
+
 const routes = [
   { path: '/', exact: true, name: 'Homepage', component: Homepage },
   { path: '/notes', name: 'Notes', private: true, component: Notes },

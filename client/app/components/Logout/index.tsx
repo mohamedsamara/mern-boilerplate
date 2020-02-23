@@ -4,7 +4,7 @@ import useFetch from 'use-http';
 import { useHistory } from 'react-router-dom';
 import { Result, message } from 'antd';
 
-import { useAuth } from '../../containers/Auth';
+import { useAuth } from '../../contexts/Auth';
 
 const Logout = () => {
   const { request, response } = useFetch('/api/auth');

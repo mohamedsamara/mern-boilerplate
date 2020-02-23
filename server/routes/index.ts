@@ -2,6 +2,7 @@ import * as express from 'express';
 
 import NotesRoute from './api/notes';
 import AuthRoute from './api/auth';
+import UserRoute from './api/user';
 
 import config from '../config/keys';
 
@@ -12,9 +13,9 @@ class ApiRoute {
 
   private constructor() {
     this.router.get('/', this.get);
-
     this.router.use(NotesRoute.path, NotesRoute.router);
     this.router.use(AuthRoute.path, AuthRoute.router);
+    this.router.use(UserRoute.path, UserRoute.router);
   }
 
   static get router() {

@@ -12,7 +12,7 @@ import NoteItem from './NoteItem';
 
 import useActive from '../../hooks/useActive';
 import useClickAway from '../../hooks/useClickAway';
-import { useAuth } from '../../containers/Auth';
+import { useAuth } from '../../contexts/Auth';
 
 const { Text } = Typography;
 

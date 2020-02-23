@@ -5,8 +5,8 @@ import { Router } from 'react-router-dom';
 import history from './utils/history';
 
 import Application from './containers/Application';
-import { AuthProvider } from './containers/Auth';
-import { UserProvider } from './containers/User';
+import { AuthProvider } from './contexts/Auth';
+import { UserProvider } from './contexts/User';
 
 import './styles/less/main.less'; // Import application less styles
 

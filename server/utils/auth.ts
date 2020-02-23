@@ -51,21 +51,22 @@ export function createRefreshToken(user: any) {
 
 export async function verifyRefreshToken(refreshToken: any) {
   const { refreshSecret } = config.jwt;
-
-  // try {
-  //   const payload = verify(refreshToken, refreshSecret);
-  //   return payload;
-  // } catch (error) {
-  //   console.log('error', error);
-
-  //   return error;
-  // }
-
   try {
     return await verify(refreshToken, refreshSecret);
   } catch (error) {
     return false;
-    // throw error;
+  }
+}
+
+export async function getUser(req: Request) {
+  const { secret } = config.jwt;
+
+  try {
+    const { authorization } = req.headers;
+    const token = authorization.split(' ')[1];
+    return verify(token, secret);
+  } catch (error) {
+    return false;
   }
 }
 

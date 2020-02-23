@@ -4,7 +4,7 @@ import { Icon } from 'antd';
 
 const Loading = ({ fullscreen = false, loading = false, auth = false }) => {
   return (
-    !auth &&
+    auth &&
     loading && (
       <div className={`loading-box${fullscreen ? ' fullscreen' : ''}`}>
         <div className="loading">

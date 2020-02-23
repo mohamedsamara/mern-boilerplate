@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 
 import useToggle from '../../hooks/useToggle';
-import { useAuth } from '../../containers/Auth';
+import { useAuth } from '../../contexts/Auth';
 
 const { Sider } = Layout;
 
