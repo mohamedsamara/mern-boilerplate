@@ -15,13 +15,30 @@ class UsersModel {
         type: String,
         required: true,
       },
-      profile: {
+      name: {
         firstName: {
           type: String,
         },
         lastName: {
           type: String,
         },
+        website: {
+          type: String,
+        },
+        bio: {
+          type: String,
+        },
+        birthday: {
+          type: String,
+        },
+        gender: {
+          type: String,
+        },
+      },
+      role: {
+        type: String,
+        enum: ['ROLE_MEMBER', 'ROLE_ADMIN'],
+        default: 'ROLE_MEMBER',
       },
       password: {
         type: String,
@@ -32,6 +49,11 @@ class UsersModel {
       },
       resetPasswordToken: { type: String },
       resetPasswordExpires: { type: Date },
+      updated: Date,
+      created: {
+        type: Date,
+        default: Date.now,
+      },
     });
 
     this.model = <UserModel>model<IUser>('users', schema);

@@ -1,11 +1,12 @@
 import Homepage from '../components/Homepage';
-import Dashboard from '../components/Dashboard';
 import Notes from '../components/Notes';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
 import ForgotPassword from '../components/ForgotPassword';
 import page404 from '../components/404';
 import Logout from '../components/Logout';
+import Dashboard from '../components/Dashboard';
+import EditProfile from '../components/EditProfile';
 
 // import User from '../containers/User';
 
@@ -17,6 +18,12 @@ const routes = [
     name: 'Dashboard',
     private: true,
     component: Dashboard,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    private: true,
+    component: EditProfile,
   },
   { path: '/logout', name: 'Logout', component: Logout },
   { path: '/login', name: 'Login', protected: true, component: Login },

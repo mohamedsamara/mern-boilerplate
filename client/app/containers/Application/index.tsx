@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Layout, BackTop } from 'antd';
+import { Layout } from 'antd';
 
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
@@ -25,7 +25,6 @@ const Application = () => {
           </Content>
           <Footer />
         </Layout>
-        <BackTop />
       </Layout>
     </div>
   );

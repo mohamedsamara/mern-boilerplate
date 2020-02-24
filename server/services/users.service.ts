@@ -26,6 +26,14 @@ class UserService {
     }
   }
 
+  public async findUserInitial(id: any) {
+    try {
+      return await usersModel.findById(id).select('profile.firstName');
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async findUser(id: any) {
     try {
       return await usersModel.findById(id, ['-refresh_token', '-password']);

@@ -1,0 +1,55 @@
+.profile {
+
+  .profile-header {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: @border-default;
+    border-width: 2px;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+
+    h2 {
+          
+    } 
+  }
+ 
+  .hidden-delete-account {
+    visibility: hidden;
+    height: 0;
+    opacity: 0;
+
+    .ant-col {
+      height: 0;
+      opacity: 0;
+    }
+  }
+    
+  .hidden-delete-account.show {
+    visibility: visible;
+    height: 100%;
+    opacity: 1;
+    .transition(all @transition-speed);
+
+    .ant-col {
+      height: 100%;
+      opacity: 1;
+    }
+  } 
+
+  .update-profile-form {
+    max-width: 500px;
+
+    .update-profile-button {
+      width: 100%;
+      background-color: @theme-primary;
+      color: @white;
+      border: none;
+ 
+      &:hover {
+        background-color: @theme-light-blue;
+      }
+    }
+  }
+}

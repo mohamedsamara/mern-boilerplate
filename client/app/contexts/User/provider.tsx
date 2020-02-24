@@ -16,7 +16,7 @@ const UserProvider = ({ children }) => {
     };
   });
 
-  const { state: auth } = useAuth();
+  const { state: auth, getUserId } = useAuth();
 
   useEffect(() => {
     if (!auth.loading && auth.authenticated) {
@@ -27,7 +27,8 @@ const UserProvider = ({ children }) => {
   }, [auth.authenticated]);
 
   const fetchUser = async () => {
-    const result = await request.get('/user/initial');
+    const id = getUserId();
+    const result = await request.get(`/user/initial/${id}`);
 
     if (response.ok) {
       setUser(result.data.user);

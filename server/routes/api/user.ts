@@ -12,7 +12,9 @@ class UserRoute {
   private router = express.Router();
 
   private constructor() {
+    this.getInitial();
     this.get();
+    this.put();
   }
 
   static get router() {
@@ -20,11 +22,23 @@ class UserRoute {
     return notesInstance.router;
   }
 
-  private async get() {
+  private async getInitial() {
     this.router.get(
-      '/initial',
+      '/initial/:id',
       auth.verifyRoute,
-      userControllerInstance.getUser,
+      userControllerInstance.getUserInitial,
+    );
+  }
+
+  private async get() {
+    this.router.get('/:id', auth.verifyRoute, userControllerInstance.getUser);
+  }
+
+  private async put() {
+    this.router.put(
+      '/:id',
+      auth.verifyRoute,
+      userControllerInstance.updateUser,
     );
   }
 }
