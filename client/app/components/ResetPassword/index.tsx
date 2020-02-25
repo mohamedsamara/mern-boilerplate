@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import Button from '../Button';
 import Label from '../Label';
-import Loading from '../Loading';
+import PageHeader from '../PageHeader';
 import { useAuth } from '../../contexts/Auth';
 
 const ResetPassword = props => {
@@ -37,9 +37,13 @@ const ResetPassword = props => {
     }
   };
 
+  const onBack = () => {
+    history.goBack();
+  };
+
   return (
     <div className="reset-password">
-      <Loading loading={loading} />
+      <PageHeader onBack={onBack} loading={loading} />
       <h2>Reset Password</h2>
       <Form onSubmit={handleSubmit} className="reset-password-form">
         <Row gutter={16}>

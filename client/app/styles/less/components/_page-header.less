@@ -1,0 +1,26 @@
+.page-header {
+  padding: 10px;
+  margin-bottom: 50px;
+  justify-content: space-between;
+  align-items: center;
+  border: @border-default;
+  .flex();
+      
+  .responsive(450px, {
+    padding: 5px;
+      });
+
+  .page-loading-header {
+    padding-right: 10px;
+    width: 50px;
+  }
+
+  .ant-btn-link { 
+    padding: 0;
+    margin-right: 5px;
+
+    span {
+      margin-left: 3px;
+    }
+  }
+}

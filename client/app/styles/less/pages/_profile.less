@@ -26,26 +26,3 @@
     }
   }   
 }
-
-.hidden-delete-account {
-  visibility: hidden;
-  // height: 0;
-  height: 100%;
-  opacity: 0;
-}
-    
-.hidden-delete-account.show {
-  visibility: visible;
-  height: 100%;
-  opacity: 1;
-  .transition(all @transition-speed);
-} 
-
-.delete-account-btn {
-  margin-top: 15px;
-  display: block;
-
-  .responsive(450px, {
-    width: 100%;
-  });
-}

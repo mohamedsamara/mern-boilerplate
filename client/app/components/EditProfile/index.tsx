@@ -19,7 +19,7 @@ import { useHistory } from 'react-router-dom';
 import Button from '../Button';
 import Label from '../Label';
 import DeleteAccount from '../DeleteAccount';
-import Loading from '../Loading';
+import PageHeader from '../PageHeader';
 import useToggle from '../../hooks/useToggle';
 import useUser from '../../hooks/user/useUser';
 import { useAuth } from '../../contexts/Auth';
@@ -92,9 +92,13 @@ const EditProfile = props => {
     setCollapsed();
   };
 
+  const onBack = () => {
+    history.goBack();
+  };
+
   return (
     <div className="profile">
-      <Loading loading={loading} />
+      <PageHeader onBack={onBack} loading={loading} />
       <div className="profile-header">
         <h2>Edit Profile</h2>
         <Tooltip placement="leftTop" title="Delete account">
