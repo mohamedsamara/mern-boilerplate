@@ -16,7 +16,7 @@ import './styles/less/main.less'; // Import application less styles
 // Import application sass styles
 // import './styles/sass/main.scss';
 
-const App: React.FC<{}> = () => {
+const App: React.FC = (): JSX.Element => {
   return (
     <AuthProvider>
       <UserProvider>

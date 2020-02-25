@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import { Typography, Icon } from 'antd';
 import Button from '../Button';
 
 const { Text } = Typography;
 
-const PageHeader = ({ loading = false, title, onBack }) => {
+interface Props {
+  loading?: boolean;
+  title?: string;
+  onBack?: (event: MouseEvent<HTMLElement>) => void;
+}
+
+const PageHeader: React.FC<Props> = (props): JSX.Element => {
+  const { loading = false, title, onBack } = props;
   return (
     <div className="page-header">
       {onBack && (

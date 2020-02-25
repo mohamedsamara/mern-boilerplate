@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import { Divider, Popconfirm, Icon, Typography } from 'antd';
 
@@ -6,7 +6,12 @@ import Button from '../Button';
 
 const { Text } = Typography;
 
-const DeleteAccount = props => {
+interface Props {
+  collapsed?: boolean;
+  deleteUser?: (event: MouseEvent<HTMLElement>) => void;
+}
+
+const DeleteAccount: React.FC<Props> = (props): JSX.Element => {
   return (
     <div className={`hidden-delete-account${props.collapsed ? ' show' : ''}`}>
       <Divider />

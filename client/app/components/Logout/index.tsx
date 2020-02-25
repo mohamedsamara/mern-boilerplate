@@ -6,7 +6,7 @@ import { Result, message } from 'antd';
 
 import { useAuth } from '../../contexts/Auth';
 
-const Logout = () => {
+const Logout: React.FC = (): JSX.Element => {
   const { request, response } = useFetch('/api/auth');
   const [seconds, setSeconds] = useState(2);
   const history = useHistory();

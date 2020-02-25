@@ -2,6 +2,7 @@ import React from 'react';
 
 import useFetch from 'use-http';
 import { Row, Col, Form, Input, Icon, message } from 'antd';
+import { FormComponentProps } from 'antd/lib/form/Form';
 import { useHistory } from 'react-router-dom';
 
 import Button from '../Button';
@@ -9,7 +10,7 @@ import Label from '../Label';
 import PageHeader from '../PageHeader';
 import { useAuth } from '../../contexts/Auth';
 
-const ResetPassword = props => {
+const ResetPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   const history = useHistory();
   const { request, response, loading } = useFetch('/api/auth');
   const { getFieldDecorator } = props.form;

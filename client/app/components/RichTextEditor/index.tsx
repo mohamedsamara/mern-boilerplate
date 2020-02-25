@@ -14,7 +14,15 @@ import Label from '../Label';
 
 const ButtonGroup = Button.Group;
 
-const RichTextEditor = props => {
+interface Props {
+  className?: string;
+  value: string;
+  label?: string;
+  name: string;
+  handleChange: (event) => void;
+}
+
+const RichTextEditor: React.FC<Props> = (props): JSX.Element => {
   const { className, value, handleChange, label, name } = props;
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 

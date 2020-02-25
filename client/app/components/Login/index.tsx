@@ -2,6 +2,7 @@ import React from 'react';
 
 import useFetch from 'use-http';
 import { Form, Icon, Input, message } from 'antd';
+import { FormComponentProps } from 'antd/lib/form/Form';
 import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../Button';
@@ -32,7 +33,7 @@ const tailFormItemLayout = {
   },
 };
 
-const Login = props => {
+const Login: React.FC<FormComponentProps> = (props): JSX.Element => {
   const { getFieldDecorator } = props.form;
   const history = useHistory();
   const { request, response, loading } = useFetch('/api/auth');

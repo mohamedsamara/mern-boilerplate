@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Empty as EmptyAntd } from 'antd';
 
-const Empty = () => {
+const Empty: React.FC = (): JSX.Element => {
   return (
     <>
       <EmptyAntd />

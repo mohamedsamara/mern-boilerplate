@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Button as ButtonAntd } from 'antd';
 
-const Button = props => {
+import { Props } from './types';
+
+const Button: FC<Props> = (props): JSX.Element => {
   const {
     children,
     className,

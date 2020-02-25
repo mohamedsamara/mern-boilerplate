@@ -4,7 +4,7 @@ import { Typography } from 'antd';
 
 const { Title, Paragraph, Text } = Typography;
 
-const Homepage = () => {
+const Homepage: React.FC = (): JSX.Element => {
   return (
     <div className="homepage">
       <Typography>

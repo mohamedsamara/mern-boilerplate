@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Form, Icon, Input, Button } from 'antd';
+import { FormComponentProps } from 'antd/lib/form/Form';
 import { Link } from 'react-router-dom';
 
 const formItemLayout = {
@@ -26,7 +27,7 @@ const tailFormItemLayout = {
   },
 };
 
-const ForgotPassword = props => {
+const ForgotPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   const { getFieldDecorator } = props.form;
 
   const handleSubmit = e => {

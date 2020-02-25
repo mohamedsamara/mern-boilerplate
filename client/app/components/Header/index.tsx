@@ -19,7 +19,7 @@ import { useUser } from '../../contexts/User';
 const { Header: HeaderAntd } = Layout;
 const { Text } = Typography;
 
-const Header = () => {
+const Header: React.FC = (): JSX.Element => {
   const { state } = useUser();
 
   const handleMenuToggle = () => {

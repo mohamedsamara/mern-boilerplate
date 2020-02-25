@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import useUser from '../../hooks/user/useUser';
 import { useAuth } from '../../contexts/Auth';
 
-const Dashboard = () => {
+const Dashboard: React.FC = (): JSX.Element => {
   const { request, response } = useFetch('/api');
   const { user, setUser } = useUser();
   const { getUserId } = useAuth();

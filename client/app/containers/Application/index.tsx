@@ -11,7 +11,7 @@ import styles from './styles.css';
 
 const { Content } = Layout;
 
-const Application = () => {
+const Application: React.FC = (): JSX.Element => {
   return (
     <div className={styles.application}>
       <Layout style={{ minHeight: '100vh' }}>

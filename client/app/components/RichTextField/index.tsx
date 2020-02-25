@@ -2,7 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import Label from '../Label';
 
-const RichTextField = props => {
+interface Props {
+  className?: string;
+  value: string;
+  label?: string;
+  name: string;
+  handleChange: (event) => void;
+}
+
+const RichTextField: React.FC<Props> = (props): JSX.Element => {
   const { className, value, handleChange, label, name } = props;
   const [input, setInput] = useState(undefined);
   const inputRef = useRef(null);

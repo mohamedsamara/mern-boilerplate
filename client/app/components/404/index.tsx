@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Result } from 'antd';
 
-const page404 = () => {
+const page404: React.FC = (): JSX.Element => {
   return (
     <Result
       status="404"

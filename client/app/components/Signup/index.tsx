@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import useFetch from 'use-http';
 import { Form, Input, message } from 'antd';
+import { FormComponentProps } from 'antd/lib/form/Form';
 import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../Button';
@@ -31,7 +32,7 @@ const tailFormItemLayout = {
   },
 };
 
-const Signup = props => {
+const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
   const history = useHistory();
   const { getFieldDecorator } = props.form;
   const [confirmDirty, setConfirmDirty] = useState(false);

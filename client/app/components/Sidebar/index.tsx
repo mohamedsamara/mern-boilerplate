@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/Auth';
 
 const { Sider } = Layout;
 
-const SideBar = () => {
+const SideBar: React.FC = (): JSX.Element => {
   const [collapsed, setCollapsed] = useToggle(true);
   const { state } = useAuth();
 

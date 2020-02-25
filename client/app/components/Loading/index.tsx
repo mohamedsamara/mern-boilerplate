@@ -2,7 +2,15 @@ import React from 'react';
 
 import { Icon } from 'antd';
 
-const Loading = ({ fullscreen = false, loading = false, auth = false }) => {
+interface Props {
+  fullscreen?: boolean;
+  loading?: boolean;
+  auth?: boolean;
+}
+
+const Loading: React.FC<Props> = (props): JSX.Element => {
+  const { fullscreen = false, loading = false, auth = false } = props;
+
   return (
     <div className={`loading-box${fullscreen ? ' fullscreen' : ''}`}>
       {!auth && loading && (
