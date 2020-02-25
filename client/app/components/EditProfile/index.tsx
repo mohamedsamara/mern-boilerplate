@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import useFetch from 'use-http';
 import {
@@ -35,6 +35,7 @@ const EditProfile = props => {
   const { user, setUser } = useUser();
   const [collapsed, setCollapsed] = useToggle(false);
   const history = useHistory();
+  const deleteAccountRef = useRef(null);
   const { getUserId } = useAuth();
 
   useEffect(() => {
@@ -80,13 +81,24 @@ const EditProfile = props => {
     });
   };
 
+  const showDeleteAccount = () => {
+    if (!collapsed) {
+      deleteAccountRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+
+    setCollapsed();
+  };
+
   return (
     <div className="profile">
       <Loading loading={loading} />
       <div className="profile-header">
         <h2>Edit Profile</h2>
         <Tooltip placement="leftTop" title="Delete account">
-          <Switch onChange={setCollapsed} />
+          <Switch onChange={showDeleteAccount} />
         </Tooltip>
       </div>
       <Form onSubmit={handleSubmit} className="profile-form">
@@ -185,7 +197,9 @@ const EditProfile = props => {
         </Row>
       </Form>
       <div className="profile-footer">
-        <DeleteAccount deleteUser={deleteUser} collapsed={collapsed} />
+        <div ref={deleteAccountRef}>
+          <DeleteAccount deleteUser={deleteUser} collapsed={collapsed} />
+        </div>
       </div>
     </div>
   );

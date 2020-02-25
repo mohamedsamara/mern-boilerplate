@@ -10,18 +10,21 @@ const Homepage = () => {
       <Typography>
         <Title level={2}>Mern Boilerplate</Title>
         <Paragraph>
-          This is a MERN stack boilerplate and starter, MongoDB, Express JS,
-          React, Node JS.
+          This is a MERN stack boilerplate and starter, using MongoDB, Express
+          JS, React, Node JS.
         </Paragraph>
         <Paragraph>
-          This is a foundation project where others can use it as starter for
-          their projects.
-          <Text strong>
-            {' '}
-            To help in easy and faster development, tools integrations and
-            scalability.
-          </Text>
+          This stack is built to help developers build React web applications
+          faster with no need to create any boilerplate code.
         </Paragraph>
+        <Paragraph>
+          There are different approaches and implementations in this boileplate
+          and they exist only to meet different preferences and needs. For
+          example there is LESS and Sass preprocessors with a nice folder/file
+          structure to style the application. You can simply pick one and remove
+          the other.
+        </Paragraph>
+        <Text strong> This stack is also scalable and easy to use.</Text>
       </Typography>
       <div className="cube-animation">
         <div className="scene">
