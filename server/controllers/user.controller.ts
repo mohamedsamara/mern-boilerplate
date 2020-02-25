@@ -55,27 +55,40 @@ class User {
   }
 
   public async updateUser(req: Request, res: Response) {
+    const newProfile = req.body;
     const { id } = req.params;
 
     try {
-      //   const payload: any = await auth.getUser(req);
-
-      //   if (!payload) {
-      //     responderInstance.setError(
-      //       401,
-      //       'Sorry, you are not authorized to access this resource.',
-      //       'unauthorized',
-      //     );
-      //     return responderInstance.send(res);
-      //   }
-
-      // const foundUser = await usersServiceInstance.findUser(id);
+      const updatedUser = await usersServiceInstance.updateUser(id, newProfile);
       const data = {
-        user: 'updated',
-        Id: id,
+        user: updatedUser,
       };
 
-      responderInstance.setSuccess(200, 'User data fetched successfully', data);
+      responderInstance.setSuccess(200, 'Updated profile successfully', data);
+      return responderInstance.send(res);
+    } catch (error) {
+      responderInstance.setError(400, error);
+      return responderInstance.send(res);
+    }
+  }
+
+  public async deleteUser(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      const userToDelete = await usersServiceInstance.deleteUser(id);
+
+      if (userToDelete) {
+        responderInstance.setSuccess(
+          200,
+          'Your Account has been deleted successfully',
+        );
+      } else {
+        responderInstance.setError(
+          404,
+          `Something went wrong with deleting your account!`,
+        );
+      }
       return responderInstance.send(res);
     } catch (error) {
       responderInstance.setError(400, error);

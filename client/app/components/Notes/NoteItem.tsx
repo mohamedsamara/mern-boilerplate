@@ -61,10 +61,6 @@ const NoteItem = props => {
     deleteNote(note._id);
   };
 
-  const confirmDelete = () => {
-    handleDelete();
-  };
-
   return (
     <Col sm={24} md={12} lg={12} xl={6} className="gutter-row">
       <div className="note">
@@ -73,7 +69,7 @@ const NoteItem = props => {
             icon={<Icon type="delete" style={{ color: 'red' }} />}
             placement="left"
             title={text}
-            onConfirm={confirmDelete}
+            onConfirm={handleDelete}
             okText="Yes"
             cancelText="No"
           >

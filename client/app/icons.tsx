@@ -29,6 +29,7 @@ export { default as PlusOutline } from '@ant-design/icons/lib/outline/PlusOutlin
 export { default as FileOutline } from '@ant-design/icons/lib/outline/FileOutline';
 export { default as TeamOutline } from '@ant-design/icons/lib/outline/TeamOutline';
 export { default as UserOutline } from '@ant-design/icons/lib/outline/UserOutline';
+export { default as MailOutline } from '@ant-design/icons/lib/outline/MailOutline';
 export { default as LoginOutline } from '@ant-design/icons/lib/outline/LoginOutline';
 export { default as DashboardOutline } from '@ant-design/icons/lib/outline/DashboardOutline';
 export { default as ProfileOutline } from '@ant-design/icons/lib/outline/ProfileOutline';

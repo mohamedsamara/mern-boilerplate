@@ -15,7 +15,7 @@ class UsersModel {
         type: String,
         required: true,
       },
-      name: {
+      profile: {
         firstName: {
           type: String,
         },
@@ -28,7 +28,7 @@ class UsersModel {
         bio: {
           type: String,
         },
-        birthday: {
+        birthdate: {
           type: String,
         },
         gender: {

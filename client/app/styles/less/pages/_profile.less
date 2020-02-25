@@ -15,30 +15,7 @@
     } 
   }
  
-  .hidden-delete-account {
-    visibility: hidden;
-    height: 0;
-    opacity: 0;
-
-    .ant-col {
-      height: 0;
-      opacity: 0;
-    }
-  }
-    
-  .hidden-delete-account.show {
-    visibility: visible;
-    height: 100%;
-    opacity: 1;
-    .transition(all @transition-speed);
-
-    .ant-col {
-      height: 100%;
-      opacity: 1;
-    }
-  } 
-
-  .update-profile-form {
+  .profile-form {
     max-width: 500px;
 
     .update-profile-button {
@@ -51,5 +28,28 @@
         background-color: @theme-light-blue;
       }
     }
-  }
+  }   
+}
+
+.hidden-delete-account {
+  visibility: hidden;
+  // height: 0;
+  height: 100%;
+  opacity: 0;
+}
+    
+.hidden-delete-account.show {
+  visibility: visible;
+  height: 100%;
+  opacity: 1;
+  .transition(all @transition-speed);
+} 
+
+.delete-account-button {
+  margin-top: 15px;
+  display: block;
+
+  .responsive(450px, {
+    width: 100%;
+      });
 }

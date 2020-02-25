@@ -57,6 +57,37 @@ class UserService {
       throw error;
     }
   }
+
+  public async updateUser(id: any, newProfile: any) {
+    try {
+      const userToUpdate = await usersModel.findById(id);
+
+      if (userToUpdate) {
+        await userToUpdate.updateOne({ profile: newProfile });
+        return newProfile;
+      }
+      return null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async deleteUser(id: any) {
+    try {
+      const userToDelete = await usersModel.findById(id);
+
+      if (userToDelete) {
+        const deletedUser = await usersModel.deleteOne({
+          _id: id,
+        });
+
+        return deletedUser;
+      }
+      return null;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;

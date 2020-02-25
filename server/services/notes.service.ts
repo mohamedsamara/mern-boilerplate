@@ -28,7 +28,6 @@ class NotesService {
 
       if (noteToUpdate) {
         await noteToUpdate.updateOne(newNote);
-
         return newNote;
       }
       return null;

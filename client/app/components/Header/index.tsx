@@ -55,12 +55,17 @@ const Header = () => {
       }}
     >
       <Row>
-        <Col xs={3} sm={3}>
+        <Col xs={4} sm={4} md={4}>
           <div className="menu-bars">
             <Icon type="menu" onClick={handleMenuToggle} />
           </div>
         </Col>
-        <Col xs={21} sm={21} md={12} lg={12} xl={12}>
+        <Col
+          xs={{ span: 6, push: 14 }}
+          sm={{ span: 6, push: 12 }}
+          md={{ span: 6, push: 14 }}
+          lg={{ span: 6, push: 16 }}
+        >
           {state.user && (
             <div className="header-info">
               <Dropdown overlay={menu}>

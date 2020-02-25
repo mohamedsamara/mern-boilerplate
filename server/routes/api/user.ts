@@ -15,6 +15,7 @@ class UserRoute {
     this.getInitial();
     this.get();
     this.put();
+    this.delete();
   }
 
   static get router() {
@@ -39,6 +40,14 @@ class UserRoute {
       '/:id',
       auth.verifyRoute,
       userControllerInstance.updateUser,
+    );
+  }
+
+  private async delete() {
+    this.router.delete(
+      '/:id',
+      auth.verifyRoute,
+      userControllerInstance.deleteUser,
     );
   }
 }
