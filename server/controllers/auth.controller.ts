@@ -124,6 +124,47 @@ class AuthController {
     }
   }
 
+  public async resetPassword(req: Request, res: Response) {
+    const { password, newPassword, userId } = req.body;
+
+    if (!password || !newPassword) {
+      responderInstance.setError(400, 'Some details are missing');
+      return responderInstance.send(res);
+    }
+
+    try {
+      const user = await usersServiceInstance.findById(userId);
+
+      if (!user) {
+        responderInstance.setError(
+          400,
+          `Something went wrong with changing your password!`,
+        );
+        return responderInstance.send(res);
+      }
+
+      const passwordMatches = auth.verifyPassword(password, user.password);
+
+      if (passwordMatches) {
+        const hashedPassword = auth.hashPassword(newPassword);
+        await usersServiceInstance.resetPassword(userId, hashedPassword);
+
+        responderInstance.setSuccess(
+          200,
+          'You have changed your password successfully',
+        );
+      } else {
+        responderInstance.setError(400, 'Please enter your current password!');
+        return responderInstance.send(res);
+      }
+
+      return responderInstance.send(res);
+    } catch (error) {
+      responderInstance.setError(400, error);
+      return responderInstance.send(res);
+    }
+  }
+
   public async logout(req: Request, res: Response) {
     res.cookie('refresh_token', '', {
       httpOnly: true,

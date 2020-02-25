@@ -88,7 +88,7 @@ const Login = props => {
             type="primary"
             text="Log in"
             htmlType="submit"
-            className="login-form-button"
+            className="login-form-btn"
           ></Button>
           Or{' '}
           <Link to="/register" className="register-link">

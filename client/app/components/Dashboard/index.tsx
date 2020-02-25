@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import useFetch from 'use-http';
 import { Descriptions, Icon } from 'antd';
+import { Link } from 'react-router-dom';
 
 import useUser from '../../hooks/user/useUser';
 import { useAuth } from '../../contexts/Auth';
@@ -27,6 +28,12 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <Descriptions title="Account Details">
+        <Descriptions.Item span={3}>
+          <div className="dashboard-actions">
+            <Link to="profile">Edit Profile</Link>
+            <Link to="reset-password">Reset Password</Link>
+          </div>
+        </Descriptions.Item>
         <Descriptions.Item label="Full Name">
           {`${user.profile.firstName} ${user.profile.lastName}`}
         </Descriptions.Item>

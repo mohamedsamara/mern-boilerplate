@@ -25,7 +25,7 @@ const DeleteAccount = props => {
         <Button
           type="danger"
           text="Delete Account"
-          className="delete-account-button"
+          className="delete-account-btn"
         ></Button>
       </Popconfirm>
     </div>

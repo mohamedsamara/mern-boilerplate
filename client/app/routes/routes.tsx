@@ -7,8 +7,7 @@ import page404 from '../components/404';
 import Logout from '../components/Logout';
 import Dashboard from '../components/Dashboard';
 import EditProfile from '../components/EditProfile';
-
-// import User from '../containers/User';
+import ResetPassword from '../components/ResetPassword';
 
 const routes = [
   { path: '/', exact: true, name: 'Homepage', component: Homepage },
@@ -24,6 +23,12 @@ const routes = [
     name: 'Profile',
     private: true,
     component: EditProfile,
+  },
+  {
+    path: '/reset-password',
+    name: 'Reset-Passsword',
+    private: true,
+    component: ResetPassword,
   },
   { path: '/logout', name: 'Logout', component: Logout },
   { path: '/login', name: 'Login', protected: true, component: Login },

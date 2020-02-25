@@ -190,7 +190,7 @@ const EditProfile = props => {
               <Button
                 text="Update"
                 htmlType="submit"
-                className="update-profile-button"
+                className="update-profile-btn"
               ></Button>
             </Form.Item>
           </Col>

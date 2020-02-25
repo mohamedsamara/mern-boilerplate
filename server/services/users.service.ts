@@ -58,6 +58,19 @@ class UserService {
     }
   }
 
+  public async resetPassword(id: any, password: any) {
+    try {
+      const userToUpdate = await usersModel.findById(id);
+
+      if (userToUpdate) {
+        return await userToUpdate.updateOne({ password });
+      }
+      return null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async updateUser(id: any, newProfile: any) {
     try {
       const userToUpdate = await usersModel.findById(id);
