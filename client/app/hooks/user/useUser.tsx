@@ -1,11 +1,6 @@
-import React, { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 
 import { IUser } from '../../contexts/User/types';
-
-interface IUserState {
-  user: IUser;
-  setUser: React.Dispatch<React.SetStateAction<IUser>>;
-}
 
 const userState: IUser = {
   _id: '',
@@ -23,14 +18,14 @@ const userState: IUser = {
   },
 };
 
-const useUser = (): IUserState => {
-  const [user, setValue] = useState(userState);
+const useUser = (): [IUser, Dispatch<SetStateAction<IUser>>] => {
+  const [user, setValue] = useState<IUser>(userState);
 
   const setUser = val => {
     setValue(val);
   };
 
-  return { user, setUser };
+  return [user, setUser];
 };
 
 export default useUser;

@@ -32,7 +32,7 @@ const dateFormat = 'YYYY/MM/DD';
 const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
   const { getFieldDecorator } = props.form;
   const { request, response, loading } = useFetch('/api');
-  const { user, setUser } = useUser();
+  const [user, setUser] = useUser();
   const [collapsed, setCollapsed] = useToggle(false);
   const history = useHistory();
   const deleteAccountRef = useRef<HTMLDivElement>(null);

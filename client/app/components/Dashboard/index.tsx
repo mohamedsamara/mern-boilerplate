@@ -9,7 +9,7 @@ import { useAuth } from '../../contexts/Auth';
 
 const Dashboard: React.FC = (): JSX.Element => {
   const { request, response } = useFetch('/api');
-  const { user, setUser } = useUser();
+  const [user, setUser] = useUser();
   const { getUserId } = useAuth();
 
   useEffect(() => {
