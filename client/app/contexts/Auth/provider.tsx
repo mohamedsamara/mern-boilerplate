@@ -8,13 +8,19 @@ import { message } from 'antd';
 import AuthContext from './context';
 import { authReducer, initialState } from './reducer';
 import { setAuthData, unsetAuthData } from './action';
+import { AuthState, AuthActions, AuthContextProviderProps } from './types';
 
 import Loading from '../../components/Loading';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
-const AuthProvider = ({ children }) => {
+const AuthProvider: React.FC<AuthContextProviderProps> = ({
+  children,
+}): JSX.Element => {
   const { request, response, loading } = useFetch('/api/auth');
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer<React.Reducer<AuthState, AuthActions>>(
+    authReducer,
+    initialState,
+  );
   const [token, setToken] = useLocalStorage('token', null);
 
   useEffect(() => {

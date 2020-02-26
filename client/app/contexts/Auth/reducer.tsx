@@ -1,21 +1,21 @@
-import { SET_AUTH_DATA, UNSET_AUTH_DATA } from './constants';
+import { AuthState, AuthActionTypes, AuthActions } from './types';
 
-const initialState = {
+const initialState: AuthState = {
   authenticated: false,
   loading: true,
   token: null,
 };
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state: AuthState, action: AuthActions): AuthState => {
   switch (action.type) {
-    case SET_AUTH_DATA:
+    case AuthActionTypes.SET_AUTH_DATA:
       return {
         ...state,
         authenticated: true,
         loading: false,
         token: action.payload,
       };
-    case UNSET_AUTH_DATA:
+    case AuthActionTypes.UNSET_AUTH_DATA:
       return {
         ...state,
         authenticated: false,

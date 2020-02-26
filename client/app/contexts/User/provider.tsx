@@ -5,11 +5,15 @@ import useFetch from 'use-http';
 import UserContext from './context';
 import { userReducer, initialState } from './reducer';
 import { setUserData, unsetUserData } from './action';
+import { UserState, UserActions, UserContextProviderProps } from './types';
 
 import { useAuth } from '../Auth';
 
-const UserProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(userReducer, initialState);
+const UserProvider: React.FC<UserContextProviderProps> = ({ children }) => {
+  const [state, dispatch] = useReducer<React.Reducer<UserState, UserActions>>(
+    userReducer,
+    initialState,
+  );
   const { request, response } = useFetch('api', globalOptions => {
     return {
       ...globalOptions,

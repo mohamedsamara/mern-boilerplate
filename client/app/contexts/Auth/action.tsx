@@ -1,14 +1,14 @@
-import { SET_AUTH_DATA, UNSET_AUTH_DATA } from './constants';
+import { AuthActionTypes, SetAuthData, UnsetAuthData } from './types';
 
-export const setAuthData = token => {
+export const setAuthData = (token: string): SetAuthData => {
   return {
-    type: SET_AUTH_DATA,
+    type: AuthActionTypes.SET_AUTH_DATA,
     payload: token,
   };
 };
 
-export const unsetAuthData = () => {
+export const unsetAuthData = (): UnsetAuthData => {
   return {
-    type: UNSET_AUTH_DATA,
+    type: AuthActionTypes.UNSET_AUTH_DATA,
   };
 };

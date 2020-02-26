@@ -1,27 +1,13 @@
 import React, { useState } from 'react';
 
-interface User {
-  _id: string;
-  email: string;
-  role: string;
-  created: string;
-  __v?: number;
-  profile: {
-    firstName: string;
-    lastName: string;
-    website: string;
-    bio: string;
-    gender: string;
-    birthdate: string;
-  };
+import { IUser } from '../../contexts/User/types';
+
+interface IUserState {
+  user: IUser;
+  setUser: React.Dispatch<React.SetStateAction<IUser>>;
 }
 
-interface UserState {
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
-}
-
-const userState: User = {
+const userState: IUser = {
   _id: '',
   email: '',
   role: '',
@@ -37,7 +23,7 @@ const userState: User = {
   },
 };
 
-const useUser = (): UserState => {
+const useUser = (): IUserState => {
   const [user, setValue] = useState(userState);
 
   const setUser = val => {

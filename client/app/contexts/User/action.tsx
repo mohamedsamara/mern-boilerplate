@@ -1,14 +1,14 @@
-import { SET_USER_DATA, UNSET_USER_DATA } from './constants';
+import { IUser, UserActionTypes, SetUserData, UnsetUserData } from './types';
 
-export const setUserData = user => {
+export const setUserData = (user: IUser): SetUserData => {
   return {
-    type: SET_USER_DATA,
+    type: UserActionTypes.SET_USER_DATA,
     payload: user,
   };
 };
 
-export const unsetUserData = () => {
+export const unsetUserData = (): UnsetUserData => {
   return {
-    type: UNSET_USER_DATA,
+    type: UserActionTypes.UNSET_USER_DATA,
   };
 };
