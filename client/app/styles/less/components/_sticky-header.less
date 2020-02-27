@@ -1,0 +1,19 @@
+.sticky-header {
+  position: relative;
+}
+
+.sticky-inner {
+  position: fixed;
+  padding: 16px;
+  width: 100%;
+  opacity: 0;
+  color: @white;
+  background-color: @theme-light-blue;
+  .transition(all @transition-speed);
+}
+
+.sticky .sticky-inner {
+  z-index: 1;
+  opacity: 1;
+  .transition(all @transition-speed);
+}

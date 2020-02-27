@@ -20,4 +20,9 @@ export default {
     refreshSecret: process.env.REFRESH_SECRET_KEY,
     refreshTokenLife: 60 * 24 * 30,
   },
+  mailgun: {
+    key: process.env.MAILGUN_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
+    sender: process.env.MAILGUN_EMAIL_SENDER,
+  },
 };

@@ -16,8 +16,9 @@ const DeleteAccount: React.FC<Props> = (props): JSX.Element => {
     <div className={`hidden-delete-account${props.collapsed ? ' show' : ''}`}>
       <Divider />
       <Text strong>
-        If you deleted your account, all of your data will be deleted including
-        your email.
+        If you no longer need to use mern boilerplate, you can delete your
+        account. Deleting your account will permananetly delete your data,
+        including your email. This action cannot be reversed.
       </Text>
       <Popconfirm
         icon={<Icon type="delete" style={{ color: 'red' }} />}
