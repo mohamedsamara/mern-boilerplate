@@ -168,6 +168,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
+    "reflect-metadata": "^0.1.13",
     "typedi": "^0.8.0",
     "use-http": "^0.2.5",
     "uuid": "^3.4.0"

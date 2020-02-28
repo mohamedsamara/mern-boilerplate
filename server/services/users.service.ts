@@ -1,13 +1,20 @@
-import { Container } from 'typedi';
+import { Container, Inject } from 'typedi';
 
 import UsersModel from '../models/users.model';
+import MailerService from './mailer.service';
+import * as templates from '../utils/email.templates';
 
 const usersModelInstance = Container.get(UsersModel);
 const usersModel = usersModelInstance.getModel();
 
 class UserService {
+  @Inject() private mailer: MailerService;
+
   public async register(newUser: any) {
     try {
+      const message = templates.signupEmail(newUser.profile);
+      await this.mailer.sendSignupEmail(newUser.email, message);
+
       return usersModel.create(newUser);
     } catch (error) {
       throw error;
@@ -63,6 +70,9 @@ class UserService {
       const userToUpdate = await usersModel.findById(id);
 
       if (userToUpdate) {
+        const message = templates.passwordChanged();
+        await this.mailer.sendPasswordChangedEmail(userToUpdate.email, message);
+
         return await userToUpdate.updateOne({ password });
       }
       return null;
