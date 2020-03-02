@@ -1,20 +1,13 @@
-import { Container, Inject } from 'typedi';
+import { Container } from 'typedi';
 
 import UsersModel from '../models/users.model';
-import MailerService from './mailer.service';
-import * as templates from '../utils/email.templates';
 
 const usersModelInstance = Container.get(UsersModel);
 const usersModel = usersModelInstance.getModel();
 
 class UserService {
-  @Inject() private mailer: MailerService;
-
   public async register(newUser: any) {
     try {
-      const message = templates.signupEmail(newUser.profile);
-      await this.mailer.sendSignupEmail(newUser.email, message);
-
       return usersModel.create(newUser);
     } catch (error) {
       throw error;
@@ -28,6 +21,32 @@ class UserService {
       const options = { new: true };
 
       return await usersModel.findOneAndUpdate(query, update, options);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async forgotPassword(id: any, resetToken: any, expires: any) {
+    try {
+      const query = { _id: id };
+      const update = {
+        resetPasswordToken: resetToken,
+        resetPasswordExpires: expires,
+      };
+      const options = { new: true };
+
+      return await usersModel.findByIdAndUpdate(query, update, options);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async resetPasswordExpires(token: string) {
+    try {
+      return await usersModel.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
+      });
     } catch (error) {
       throw error;
     }
@@ -65,14 +84,11 @@ class UserService {
     }
   }
 
-  public async resetPassword(id: any, password: any) {
+  public async updatePassword(id: any, password: any) {
     try {
       const userToUpdate = await usersModel.findById(id);
 
       if (userToUpdate) {
-        const message = templates.passwordChanged();
-        await this.mailer.sendPasswordChangedEmail(userToUpdate.email, message);
-
         return await userToUpdate.updateOne({ password });
       }
       return null;

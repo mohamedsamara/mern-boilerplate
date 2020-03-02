@@ -2,6 +2,7 @@ import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import * as passport from 'passport';
+import * as crypto from 'crypto';
 import { Container } from 'typedi';
 
 import Responder from '../helpers/responder';
@@ -49,6 +50,16 @@ export function createRefreshToken(user: any) {
   return signedToken;
 }
 
+export async function createResetToken() {
+  try {
+    const buffer = await crypto.randomBytes(48);
+
+    return buffer.toString('hex');
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function verifyRefreshToken(refreshToken: any) {
   const { refreshSecret } = config.jwt;
   try {
@@ -64,7 +75,7 @@ export async function getUser(req: Request) {
   try {
     const { authorization } = req.headers;
     const token = authorization.split(' ')[1];
-    return verify(token, secret);
+    return await verify(token, secret);
   } catch (error) {
     return false;
   }

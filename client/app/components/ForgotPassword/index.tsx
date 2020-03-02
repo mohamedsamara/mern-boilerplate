@@ -1,8 +1,12 @@
 import React from 'react';
 
-import { Form, Icon, Input, Button } from 'antd';
+import useFetch from 'use-http';
+import { Form, Icon, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import { Link } from 'react-router-dom';
+
+import Loading from '../Loading';
+import Button from '../Button';
 
 const formItemLayout = {
   labelCol: {
@@ -28,48 +32,60 @@ const tailFormItemLayout = {
 };
 
 const ForgotPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
+  const { request, response, loading } = useFetch('/api/auth');
   const { getFieldDecorator } = props.form;
 
   const handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        forgotPassword(values);
       }
     });
   };
 
-  return (
-    <Form
-      {...formItemLayout}
-      onSubmit={handleSubmit}
-      className="forgot-password-form"
-    >
-      <h2>Forgot Password</h2>
-      <Form.Item label="E-mail">
-        {getFieldDecorator('email', {
-          rules: [{ required: true, message: 'Please input your email!' }],
-        })(
-          <Input
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
-          />,
-        )}
-      </Form.Item>
+  const forgotPassword = async values => {
+    const result = await request.post('/forgot-password', values);
 
-      <Form.Item {...tailFormItemLayout}>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="forgot-password-form-button"
-        >
-          Log in
-        </Button>
-        <Link to="/login" className="login-link">
-          Back to login{' '}
-        </Link>
-      </Form.Item>
-    </Form>
+    if (response.ok) {
+      message.info(result.message);
+    } else {
+      message.error(result.message);
+    }
+  };
+
+  return (
+    <>
+      <Loading loading={loading} />
+      <Form
+        {...formItemLayout}
+        onSubmit={handleSubmit}
+        className="forgot-password-form"
+      >
+        <h2>Forgot Password</h2>
+        <Form.Item label="E-mail">
+          {getFieldDecorator('email', {
+            rules: [{ required: true, message: 'Please input your email!' }],
+          })(
+            <Input
+              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Email"
+            />,
+          )}
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button
+            type="primary"
+            text="Send"
+            htmlType="submit"
+            className="forgot-password-form-btn"
+          />
+          <Link to="/login" className="login-link">
+            Back to login{' '}
+          </Link>
+        </Form.Item>
+      </Form>
+    </>
   );
 };
 

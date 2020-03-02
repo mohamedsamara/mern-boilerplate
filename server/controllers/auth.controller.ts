@@ -1,14 +1,16 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
 import * as uuidv4 from 'uuid/v4';
-
 import UsersService from '../services/users.service';
+import MailerService from '../services/mailer.service';
 import Responder from '../helpers/responder';
 import * as auth from '../utils/auth';
 import * as cookie from '../utils/cookie';
+import * as templates from '../utils/email.templates';
 
 const usersServiceInstance = Container.get(UsersService);
 const responderInstance = Container.get(Responder);
+const mailerInstance = Container.get(MailerService);
 
 class AuthController {
   public async login(req: Request, res: Response) {
@@ -104,19 +106,25 @@ class AuthController {
       const refreshToken = auth.createRefreshToken(createdUser);
       const foundUser = await usersServiceInstance.findUser(createdUser._id);
 
-      const data = {
-        token: `Bearer ${jwt}`,
-        // refresh_token: refreshToken,
-        user: foundUser,
-      };
+      if (foundUser) {
+        const data = {
+          token: `Bearer ${jwt}`,
+          // refresh_token: refreshToken,
+          user: foundUser,
+        };
 
-      cookie.setCookie(res, refreshToken);
+        cookie.setCookie(res, refreshToken);
 
-      responderInstance.setSuccess(
-        201,
-        'You have been registered successfully.',
-        data,
-      );
+        const message = templates.signupEmail(newUser.profile);
+        await mailerInstance.send(createdUser.email, message);
+
+        responderInstance.setSuccess(
+          201,
+          'You have been registered successfully.',
+          data,
+        );
+      }
+
       return responderInstance.send(res);
     } catch (error) {
       responderInstance.setError(400, error.message);
@@ -125,38 +133,115 @@ class AuthController {
   }
 
   public async resetPassword(req: Request, res: Response) {
-    const { password, newPassword, userId } = req.body;
+    const { password } = req.body;
+    const { token } = req.params;
 
-    if (!password || !newPassword) {
-      responderInstance.setError(400, 'Some details are missing');
+    if (!password) {
+      responderInstance.setError(400, 'Your password is missing');
       return responderInstance.send(res);
     }
 
     try {
-      const user = await usersServiceInstance.findById(userId);
+      const user = await usersServiceInstance.resetPasswordExpires(token);
 
       if (!user) {
         responderInstance.setError(
           400,
-          `Something went wrong with changing your password!`,
+          'Your token has expired. Please attempt to reset your password again.',
         );
         return responderInstance.send(res);
       }
 
-      const passwordMatches = auth.verifyPassword(password, user.password);
+      const hashedPassword = auth.hashPassword(password);
+      const updatedUser = await usersServiceInstance.updatePassword(
+        user._id,
+        hashedPassword,
+      );
 
-      if (passwordMatches) {
-        const hashedPassword = auth.hashPassword(newPassword);
-        await usersServiceInstance.resetPassword(userId, hashedPassword);
+      if (updatedUser) {
+        const message = templates.passwordChanged();
+        await mailerInstance.send(user.email, message);
 
         responderInstance.setSuccess(
           200,
           'You have changed your password successfully',
         );
-      } else {
-        responderInstance.setError(400, 'Please enter your current password!');
+      }
+
+      return responderInstance.send(res);
+    } catch (error) {
+      responderInstance.setError(400, error);
+      return responderInstance.send(res);
+    }
+  }
+
+  public async forgotPassword(req: Request, res: Response) {
+    const { email } = req.body;
+
+    if (!email) {
+      responderInstance.setError(400, 'Your email is missing');
+      return responderInstance.send(res);
+    }
+
+    try {
+      const user = await usersServiceInstance.findByEmail(email);
+
+      if (!user) {
+        responderInstance.setError(
+          400,
+          'No user found for this email address.',
+        );
         return responderInstance.send(res);
       }
+
+      const resetToken = await auth.createResetToken();
+
+      const updatedUser = await usersServiceInstance.forgotPassword(
+        user._id,
+        resetToken,
+        Date.now() + 3600000,
+      );
+
+      if (updatedUser) {
+        const message = templates.resetPassword(req, resetToken);
+        await mailerInstance.send(email, message);
+
+        responderInstance.setSuccess(
+          200,
+          'Kindly check your email, You will be receiving a link to reset your password',
+        );
+      }
+
+      return responderInstance.send(res);
+    } catch (error) {
+      responderInstance.setError(400, error);
+      return responderInstance.send(res);
+    }
+  }
+
+  public async checkExpire(req: Request, res: Response) {
+    const { token } = req.params;
+
+    if (!token) {
+      responderInstance.setError(
+        400,
+        'Something went wrong with reseting your password!',
+      );
+      return responderInstance.send(res);
+    }
+
+    try {
+      const user = await usersServiceInstance.resetPasswordExpires(token);
+
+      if (!user) {
+        responderInstance.setError(
+          400,
+          'Your token has expired. Please attempt to reset your password again.',
+        );
+        return responderInstance.send(res);
+      }
+
+      responderInstance.setSuccess(200, null);
 
       return responderInstance.send(res);
     } catch (error) {

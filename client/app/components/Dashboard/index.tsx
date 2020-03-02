@@ -31,7 +31,7 @@ const Dashboard: React.FC = (): JSX.Element => {
         <Descriptions.Item span={3}>
           <div className="dashboard-actions">
             <Link to="profile">Edit Profile</Link>
-            <Link to="reset-password">Reset Password</Link>
+            <Link to="/edit-password">Reset Password</Link>
           </div>
         </Descriptions.Item>
         <Descriptions.Item label="Full Name">

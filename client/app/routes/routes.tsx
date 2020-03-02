@@ -8,6 +8,7 @@ import Logout from '../components/Logout';
 import Dashboard from '../components/Dashboard';
 import EditProfile from '../components/EditProfile';
 import ResetPassword from '../components/ResetPassword';
+import EditPassword from '../components/EditPassword';
 
 const routes = [
   { path: '/', exact: true, name: 'Homepage', component: Homepage },
@@ -18,6 +19,7 @@ const routes = [
     private: true,
     component: Dashboard,
   },
+
   {
     path: '/profile',
     name: 'Profile',
@@ -25,10 +27,10 @@ const routes = [
     component: EditProfile,
   },
   {
-    path: '/reset-password',
-    name: 'Reset-Passsword',
+    path: '/edit-password',
+    name: 'EditPasssword',
     private: true,
-    component: ResetPassword,
+    component: EditPassword,
   },
   { path: '/logout', name: 'Logout', component: Logout },
   { path: '/login', name: 'Login', protected: true, component: Login },
@@ -38,6 +40,11 @@ const routes = [
     name: 'ForgotPassword',
     protected: true,
     component: ForgotPassword,
+  },
+  {
+    path: '/reset-password/:token',
+    name: 'Reset-Passsword',
+    component: ResetPassword,
   },
 
   { path: '*', component: page404 },

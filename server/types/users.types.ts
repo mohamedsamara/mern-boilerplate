@@ -7,7 +7,7 @@ export interface IUser extends Document {
   password: string;
   refresh_token: string;
   reset_password_token: string;
-  reset_password_expires: Date;
+  reset_password_expires: number;
 }
 
 interface IUserProfile {

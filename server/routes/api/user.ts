@@ -13,6 +13,7 @@ class UserRoute {
 
   private constructor() {
     this.getInitial();
+    this.updatePassword();
     this.get();
     this.put();
     this.delete();
@@ -28,6 +29,14 @@ class UserRoute {
       '/initial/:id',
       auth.verifyRoute,
       userControllerInstance.getUserInitial,
+    );
+  }
+
+  private async updatePassword() {
+    this.router.post(
+      '/update-password',
+      auth.verifyRoute,
+      userControllerInstance.updatePassword,
     );
   }
 

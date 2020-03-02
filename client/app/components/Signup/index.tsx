@@ -155,7 +155,7 @@ const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
             text="Register"
             htmlType="submit"
             className="signup-form-btn"
-          ></Button>
+          />
           Or{' '}
           <Link to="/login" className="login-link">
             Login

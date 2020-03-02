@@ -1,20 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import useFetch from 'use-http';
 import { Row, Col, Form, Input, Icon, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Button from '../Button';
 import Label from '../Label';
-import PageHeader from '../PageHeader';
-import { useAuth } from '../../contexts/Auth';
 
 const ResetPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   const history = useHistory();
-  const { request, response, loading } = useFetch('/api/auth');
+  const { request, response } = useFetch('/api/auth');
+  const { token } = useParams();
   const { getFieldDecorator } = props.form;
-  const { getUserId } = useAuth();
+  const [confirmDirty, setConfirmDirty] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      checkTokenExpiration();
+    }
+  }, [token]);
+
+  const checkTokenExpiration = async () => {
+    const result = await request.post(`/reset-password/expire/${token}`);
+
+    if (!response.ok) {
+      message.error(result.message);
+      history.push('/forgot-password');
+    }
+  };
+
+  const resetPassword = async values => {
+    const result = await request.post(`/reset-password/${token}`, values);
+
+    if (response.ok) {
+      message.info(result.message);
+      history.push('/login');
+    } else {
+      message.error(result.message);
+    }
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -25,58 +50,44 @@ const ResetPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
     });
   };
 
-  const resetPassword = async values => {
-    // eslint-disable-next-line no-param-reassign
-    values.userId = getUserId();
-    const result = await request.post('/reset-password', values);
+  const handleConfirmBlur = e => {
+    const { value } = e.target;
+    setConfirmDirty(confirmDirty || !!value);
+  };
 
-    if (response.ok) {
-      message.info(result.message);
-      history.push('/logout');
+  const compareToFirstPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!');
     } else {
-      message.error(result.message);
+      callback();
     }
   };
 
-  const onBack = () => {
-    history.goBack();
+  const validateToNextPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
   };
 
   return (
     <div className="reset-password">
-      <PageHeader onBack={onBack} loading={loading} />
       <h2>Reset Password</h2>
       <Form onSubmit={handleSubmit} className="reset-password-form">
         <Row gutter={16}>
           <Col span={24} className="gutter-row">
-            <Label text="Current Password" />
+            <Label text="Password" />
             <Form.Item>
               {getFieldDecorator('password', {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input your current password!',
+                    message: 'Please input your password!',
                   },
-                ],
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                  }
-                  type="password"
-                  placeholder="Current Password"
-                />,
-              )}
-            </Form.Item>
-          </Col>
-          <Col span={24} className="gutter-row">
-            <Label text="New Password" />
-            <Form.Item>
-              {getFieldDecorator('newPassword', {
-                rules: [
                   {
-                    required: true,
-                    message: 'Please input your new password!',
+                    validator: validateToNextPassword,
                   },
                 ],
               })(
@@ -90,6 +101,31 @@ const ResetPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
               )}
             </Form.Item>
           </Col>
+          <Col span={24} className="gutter-row">
+            <Label text="Confirm Password" />
+            <Form.Item>
+              {getFieldDecorator('confirm', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please confirm your password!',
+                  },
+                  {
+                    validator: compareToFirstPassword,
+                  },
+                ],
+              })(
+                <Input
+                  prefix={
+                    <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                  type="password"
+                  onBlur={handleConfirmBlur}
+                  placeholder="Confirm Password"
+                />,
+              )}
+            </Form.Item>
+          </Col>
         </Row>
         <Row gutter={16}>
           <Col xs={24} sm={8} className="gutter-row">
@@ -97,7 +133,7 @@ const ResetPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
               <Button
                 text="Reset Password"
                 htmlType="submit"
-                className="update-password-btn"
+                className="reset-password-btn"
               ></Button>
             </Form.Item>
           </Col>

@@ -90,7 +90,7 @@ const Login: React.FC<FormComponentProps> = (props): JSX.Element => {
             text="Log in"
             htmlType="submit"
             className="login-form-btn"
-          ></Button>
+          />
           Or{' '}
           <Link to="/register" className="register-link">
             register now!

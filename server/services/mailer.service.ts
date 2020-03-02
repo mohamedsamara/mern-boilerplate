@@ -13,7 +13,7 @@ class MailerService {
     domain: config.mailgun.domain,
   });
 
-  public async sendSignupEmail(recepient: any, message: any) {
+  public async send(recepient: any, message: any) {
     try {
       const data = {
         from: `Mern Boilerplate <${this.sender}>`,
@@ -22,24 +22,7 @@ class MailerService {
         text: message.text,
       };
 
-      await this.emailProvider.messages().send(data);
-      return { delivered: 1, status: 'ok' };
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  public async sendPasswordChangedEmail(recepient: any, message: any) {
-    try {
-      const data = {
-        from: `Mern Boilerplate <${this.sender}>`,
-        to: recepient,
-        subject: message.subject,
-        text: message.text,
-      };
-
-      await this.emailProvider.messages().send(data);
-      return { delivered: 1, status: 'ok' };
+      return await this.emailProvider.messages().send(data);
     } catch (error) {
       throw error;
     }
