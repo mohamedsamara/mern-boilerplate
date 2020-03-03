@@ -23,15 +23,20 @@ import PageHeader from '../PageHeader';
 import useToggle from '../../hooks/useToggle';
 import useUser from '../../hooks/user/useUser';
 import { useAuth } from '../../contexts/Auth';
+import { OptionsPreview } from '../../types.d';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 const dateFormat = 'YYYY/MM/DD';
 
+const options: OptionsPreview = {
+  cachePolicy: 'no-cache',
+};
+
 const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
   const { getFieldDecorator } = props.form;
-  const { request, response, loading } = useFetch('/api');
+  const { request, response, loading } = useFetch('/api', options);
   const [user, setUser] = useUser();
   const [collapsed, setCollapsed] = useToggle(false);
   const history = useHistory();
@@ -44,9 +49,10 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
 
   const fetchUser = async () => {
     const id = getUserId();
+
     const result = await request.get(`/user/${id}`);
 
-    if (response.ok && result.data) {
+    if (response.ok) {
       setUser(result.data.user);
     }
   };
@@ -148,13 +154,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
             <Form.Item>
               {getFieldDecorator('bio', {
                 initialValue: user.profile.bio,
-              })(
-                <TextArea
-                  autoSize={{ minRows: 3, maxRows: 5 }}
-                  placeholder="Bio"
-                  allowClear
-                />,
-              )}
+              })(<TextArea placeholder="Bio" allowClear />)}
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} className="gutter-row">

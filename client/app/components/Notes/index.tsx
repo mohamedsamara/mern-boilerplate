@@ -13,15 +13,21 @@ import NoteItem from './NoteItem';
 import useActive from '../../hooks/useActive';
 import useClickAway from '../../hooks/useClickAway';
 import { useAuth } from '../../contexts/Auth';
+import { OptionsPreview } from '../../types.d';
 
 const { Text } = Typography;
+
+const options: OptionsPreview = {
+  cachePolicy: 'no-cache',
+};
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [empty, setEmpty] = useActive(false);
   const [open, openModal] = useActive(false);
   const emptyRef = useRef();
-  const { request, response, loading } = useFetch('/api');
+
+  const { request, response, loading } = useFetch('/api', options);
   const { getUserId } = useAuth();
 
   useEffect(() => {

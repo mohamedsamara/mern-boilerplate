@@ -18,7 +18,7 @@ const StickyHeader = () => {
   const handleScroll = () => {
     const scrollY = window.pageYOffset;
 
-    if (lastScrollY > scrollY && scrollY !== 0) {
+    if (lastScrollY > scrollY && scrollY !== 0 && scrollY >= 300) {
       setHeaderHeight(stickyRef.current.previousElementSibling.offsetHeight);
       setSticky(true);
     } else {

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 
 const useLocalStorage = (
   key: string,
   initialValue: string,
-): [string, (val: string) => void] => {
+): [string, Dispatch<SetStateAction<string>>] => {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {

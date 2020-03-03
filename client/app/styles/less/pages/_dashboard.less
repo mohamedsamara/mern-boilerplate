@@ -3,6 +3,16 @@
   border: @border-default;
   .box-shadow(@box-shadow-default);
 
+  h2 {
+    border-bottom: @border-default;
+    border-width: 2px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    .responsive(450px, {
+      text-align: center;
+    });
+  }
+
   .dashboard-actions {   
 
     a {
@@ -10,10 +20,19 @@
     }
   }
 
-  .ant-descriptions {
+  .account-details {
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
+    // grid-template-rows: repeat(6, 200px);
+    grid-gap: 1rem;
+    grid-auto-flow: dense;
 
-    .description-label-text {
-      margin-left: 5px;
+    .label-box {
+
+      .label {
+        margin: 0 5px 0 5px;
+      }
     }
   }
 }

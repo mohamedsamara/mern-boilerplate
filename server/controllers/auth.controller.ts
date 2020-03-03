@@ -263,7 +263,7 @@ class AuthController {
   public async getToken(req: Request, res: Response) {
     const refreshTokenHeader = req.cookies.refresh_token;
     if (!refreshTokenHeader) {
-      responderInstance.setError(400, 'Invalid no header refresh token');
+      responderInstance.setError(400, 'Invalid refresh token');
       return responderInstance.send(res);
     }
 

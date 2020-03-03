@@ -60,9 +60,15 @@ const Login: React.FC<FormComponentProps> = (props): JSX.Element => {
       <Loading loading={loading} />
       <Form {...formItemLayout} onSubmit={handleSubmit} className="login-form">
         <h2>Login</h2>
-        <Form.Item label="E-mail">
+        <Form.Item label="Email">
           {getFieldDecorator('email', {
-            rules: [{ required: true, message: 'Please input your email!' }],
+            rules: [
+              { required: true, message: 'Please input your email!' },
+              {
+                type: 'email',
+                message: 'The input is not valid email!',
+              },
+            ],
           })(
             <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}

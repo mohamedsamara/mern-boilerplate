@@ -3,7 +3,6 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 
 import history from './utils/history';
-
 import Application from './containers/Application';
 import { AuthProvider } from './contexts/Auth';
 import { UserProvider } from './contexts/User';

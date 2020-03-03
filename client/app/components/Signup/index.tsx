@@ -63,7 +63,7 @@ const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
   const compareToFirstPassword = (rule, value, callback) => {
     const { form } = props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback("The two passwords you entered don't match!");
     } else {
       callback();
     }
@@ -82,7 +82,7 @@ const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
       <Loading loading={loading} />
       <Form {...formItemLayout} onSubmit={handleSubmit} className="signup-form">
         <h2>Sign Up</h2>
-        <Form.Item label="E-mail">
+        <Form.Item label="Email">
           {getFieldDecorator('email', {
             rules: [
               {
@@ -91,7 +91,7 @@ const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: 'Please input your email!',
               },
             ],
           })(<Input placeholder="Email" />)}

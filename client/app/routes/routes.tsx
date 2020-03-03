@@ -44,6 +44,7 @@ const routes = [
   {
     path: '/reset-password/:token',
     name: 'Reset-Passsword',
+    protected: true,
     component: ResetPassword,
   },
 

@@ -58,7 +58,7 @@ const ResetPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   const compareToFirstPassword = (rule, value, callback) => {
     const { form } = props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback("The two passwords you entered don't match!");
     } else {
       callback();
     }

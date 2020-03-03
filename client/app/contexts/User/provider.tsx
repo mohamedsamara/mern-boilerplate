@@ -14,7 +14,7 @@ const UserProvider: React.FC<UserContextProviderProps> = ({ children }) => {
     userReducer,
     initialState,
   );
-  const { request, response } = useFetch('api', globalOptions => {
+  const { request, response } = useFetch('/api', globalOptions => {
     return {
       ...globalOptions,
     };

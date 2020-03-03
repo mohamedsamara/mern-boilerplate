@@ -81,7 +81,7 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
     }
   };
 
-  const options = {
+  const fetchOptions = {
     headers: {
       Authorization: token,
     },
@@ -89,10 +89,10 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
       request: (options, url, path, route) => {
         if (token) {
           if (url !== '/api/auth' && route !== '/user/initial') {
-            console.log('is intercepted');
             handleToken();
           }
         }
+
         return options;
       },
       response: response => {
@@ -106,7 +106,7 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
       value={{ state, setAuth, unsetAuth, loading, getUserId }}
     >
       <Loading loading={loading} auth fullscreen />
-      <Provider options={options}>{children}</Provider>
+      <Provider options={fetchOptions}>{children}</Provider>
     </AuthContext.Provider>
   );
 };

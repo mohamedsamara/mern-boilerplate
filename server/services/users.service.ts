@@ -62,7 +62,12 @@ class UserService {
 
   public async findUser(id: any) {
     try {
-      return await usersModel.findById(id, ['-refresh_token', '-password']);
+      return await usersModel.findById(id, [
+        '-refresh_token',
+        '-password',
+        '-resetPasswordToken',
+        '-resetPasswordExpires',
+      ]);
     } catch (error) {
       throw error;
     }
