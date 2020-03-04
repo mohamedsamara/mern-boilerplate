@@ -4,7 +4,7 @@ import { Container } from 'typedi';
 import UserController from '../../controllers/user.controller';
 import * as auth from '../../utils/auth';
 
-const userControllerInstance = Container.get(UserController);
+const userController = Container.get(UserController);
 
 class UserRoute {
   public static path = '/user';
@@ -28,7 +28,7 @@ class UserRoute {
     this.router.get(
       '/initial/:id',
       auth.verifyRoute,
-      userControllerInstance.getUserInitial,
+      userController.getUserInitial,
     );
   }
 
@@ -36,28 +36,20 @@ class UserRoute {
     this.router.post(
       '/update-password',
       auth.verifyRoute,
-      userControllerInstance.updatePassword,
+      userController.updatePassword,
     );
   }
 
   private async get() {
-    this.router.get('/:id', auth.verifyRoute, userControllerInstance.getUser);
+    this.router.get('/:id', auth.verifyRoute, userController.getUser);
   }
 
   private async put() {
-    this.router.put(
-      '/:id',
-      auth.verifyRoute,
-      userControllerInstance.updateUser,
-    );
+    this.router.put('/:id', auth.verifyRoute, userController.updateUser);
   }
 
   private async delete() {
-    this.router.delete(
-      '/:id',
-      auth.verifyRoute,
-      userControllerInstance.deleteUser,
-    );
+    this.router.delete('/:id', auth.verifyRoute, userController.deleteUser);
   }
 }
 

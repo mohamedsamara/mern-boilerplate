@@ -97,7 +97,7 @@ const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
           })(<Input placeholder="Email" />)}
         </Form.Item>
         <Form.Item label={<span>First Name</span>}>
-          {getFieldDecorator('firstName', {
+          {getFieldDecorator('first_name', {
             rules: [
               {
                 required: true,
@@ -108,7 +108,7 @@ const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
           })(<Input placeholder="First Name" />)}
         </Form.Item>
         <Form.Item label={<span>Last Name</span>}>
-          {getFieldDecorator('lastName', {
+          {getFieldDecorator('last_name', {
             rules: [
               {
                 required: true,

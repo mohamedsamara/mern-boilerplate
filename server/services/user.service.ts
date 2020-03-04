@@ -1,26 +1,27 @@
 import { Container } from 'typedi';
 
-import UsersModel from '../models/users.model';
+import UserModel from '../models/user.model';
+import { IUser, IUserInput } from '../types/user.types';
 
-const usersModelInstance = Container.get(UsersModel);
-const usersModel = usersModelInstance.getModel();
+const userModel = Container.get(UserModel);
+const user = userModel.get();
 
 class UserService {
-  public async register(newUser: any) {
+  public async register(newUser: IUserInput): Promise<IUser> {
     try {
-      return usersModel.create(newUser);
+      return user.create(newUser);
     } catch (error) {
       throw error;
     }
   }
 
-  public async saveRefreshToken(id: any, refreshToken: string) {
+  public async saveRefreshToken(id: any, refreshToken: string): Promise<IUser> {
     try {
       const query = { _id: id };
       const update = { refresh_token: refreshToken };
       const options = { new: true };
 
-      return await usersModel.findOneAndUpdate(query, update, options);
+      return await user.findOneAndUpdate(query, update, options);
     } catch (error) {
       throw error;
     }
@@ -30,12 +31,12 @@ class UserService {
     try {
       const query = { _id: id };
       const update = {
-        resetPasswordToken: resetToken,
-        resetPasswordExpires: expires,
+        reset_password_token: resetToken,
+        reset_password_expires: expires,
       };
       const options = { new: true };
 
-      return await usersModel.findByIdAndUpdate(query, update, options);
+      return await user.findByIdAndUpdate(query, update, options);
     } catch (error) {
       throw error;
     }
@@ -43,9 +44,9 @@ class UserService {
 
   public async resetPasswordExpires(token: string) {
     try {
-      return await usersModel.findOne({
-        resetPasswordToken: token,
-        resetPasswordExpires: { $gt: Date.now() },
+      return await user.findOne({
+        reset_password_token: token,
+        reset_password_expires: { $gt: Date.now() },
       });
     } catch (error) {
       throw error;
@@ -54,7 +55,7 @@ class UserService {
 
   public async findUserInitial(id: any) {
     try {
-      return await usersModel.findById(id).select('profile.firstName');
+      return await user.findById(id).select('profile.first_name');
     } catch (error) {
       throw error;
     }
@@ -62,11 +63,13 @@ class UserService {
 
   public async findUser(id: any) {
     try {
-      return await usersModel.findById(id, [
+      return await user.findById(id, [
         '-refresh_token',
         '-password',
-        '-resetPasswordToken',
-        '-resetPasswordExpires',
+        '-reset_password_token',
+        '-reset_password_expires',
+        '-meta',
+        '-__v',
       ]);
     } catch (error) {
       throw error;
@@ -75,7 +78,7 @@ class UserService {
 
   public async findByEmail(email: string) {
     try {
-      return await usersModel.findOne({ email });
+      return await user.findOne({ email });
     } catch (error) {
       throw error;
     }
@@ -83,7 +86,7 @@ class UserService {
 
   public async findById(id: any) {
     try {
-      return await usersModel.findById(id);
+      return await user.findById(id);
     } catch (error) {
       throw error;
     }
@@ -91,7 +94,7 @@ class UserService {
 
   public async updatePassword(id: any, password: any) {
     try {
-      const userToUpdate = await usersModel.findById(id);
+      const userToUpdate = await user.findById(id);
 
       if (userToUpdate) {
         return await userToUpdate.updateOne({ password });
@@ -104,7 +107,7 @@ class UserService {
 
   public async updateUser(id: any, newProfile: any) {
     try {
-      const userToUpdate = await usersModel.findById(id);
+      const userToUpdate = await user.findById(id);
 
       if (userToUpdate) {
         await userToUpdate.updateOne({ profile: newProfile });
@@ -118,10 +121,10 @@ class UserService {
 
   public async deleteUser(id: any) {
     try {
-      const userToDelete = await usersModel.findById(id);
+      const userToDelete = await user.findById(id);
 
       if (userToDelete) {
-        const deletedUser = await usersModel.deleteOne({
+        const deletedUser = await user.deleteOne({
           _id: id,
         });
 

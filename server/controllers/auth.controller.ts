@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
 import * as uuidv4 from 'uuid/v4';
-import UsersService from '../services/users.service';
+import UsersService from '../services/user.service';
 import MailerService from '../services/mailer.service';
 import Responder from '../helpers/responder';
 import * as auth from '../utils/auth';
 import * as cookie from '../utils/cookie';
 import * as templates from '../utils/email.templates';
+import { IUserInput } from '../types/user.types';
 
 const usersServiceInstance = Container.get(UsersService);
 const responderInstance = Container.get(Responder);
@@ -70,7 +71,7 @@ class AuthController {
   }
 
   public async register(req: Request, res: Response) {
-    const { email, password, firstName, lastName } = req.body;
+    const { email, password, first_name, last_name } = req.body;
 
     if (!email || !password) {
       responderInstance.setError(400, 'Some details are missing');
@@ -94,13 +95,15 @@ class AuthController {
         email,
         password: hashedPassword,
         profile: {
-          firstName,
-          lastName,
+          first_name,
+          last_name,
         },
         refresh_token: uuidv4(),
       };
 
-      const createdUser = await usersServiceInstance.register(newUser);
+      const createdUser = await usersServiceInstance.register(
+        newUser as IUserInput,
+      );
 
       const jwt = auth.createToken(createdUser);
       const refreshToken = auth.createRefreshToken(createdUser);
@@ -298,12 +301,10 @@ class AuthController {
 
       const jwt = auth.createToken(updatedUser);
       const refreshToken = auth.createRefreshToken(updatedUser);
-      //   const foundUser = await usersServiceInstance.findUser(user._id);
 
       const data = {
         token: `Bearer ${jwt}`,
         // refresh_token: refreshToken,
-        // user: foundUser,
       };
 
       cookie.setCookie(res, refreshToken);

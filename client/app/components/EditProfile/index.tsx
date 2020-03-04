@@ -116,8 +116,8 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
           <Col xs={24} sm={12} className="gutter-row">
             <Label text="First Name" />
             <Form.Item>
-              {getFieldDecorator('firstName', {
-                initialValue: user.profile.firstName,
+              {getFieldDecorator('first_name', {
+                initialValue: user.profile.first_name,
                 rules: [
                   {
                     required: true,
@@ -130,8 +130,8 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
           <Col xs={24} sm={12} className="gutter-row">
             <Label text="Last Name" />
             <Form.Item>
-              {getFieldDecorator('lastName', {
-                initialValue: user.profile.lastName,
+              {getFieldDecorator('last_name', {
+                initialValue: user.profile.last_name,
                 rules: [
                   { required: true, message: 'Please input your Last Name!' },
                 ],
@@ -146,7 +146,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
             <Form.Item>
               {getFieldDecorator('website', {
                 initialValue: user.profile.website,
-              })(<Input placeholder="First Name" />)}
+              })(<Input placeholder="Website" />)}
             </Form.Item>
           </Col>
           <Col xs={24} sm={24} className="gutter-row">

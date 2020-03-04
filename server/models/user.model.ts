@@ -1,25 +1,25 @@
 import { Schema, model } from 'mongoose';
 
-import { IUser, UserModel } from '../types/users.types';
+import { IUser, UserModelType } from '../types/user.types';
 
-class UsersModel {
-  private model: UserModel;
+class UserModel {
+  private model: UserModelType;
 
   constructor() {
-    this.initSchema();
+    this.init();
   }
 
-  public initSchema() {
+  public init() {
     const schema = new Schema({
       email: {
         type: String,
         required: true,
       },
       profile: {
-        firstName: {
+        first_name: {
           type: String,
         },
-        lastName: {
+        last_name: {
           type: String,
         },
         website: {
@@ -47,21 +47,26 @@ class UsersModel {
       refresh_token: {
         type: String,
       },
-      resetPasswordToken: { type: String },
-      resetPasswordExpires: { type: Date },
-      updated: Date,
-      created: {
-        type: Date,
-        default: Date.now,
+      reset_password_token: { type: String },
+      reset_password_expires: { type: Date },
+      meta: {
+        createdAt: {
+          type: Date,
+          default: Date.now(),
+        },
+        updatedAt: {
+          type: Date,
+          default: Date.now(),
+        },
       },
     });
 
-    this.model = <UserModel>model<IUser>('users', schema);
+    this.model = <UserModelType>model<IUser>('user', schema);
   }
 
-  public getModel(): UserModel {
+  public get(): UserModelType {
     return this.model;
   }
 }
 
-export default UsersModel;
+export default UserModel;

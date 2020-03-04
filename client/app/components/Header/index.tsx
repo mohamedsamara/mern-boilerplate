@@ -66,7 +66,9 @@ const Header: React.FC = (): JSX.Element => {
               <Dropdown overlay={menu}>
                 <Button>
                   <Avatar size="large">
-                    <Text strong>{state.user.profile.firstName.charAt(0)}</Text>
+                    <Text strong>
+                      {state.user.profile.first_name.charAt(0)}
+                    </Text>
                   </Avatar>
                   <Icon type="down" />
                 </Button>

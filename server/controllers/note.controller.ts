@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
 
-import NotesService from '../services/notes.service';
+import NotesService from '../services/note.service';
 import Responder from '../helpers/responder';
 
 const notesServiceInstance = Container.get(NotesService);
@@ -94,6 +94,8 @@ class NotesController {
 
     try {
       const noteToDelete = await notesServiceInstance.deleteNote(id);
+
+      console.log('noteToDelete', noteToDelete);
 
       if (noteToDelete) {
         responderInstance.setSuccess(200, 'note has been deleted successfully');

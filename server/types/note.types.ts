@@ -1,11 +1,14 @@
 import { Document, Model } from 'mongoose';
 
+import { IUser } from './user.types';
+
 export interface INote extends Document {
-  id: string;
+  _id: string;
   title: string;
   content: string;
+  user: IUser['_id'];
 }
 
 export interface INoteModel {}
 
-export type NoteModel = Model<INote> & INoteModel & INote;
+export type NoteModelType = Model<INote> & INoteModel & INote;

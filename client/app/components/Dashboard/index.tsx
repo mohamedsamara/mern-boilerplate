@@ -42,7 +42,7 @@ const Dashboard: React.FC = (): JSX.Element => {
       </div>
       <div className="account-details">
         <Label text="Name:">
-          <Text>{`${user.profile.firstName} ${user.profile.lastName}`}</Text>
+          <Text>{`${user.profile.first_name} ${user.profile.last_name}`}</Text>
         </Label>
 
         <Label text="Role:">

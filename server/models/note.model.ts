@@ -1,15 +1,15 @@
 import { Schema, model } from 'mongoose';
 
-import { INote, NoteModel } from '../types/notes.types';
+import { INote, NoteModelType } from '../types/note.types';
 
-class NotesModel {
-  private model: NoteModel;
+class NoteModel {
+  private model: NoteModelType;
 
   constructor() {
-    this.initSchema();
+    this.init();
   }
 
-  public initSchema() {
+  private init() {
     const schema = new Schema({
       title: {
         type: String,
@@ -25,12 +25,12 @@ class NotesModel {
       },
     });
 
-    this.model = <NoteModel>model<INote>('notes', schema);
+    this.model = <NoteModelType>model<INote>('note', schema);
   }
 
-  public getModel(): NoteModel {
+  public get(): NoteModelType {
     return this.model;
   }
 }
 
-export default NotesModel;
+export default NoteModel;

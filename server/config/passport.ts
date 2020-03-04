@@ -1,7 +1,7 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Container } from 'typedi';
 
-import UsersService from '../services/users.service';
+import UsersService from '../services/user.service';
 import config from './keys';
 
 const usersServiceInstance = Container.get(UsersService);

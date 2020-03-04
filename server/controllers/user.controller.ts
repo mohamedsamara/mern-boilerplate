@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
 
-import UsersService from '../services/users.service';
+import UserService from '../services/user.service';
 import MailerService from '../services/mailer.service';
 import Responder from '../helpers/responder';
 
 import * as auth from '../utils/auth';
 import * as templates from '../utils/email.templates';
 
-const usersServiceInstance = Container.get(UsersService);
+const usersServiceInstance = Container.get(UserService);
 const responderInstance = Container.get(Responder);
 const mailerInstance = Container.get(MailerService);
 

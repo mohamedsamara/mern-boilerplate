@@ -9,8 +9,8 @@ const userState: IUser = {
   created: '',
   __v: 0,
   profile: {
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     website: '',
     bio: '',
     gender: '',

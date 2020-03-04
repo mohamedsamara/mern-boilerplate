@@ -7,8 +7,8 @@ export interface IUser {
   created: string;
   __v?: number;
   profile: {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     website: string;
     bio: string;
     gender: string;

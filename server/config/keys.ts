@@ -7,6 +7,9 @@ if (fs.existsSync(path)) {
 }
 
 export default {
+  app: {
+    name: 'Mern Boilerplate',
+  },
   port: process.env.PORT,
   database: {
     url: process.env.MONGO_URI,
