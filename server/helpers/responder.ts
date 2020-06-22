@@ -1,27 +1,24 @@
 import { Response } from 'express';
 
 class Responder {
-  public statusCode: number = null;
+  private type: string = null;
 
-  public code: string = null;
+  private code: number = null;
 
-  public type: string = null;
+  private message: string = null;
 
-  public data: any = null;
+  private data: any = null;
 
-  public message: string = null;
-
-  public async setSuccess(statusCode: number, message: string, data?: any) {
-    this.statusCode = statusCode;
+  public async success(code: number, message: string, data?: any) {
     this.type = 'success';
+    this.code = code;
     this.message = message;
     this.data = data;
   }
 
-  public async setError(statusCode: number, message: string, code?: string) {
-    this.statusCode = statusCode;
-    this.code = code;
+  public async error(code: number, message: string) {
     this.type = 'error';
+    this.code = code;
     this.message = message;
   }
 
@@ -33,11 +30,10 @@ class Responder {
     };
 
     if (this.type === 'success') {
-      return res.status(this.statusCode).json(result);
+      return res.status(this.code).json(result);
     }
 
-    return res.status(this.statusCode).json({
-      code: this.code,
+    return res.status(this.code).json({
       status: this.type,
       message: this.message,
     });

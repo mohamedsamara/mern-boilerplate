@@ -6,9 +6,9 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../Button';
-
 import Loading from '../Loading';
 import { useAuth } from '../../contexts/Auth';
+import { OptionsPreview } from '../../types.d';
 
 const formItemLayout = {
   labelCol: {
@@ -33,10 +33,14 @@ const tailFormItemLayout = {
   },
 };
 
+const options: OptionsPreview = {
+  cachePolicy: 'no-cache',
+};
+
 const Login: React.FC<FormComponentProps> = (props): JSX.Element => {
   const { getFieldDecorator } = props.form;
   const history = useHistory();
-  const { request, response, loading } = useFetch('/api/auth');
+  const { request, response, loading } = useFetch('/api/auth', options);
   const { setAuth } = useAuth();
 
   const handleSubmit = e => {

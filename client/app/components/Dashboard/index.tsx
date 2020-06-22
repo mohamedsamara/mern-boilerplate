@@ -33,6 +33,10 @@ const Dashboard: React.FC = (): JSX.Element => {
     }
   };
 
+  const getGender = profile => {
+    return profile.gender === 'm' ? 'Male' : 'Female';
+  };
+
   return (
     <div className="dashboard">
       <h2>Account Details</h2>
@@ -54,7 +58,9 @@ const Dashboard: React.FC = (): JSX.Element => {
         </Label>
 
         <Label text="Gender:" Icon={<Icon type="user" />}>
-          <Text>{user.profile.gender === 'm' ? 'Male' : 'Female'}</Text>
+          <Text>
+            {user.profile.gender ? getGender(user.profile) : 'Not set Yet!'}
+          </Text>
         </Label>
 
         <Label text="Birthdate:" Icon={<Icon type="calendar" />}>

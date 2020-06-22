@@ -3,7 +3,7 @@ import Notes from '../components/Notes';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
 import ForgotPassword from '../components/ForgotPassword';
-import page404 from '../components/404';
+import Page404 from '../components/404';
 import Logout from '../components/Logout';
 import Dashboard from '../components/Dashboard';
 import EditProfile from '../components/EditProfile';
@@ -48,7 +48,7 @@ const routes = [
     component: ResetPassword,
   },
 
-  { path: '*', component: page404 },
+  { path: '*', component: Page404 },
 ];
 
 export default routes;

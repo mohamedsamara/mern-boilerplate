@@ -4,6 +4,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv-webpack');
+
 const CURRENT_WORKING_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV;
 

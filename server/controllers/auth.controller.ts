@@ -1,96 +1,86 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
 import * as uuidv4 from 'uuid/v4';
-import UsersService from '../services/user.service';
+
+import UserService from '../services/user.service';
 import MailerService from '../services/mailer.service';
 import Responder from '../helpers/responder';
+import { IUserInput } from '../types/user.types';
+
 import * as auth from '../utils/auth';
 import * as cookie from '../utils/cookie';
 import * as templates from '../utils/email.templates';
-import { IUserInput } from '../types/user.types';
+import config from '../config/keys';
 
-const usersServiceInstance = Container.get(UsersService);
-const responderInstance = Container.get(Responder);
-const mailerInstance = Container.get(MailerService);
+const userService = Container.get(UserService);
+const responder = Container.get(Responder);
+const mailer = Container.get(MailerService);
 
 class AuthController {
   public async login(req: Request, res: Response) {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      responderInstance.setError(400, 'Some details are missing');
-      return responderInstance.send(res);
+      responder.error(400, 'some details are missing');
+      return responder.send(res);
     }
 
     try {
-      const user = await usersServiceInstance.findByEmail(email);
+      const user = await userService.findByEmail(email);
 
       if (!user) {
-        responderInstance.setError(
-          400,
-          'No user found for this email address.',
-        );
-        return responderInstance.send(res);
+        responder.error(400, 'no user found for this email address');
+        return responder.send(res);
       }
 
       const passwordMatches = auth.verifyPassword(password, user.password);
 
       if (passwordMatches) {
-        const updatedUser = await usersServiceInstance.saveRefreshToken(
+        const updatedUser = await userService.saveRefreshToken(
           user._id,
           uuidv4(),
         );
 
         const jwt = auth.createToken(updatedUser);
         const refreshToken = auth.createRefreshToken(updatedUser);
-        const foundUser = await usersServiceInstance.findUser(user._id);
+        const foundUser = await userService.findUser(user._id);
 
         const data = {
           token: `Bearer ${jwt}`,
           //   refresh_token: refreshToken,
           user: foundUser,
         };
-
-        cookie.setCookie(res, refreshToken);
-
-        responderInstance.setSuccess(
-          200,
-          'You have logged in successfully',
-          data,
-        );
+        cookie.set(res, refreshToken);
+        responder.success(200, 'you are logged in', data);
       } else {
-        responderInstance.setError(400, 'Wrong password.');
-        return responderInstance.send(res);
+        responder.error(400, 'wrong password.');
+        return responder.send(res);
       }
 
-      return responderInstance.send(res);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
   public async register(req: Request, res: Response) {
     const { email, password, first_name, last_name } = req.body;
 
-    if (!email || !password) {
-      responderInstance.setError(400, 'Some details are missing');
-      return responderInstance.send(res);
+    if (!email || !password || first_name || last_name) {
+      responder.error(400, 'some details are missing');
+      return responder.send(res);
     }
 
     try {
-      const user = await usersServiceInstance.findByEmail(email);
+      const user = await userService.findByEmail(email);
 
       if (user) {
-        responderInstance.setError(
-          400,
-          'That email address is already in use.',
-        );
-        return responderInstance.send(res);
+        responder.error(400, 'that email address is already in use');
+        return responder.send(res);
       }
 
-      const hashedPassword = auth.hashPassword(req.body.password);
-
+      const hashedPassword = auth.hashPassword(password);
       const newUser = {
         email,
         password: hashedPassword,
@@ -101,13 +91,11 @@ class AuthController {
         refresh_token: uuidv4(),
       };
 
-      const createdUser = await usersServiceInstance.register(
-        newUser as IUserInput,
-      );
+      const createdUser = await userService.register(newUser as IUserInput);
 
       const jwt = auth.createToken(createdUser);
       const refreshToken = auth.createRefreshToken(createdUser);
-      const foundUser = await usersServiceInstance.findUser(createdUser._id);
+      const foundUser = await userService.findUser(createdUser._id);
 
       if (foundUser) {
         const data = {
@@ -116,22 +104,46 @@ class AuthController {
           user: foundUser,
         };
 
-        cookie.setCookie(res, refreshToken);
-
+        cookie.set(res, refreshToken);
         const message = templates.signupEmail(newUser.profile);
-        await mailerInstance.send(createdUser.email, message);
-
-        responderInstance.setSuccess(
-          201,
-          'You have been registered successfully.',
-          data,
-        );
+        await mailer.send(createdUser.email, message);
+        responder.success(201, 'You have been registered successfully.', data);
       }
 
-      return responderInstance.send(res);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error.message);
-      return responderInstance.send(res);
+      responder.error(400, error.message);
+      return responder.send(res);
+    }
+  }
+
+  public async checkExpire(req: Request, res: Response) {
+    const { token } = req.params;
+
+    if (!token) {
+      responder.error(
+        400,
+        'no token in your request. please attempt to click the link from your email again!',
+      );
+      return responder.send(res);
+    }
+
+    try {
+      const user = await userService.resetPasswordExpires(token);
+
+      if (!user) {
+        responder.error(
+          400,
+          'your token has expired. please attempt to reset your password again!',
+        );
+        return responder.send(res);
+      }
+
+      responder.success(200, null);
+      return responder.send(res);
+    } catch (error) {
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
@@ -140,41 +152,37 @@ class AuthController {
     const { token } = req.params;
 
     if (!password) {
-      responderInstance.setError(400, 'Your password is missing');
-      return responderInstance.send(res);
+      responder.error(400, 'your password is missing');
+      return responder.send(res);
     }
 
     try {
-      const user = await usersServiceInstance.resetPasswordExpires(token);
+      const user = await userService.resetPasswordExpires(token);
 
       if (!user) {
-        responderInstance.setError(
+        responder.error(
           400,
-          'Your token has expired. Please attempt to reset your password again.',
+          'your token has expired. please attempt to reset your password again!',
         );
-        return responderInstance.send(res);
+        return responder.send(res);
       }
 
       const hashedPassword = auth.hashPassword(password);
-      const updatedUser = await usersServiceInstance.updatePassword(
+      const updatedUser = await userService.updatePassword(
         user._id,
         hashedPassword,
       );
 
       if (updatedUser) {
         const message = templates.passwordChanged();
-        await mailerInstance.send(user.email, message);
-
-        responderInstance.setSuccess(
-          200,
-          'You have changed your password successfully',
-        );
+        await mailer.send(user.email, message);
+        responder.success(200, 'password changed');
       }
 
-      return responderInstance.send(res);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
@@ -182,123 +190,80 @@ class AuthController {
     const { email } = req.body;
 
     if (!email) {
-      responderInstance.setError(400, 'Your email is missing');
-      return responderInstance.send(res);
+      responder.error(400, 'your email is missing');
+      return responder.send(res);
     }
 
     try {
-      const user = await usersServiceInstance.findByEmail(email);
+      const user = await userService.findByEmail(email);
 
       if (!user) {
-        responderInstance.setError(
-          400,
-          'No user found for this email address.',
-        );
-        return responderInstance.send(res);
+        responder.error(400, 'no user found for this email address');
+        return responder.send(res);
       }
 
       const resetToken = await auth.createResetToken();
-
-      const updatedUser = await usersServiceInstance.forgotPassword(
+      const updatedUser = await userService.forgotPassword(
         user._id,
         resetToken,
-        Date.now() + 3600000,
+        config.password.tokenExpire,
       );
 
       if (updatedUser) {
         const message = templates.resetPassword(req, resetToken);
-        await mailerInstance.send(email, message);
-
-        responderInstance.setSuccess(
+        await mailer.send(email, message);
+        responder.success(
           200,
-          'Kindly check your email, You will be receiving a link to reset your password',
+          'kindly check your email for more instructions!',
         );
       }
 
-      return responderInstance.send(res);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
-    }
-  }
-
-  public async checkExpire(req: Request, res: Response) {
-    const { token } = req.params;
-
-    if (!token) {
-      responderInstance.setError(
-        400,
-        'Something went wrong with reseting your password!',
-      );
-      return responderInstance.send(res);
-    }
-
-    try {
-      const user = await usersServiceInstance.resetPasswordExpires(token);
-
-      if (!user) {
-        responderInstance.setError(
-          400,
-          'Your token has expired. Please attempt to reset your password again.',
-        );
-        return responderInstance.send(res);
-      }
-
-      responderInstance.setSuccess(200, null);
-
-      return responderInstance.send(res);
-    } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
   public async logout(req: Request, res: Response) {
-    res.cookie('refresh_token', '', {
-      httpOnly: true,
-      expires: new Date(0),
-    });
-
-    responderInstance.setSuccess(200, 'You have been logged out successfully.');
-    return responderInstance.send(res);
+    cookie.remove(res);
+    responder.success(200, 'you are logged out');
+    return responder.send(res);
   }
 
   public async getToken(req: Request, res: Response) {
     const refreshTokenHeader = req.cookies.refresh_token;
     if (!refreshTokenHeader) {
-      responderInstance.setError(400, 'Invalid refresh token');
-      return responderInstance.send(res);
+      responder.error(401, 'invalid refresh token not found in server cookie ');
+      return responder.send(res);
     }
 
     try {
       const payload: any = await auth.verifyRefreshToken(refreshTokenHeader);
 
+      console.log('payload in auth', payload);
+
       if (!payload) {
-        responderInstance.setError(
-          401,
-          'Sorry, you are not authorized to access this resource.',
-          'unauthorized',
-        );
-        return responderInstance.send(res);
+        responder.error(401, 'invalid payload');
+        return responder.send(res);
       }
 
-      const user = await usersServiceInstance.findById(payload.id);
+      const user = await userService.findById(payload.id);
 
       if (!user) {
-        responderInstance.setError(400, 'Invalid refresh token');
-        return responderInstance.send(res);
+        responder.error(400, 'user not found');
+        return responder.send(res);
       }
 
       if (user.refresh_token !== payload.refresh_token) {
-        responderInstance.setError(400, 'Invalid refresh token');
-        return responderInstance.send(res);
+        responder.error(400, 'Invalid refresh token and not equal');
+        return responder.send(res);
       }
 
-      const updatedUser = await usersServiceInstance.saveRefreshToken(
+      const updatedUser = await userService.saveRefreshToken(
         user._id,
         uuidv4(),
       );
-
       const jwt = auth.createToken(updatedUser);
       const refreshToken = auth.createRefreshToken(updatedUser);
 
@@ -307,12 +272,12 @@ class AuthController {
         // refresh_token: refreshToken,
       };
 
-      cookie.setCookie(res, refreshToken);
-      responderInstance.setSuccess(200, null, data);
-      return responderInstance.send(res);
+      cookie.set(res, refreshToken);
+      responder.success(200, null, data);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 }

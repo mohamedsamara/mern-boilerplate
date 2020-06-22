@@ -7,7 +7,7 @@ const noteModel = Container.get(NoteModel);
 const note = noteModel.get();
 
 class NoteService {
-  public async getNotes(id: any) {
+  public async getNotes(id: string): Promise<INote[]> {
     try {
       return await note.find({ user: id });
     } catch (error) {
@@ -15,7 +15,7 @@ class NoteService {
     }
   }
 
-  public async getNote(id: any) {
+  public async getNote(id: string): Promise<INote> {
     try {
       return await note.findById(id);
     } catch (error) {
@@ -23,15 +23,12 @@ class NoteService {
     }
   }
 
-  public async updateNote(id: any, newNote: any) {
+  public async updateNote(id: string, newNote: INote): Promise<INote> {
     try {
-      const noteToUpdate = await note.findById(id);
+      const query = { _id: id };
+      const options = { new: true };
 
-      if (noteToUpdate) {
-        await noteToUpdate.updateOne(newNote);
-        return newNote;
-      }
-      return null;
+      return await note.findByIdAndUpdate(query, newNote, options);
     } catch (error) {
       throw error;
     }
@@ -45,8 +42,7 @@ class NoteService {
     }
   }
 
-  // Promise<INote>
-  public async deleteNote(id: string) {
+  public async deleteNote(id: string): Promise<INote> {
     try {
       const query = { _id: id };
       return await note.findByIdAndDelete(query);

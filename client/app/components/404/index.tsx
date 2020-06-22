@@ -3,10 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Result } from 'antd';
 
-const page404: React.FC = (): JSX.Element => {
+const Page404: React.FC = (): JSX.Element => {
   return (
     <Result
-      status="404"
+      // status="404"
       title="404"
       subTitle="Sorry, the page you visited does not exist."
       extra={<Link to="/">Back Home</Link>}
@@ -14,4 +14,4 @@ const page404: React.FC = (): JSX.Element => {
   );
 };
 
-export default page404;
+export default Page404;

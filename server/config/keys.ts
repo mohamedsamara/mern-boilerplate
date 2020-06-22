@@ -17,6 +17,9 @@ export default {
   api: {
     prefix: '/api',
   },
+  password: {
+    tokenExpire: Date.now() + 3600000,
+  },
   jwt: {
     secret: process.env.SECRET_KEY,
     tokenLife: '15m',

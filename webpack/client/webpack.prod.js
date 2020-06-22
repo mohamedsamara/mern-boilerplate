@@ -22,9 +22,9 @@ module.exports = merge(common, {
   output: {
     path: path.join(CURRENT_WORKING_DIR, '/dist/client'),
     filename: 'js/[name].[chunkhash].js',
-    chunkFilename: 'js/[name].[chunkhash].js',
     publicPath: '/',
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -43,7 +43,7 @@ module.exports = merge(common, {
         ],
       },
       {
-        test: /\.(css)$/,
+        test: /\.css$/,
         use: [
           'style-loader',
           {
@@ -146,6 +146,9 @@ module.exports = merge(common, {
     },
     minimizer: [
       new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
         terserOptions: {
           warnings: false,
           compress: {
@@ -157,9 +160,6 @@ module.exports = merge(common, {
             comments: false,
             ascii_only: true,
           },
-          cache: true,
-          parallel: true,
-          sourceMap: true,
         },
       }),
     ],
@@ -195,12 +195,12 @@ module.exports = merge(common, {
       ios: true,
       icons: [
         {
-          src: path.resolve('client/public/images/icon-512x512.png'),
+          src: path.resolve('client/public/images/pwa.png'),
           destination: 'images',
           sizes: [72, 96, 128, 144, 192, 384, 512],
         },
         {
-          src: path.resolve('client/public/images/icon-512x512.png'),
+          src: path.resolve('client/public/images/pwa.png'),
           sizes: [120, 152, 167, 180],
           destination: 'images',
           ios: true,

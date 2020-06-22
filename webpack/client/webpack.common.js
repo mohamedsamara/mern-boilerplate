@@ -4,9 +4,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+
 const NODE_ENV = process.env.NODE_ENV;
 const CURRENT_WORKING_DIR = process.cwd();
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 
 module.exports = {
   entry: [path.join(CURRENT_WORKING_DIR, 'client/app/index.tsx')],

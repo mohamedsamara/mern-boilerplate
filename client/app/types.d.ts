@@ -1,6 +1,3 @@
-declare module '*.css';
-declare module '*.png';
-
 interface Options {
   cachePolicy: 'string';
 }

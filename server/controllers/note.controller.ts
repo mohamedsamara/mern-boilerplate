@@ -1,32 +1,28 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
 
-import NotesService from '../services/note.service';
+import NoteService from '../services/note.service';
 import Responder from '../helpers/responder';
 
-const notesServiceInstance = Container.get(NotesService);
-const responderInstance = Container.get(Responder);
+const noteService = Container.get(NoteService);
+const responder = Container.get(Responder);
 
-class NotesController {
+class NoteController {
   public async getNotes(req: Request, res: Response) {
     const { id } = req.params;
 
     try {
-      const notes = await notesServiceInstance.getNotes(id);
+      const notes = await noteService.getNotes(id);
 
       if (notes.length > 0) {
-        responderInstance.setSuccess(
-          200,
-          'notes are successfully retrieved',
-          notes,
-        );
+        responder.success(200, null, notes);
       } else {
-        responderInstance.setSuccess(200, 'No notes found');
+        responder.success(200, 'No notes found');
       }
-      return responderInstance.send(res);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
@@ -34,17 +30,17 @@ class NotesController {
     const { id } = req.params;
 
     try {
-      const note = await notesServiceInstance.getNote(id);
+      const note = await noteService.getNote(id);
 
       if (!note) {
-        responderInstance.setError(404, `cannot find note with the id ${id}`);
+        responder.error(404, `cannot find note with the id ${id}`);
       } else {
-        responderInstance.setSuccess(200, 'found note', note);
+        responder.success(200, null, note);
       }
-      return responderInstance.send(res);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(404, error);
-      return responderInstance.send(res);
+      responder.error(404, error);
+      return responder.send(res);
     }
   }
 
@@ -53,39 +49,34 @@ class NotesController {
     const { id } = req.params;
 
     try {
-      const updatedNote = await notesServiceInstance.updateNote(id, newNote);
+      const updatedNote = await noteService.updateNote(id, newNote);
 
-      if (!updatedNote) {
-        responderInstance.setError(404, `cannot find note with the id: ${id}`);
-      } else {
-        responderInstance.setSuccess(200, 'note updated', updatedNote);
+      if (updatedNote) {
+        responder.success(200, 'note updated', updatedNote);
       }
-      return responderInstance.send(res);
+
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(404, error);
-      return responderInstance.send(res);
+      responder.error(404, error);
+      return responder.send(res);
     }
   }
 
   public async addNote(req: Request, res: Response) {
-    if (!req.body.title || !req.body.content) {
-      responderInstance.setError(400, 'some details are missing');
-      return responderInstance.send(res);
-    }
-
     const newNote = req.body;
 
+    if (!newNote.title || !newNote.content) {
+      responder.error(400, 'some details are missing');
+      return responder.send(res);
+    }
+
     try {
-      const createdNote = await notesServiceInstance.addNote(newNote);
-      responderInstance.setSuccess(
-        201,
-        'note has been added successfully',
-        createdNote,
-      );
-      return responderInstance.send(res);
+      const createdNote = await noteService.addNote(newNote);
+      responder.success(201, 'note added', createdNote);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error.message);
-      return responderInstance.send(res);
+      responder.error(400, error.message);
+      return responder.send(res);
     }
   }
 
@@ -93,24 +84,18 @@ class NotesController {
     const { id } = req.params;
 
     try {
-      const noteToDelete = await notesServiceInstance.deleteNote(id);
+      const deletedNote = await noteService.deleteNote(id);
 
-      console.log('noteToDelete', noteToDelete);
-
-      if (noteToDelete) {
-        responderInstance.setSuccess(200, 'note has been deleted successfully');
-      } else {
-        responderInstance.setError(
-          404,
-          `note with the id ${id} cannot be found`,
-        );
+      if (deletedNote) {
+        responder.success(200, 'note deleted');
       }
-      return responderInstance.send(res);
+
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 }
 
-export default NotesController;
+export default NoteController;

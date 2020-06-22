@@ -8,8 +8,8 @@ import Responder from '../helpers/responder';
 import * as auth from '../utils/auth';
 import * as templates from '../utils/email.templates';
 
-const usersServiceInstance = Container.get(UserService);
-const responderInstance = Container.get(Responder);
+const userService = Container.get(UserService);
+const responder = Container.get(Responder);
 const mailerInstance = Container.get(MailerService);
 
 class User {
@@ -17,27 +17,13 @@ class User {
     const { id } = req.params;
 
     try {
-      //   const payload: any = await auth.getUser(req);
+      const user = await userService.findUserInitial(id);
 
-      //   if (!payload) {
-      //     responderInstance.setError(
-      //       401,
-      //       'Sorry, you are not authorized to access this resource.',
-      //       'unauthorized',
-      //     );
-      //     return responderInstance.send(res);
-      //   }
-
-      const foundUser = await usersServiceInstance.findUserInitial(id);
-      const data = {
-        user: foundUser,
-      };
-
-      responderInstance.setSuccess(200, null, data);
-      return responderInstance.send(res);
+      responder.success(200, null, { user });
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
@@ -45,16 +31,13 @@ class User {
     const { id } = req.params;
 
     try {
-      const foundUser = await usersServiceInstance.findUser(id);
-      const data = {
-        user: foundUser,
-      };
+      const user = await userService.findUser(id);
 
-      responderInstance.setSuccess(200, null, data);
-      return responderInstance.send(res);
+      responder.success(200, null, { user });
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
@@ -62,26 +45,22 @@ class User {
     const { password, newPassword, userId } = req.body;
 
     if (!password || !newPassword) {
-      responderInstance.setError(400, 'Some details are missing');
-      return responderInstance.send(res);
+      responder.error(400, 'some details are missing');
+      return responder.send(res);
     }
 
     try {
-      const user = await usersServiceInstance.findById(userId);
+      const user = await userService.findById(userId);
 
       if (!user) {
-        responderInstance.setError(
-          400,
-          'Something went wrong with changing your password!',
-        );
-        return responderInstance.send(res);
+        responder.error(400, 'user not found');
+        return responder.send(res);
       }
 
       const passwordMatches = auth.verifyPassword(password, user.password);
-
       if (passwordMatches) {
         const hashedPassword = auth.hashPassword(newPassword);
-        const updatedUser = await usersServiceInstance.updatePassword(
+        const updatedUser = await userService.updatePassword(
           userId,
           hashedPassword,
         );
@@ -90,20 +69,17 @@ class User {
           const message = templates.passwordChanged();
           await mailerInstance.send(user.email, message);
 
-          responderInstance.setSuccess(
-            200,
-            'You have changed your password successfully',
-          );
+          responder.success(200, 'password changed');
         }
       } else {
-        responderInstance.setError(400, 'Please enter your current password!');
-        return responderInstance.send(res);
+        responder.error(400, 'your current password is incorrect');
+        return responder.send(res);
       }
 
-      return responderInstance.send(res);
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
@@ -112,16 +88,16 @@ class User {
     const { id } = req.params;
 
     try {
-      const updatedUser = await usersServiceInstance.updateUser(id, newProfile);
-      const data = {
-        user: updatedUser,
-      };
+      const user = await userService.updateUser(id, newProfile);
 
-      responderInstance.setSuccess(200, 'Updated profile successfully', data);
-      return responderInstance.send(res);
+      if (user) {
+        responder.success(200, 'profile updated', { user });
+      }
+
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 
@@ -129,23 +105,16 @@ class User {
     const { id } = req.params;
 
     try {
-      const userToDelete = await usersServiceInstance.deleteUser(id);
+      const deletedUser = await userService.deleteUser(id);
 
-      if (userToDelete) {
-        responderInstance.setSuccess(
-          200,
-          'Your Account has been deleted successfully',
-        );
-      } else {
-        responderInstance.setError(
-          404,
-          `Something went wrong with deleting your account!`,
-        );
+      if (deletedUser) {
+        responder.success(200, 'account deleted');
       }
-      return responderInstance.send(res);
+
+      return responder.send(res);
     } catch (error) {
-      responderInstance.setError(400, error);
-      return responderInstance.send(res);
+      responder.error(400, error);
+      return responder.send(res);
     }
   }
 }

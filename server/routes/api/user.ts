@@ -13,8 +13,8 @@ class UserRoute {
 
   private constructor() {
     this.getInitial();
-    this.updatePassword();
     this.get();
+    this.updatePassword();
     this.put();
     this.delete();
   }
@@ -32,16 +32,16 @@ class UserRoute {
     );
   }
 
+  private async get() {
+    this.router.get('/:id', auth.verifyRoute, userController.getUser);
+  }
+
   private async updatePassword() {
     this.router.post(
       '/update-password',
       auth.verifyRoute,
       userController.updatePassword,
     );
-  }
-
-  private async get() {
-    this.router.get('/:id', auth.verifyRoute, userController.getUser);
   }
 
   private async put() {

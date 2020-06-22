@@ -4,7 +4,7 @@ import { Container } from 'typedi';
 import NoteController from '../../controllers/note.controller';
 import * as auth from '../../utils/auth';
 
-const notesController = Container.get(NoteController);
+const noteController = Container.get(NoteController);
 
 class NoteRoute {
   public static path = '/notes';
@@ -25,23 +25,23 @@ class NoteRoute {
   }
 
   private async get() {
-    this.router.get('/user/:id', auth.verifyRoute, notesController.getNotes);
+    this.router.get('/user/:id', auth.verifyRoute, noteController.getNotes);
   }
 
   private async getOne() {
-    this.router.get('/:id', auth.verifyRoute, notesController.getNote);
+    this.router.get('/:id', auth.verifyRoute, noteController.getNote);
   }
 
   private async put() {
-    this.router.put('/:id', auth.verifyRoute, notesController.updateNote);
+    this.router.put('/:id', auth.verifyRoute, noteController.updateNote);
   }
 
   private async post() {
-    this.router.post('/', auth.verifyRoute, notesController.addNote);
+    this.router.post('/', auth.verifyRoute, noteController.addNote);
   }
 
   private async delete() {
-    this.router.delete('/:id', auth.verifyRoute, notesController.deleteNote);
+    this.router.delete('/:id', auth.verifyRoute, noteController.deleteNote);
   }
 }
 

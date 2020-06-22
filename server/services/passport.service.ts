@@ -1,17 +1,18 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Container } from 'typedi';
+import * as passport from 'passport';
 
-import UsersService from '../services/user.service';
-import config from './keys';
+import UserService from './user.service';
+import config from '../config/keys';
 
-const usersServiceInstance = Container.get(UsersService);
+const userService = Container.get(UserService);
 
-class PassportConfig {
-  public passport: any;
+class PassportService {
+  private passport: any;
 
   public secret: string = config.jwt.secret;
 
-  constructor(passport: any) {
+  constructor() {
     this.passport = passport;
   }
 
@@ -22,7 +23,7 @@ class PassportConfig {
     };
 
     const strategy = new Strategy(opts, (jwtPayload, done) => {
-      const user = usersServiceInstance.findById(jwtPayload._id);
+      const user = userService.findById(jwtPayload._id);
 
       if (user) {
         return done(null, user);
@@ -34,4 +35,4 @@ class PassportConfig {
   }
 }
 
-export default PassportConfig;
+export default PassportService;

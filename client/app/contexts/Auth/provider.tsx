@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 
 import jwtDecode from 'jwt-decode';
 
@@ -22,6 +22,7 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
     initialState,
   );
   const [token, setToken] = useLocalStorage('token', null);
+  const [calls, setCalls] = useState(0);
 
   useEffect(() => {
     handleRefresh();
@@ -52,7 +53,7 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
     return id;
   };
 
-  const getToken = async () => {
+  const refreshToken = async () => {
     const result = await request.post('/refresh-token');
 
     if (response.ok) {
@@ -72,12 +73,21 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
   };
 
   const handleToken = () => {
+    console.log('has ever handled');
+
     const { exp } = jwtDecode(token);
     const currentTime = Date.now() / 1000;
 
     // if (exp - exp + 5 < currentTime) {
     if (exp < currentTime) {
-      getToken();
+      refreshToken();
+    }
+  };
+
+  const handleLogout = () => {
+    // making sure that we are calling logout only one time if reponse code is 401
+    if (calls === 1) {
+      logout();
     }
   };
 
@@ -88,14 +98,22 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
     interceptors: {
       request: (options, url, path, route) => {
         if (token) {
-          if (url !== '/api/auth' && route !== '/user/initial') {
+          if (url !== '/api/auth' && route.search('user/initial') !== -1) {
             handleToken();
           }
         }
-
+        setCalls(prevState => prevState + 1);
         return options;
       },
       response: response => {
+        if (response.status === 401) {
+          handleLogout();
+        }
+
+        setTimeout(() => {
+          setCalls(0);
+        }, 3000);
+
         return response;
       },
     },
@@ -105,7 +123,7 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
     <AuthContext.Provider
       value={{ state, setAuth, unsetAuth, loading, getUserId }}
     >
-      <Loading loading={loading} auth fullscreen />
+      <Loading loading={loading} fullscreen />
       <Provider options={fetchOptions}>{children}</Provider>
     </AuthContext.Provider>
   );

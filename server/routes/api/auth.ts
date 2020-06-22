@@ -3,7 +3,7 @@ import { Container } from 'typedi';
 
 import AuthController from '../../controllers/auth.controller';
 
-const authControllerInstance = Container.get(AuthController);
+const authController = Container.get(AuthController);
 
 class AuthRoute {
   public static path = '/auth';
@@ -26,37 +26,34 @@ class AuthRoute {
   }
 
   private async login() {
-    this.router.post('/login', authControllerInstance.login);
+    this.router.post('/login', authController.login);
   }
 
   private async register() {
-    this.router.post('/register', authControllerInstance.register);
-  }
-
-  private async reset() {
-    this.router.post(
-      '/reset-password/:token',
-      authControllerInstance.resetPassword,
-    );
+    this.router.post('/register', authController.register);
   }
 
   private async expire() {
     this.router.post(
       '/reset-password/expire/:token',
-      authControllerInstance.checkExpire,
+      authController.checkExpire,
     );
   }
 
+  private async reset() {
+    this.router.post('/reset-password/:token', authController.resetPassword);
+  }
+
   private async forgot() {
-    this.router.post('/forgot-password', authControllerInstance.forgotPassword);
+    this.router.post('/forgot-password', authController.forgotPassword);
   }
 
   private async logout() {
-    this.router.post('/logout', authControllerInstance.logout);
+    this.router.post('/logout', authController.logout);
   }
 
   private async token() {
-    this.router.post('/refresh-token', authControllerInstance.getToken);
+    this.router.post('/refresh-token', authController.getToken);
   }
 }
 

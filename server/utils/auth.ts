@@ -5,22 +5,25 @@ import * as passport from 'passport';
 import * as crypto from 'crypto';
 import { Container } from 'typedi';
 
+import { IUser } from '../types/user.types';
 import Responder from '../helpers/responder';
 import config from '../config/keys';
 
-const responderInstance = Container.get(Responder);
+const responder = Container.get(Responder);
 
 export function hashPassword(password: string): string {
   const salt = genSaltSync(12);
-  const hashedPassword = hashSync(password, salt);
-  return hashedPassword;
+  return hashSync(password, salt);
 }
 
-export function verifyPassword(password: any, hashedPassword: any): boolean {
+export function verifyPassword(
+  password: string,
+  hashedPassword: string,
+): boolean {
   return compareSync(password, hashedPassword);
 }
 
-export function createToken(user: any) {
+export function createToken(user: IUser) {
   const { secret, tokenLife } = config.jwt;
 
   const payload = {
@@ -34,7 +37,7 @@ export function createToken(user: any) {
   return signedToken;
 }
 
-export function createRefreshToken(user: any) {
+export function createRefreshToken(user: IUser) {
   const { refreshSecret, refreshTokenLife } = config.jwt;
 
   const payload = {
@@ -60,22 +63,12 @@ export async function createResetToken() {
   }
 }
 
-export async function verifyRefreshToken(refreshToken: any) {
+export async function verifyRefreshToken(refreshToken: string) {
   const { refreshSecret } = config.jwt;
   try {
-    return await verify(refreshToken, refreshSecret);
-  } catch (error) {
-    return false;
-  }
-}
+    const payload = await verify(refreshToken, refreshSecret);
 
-export async function getUser(req: Request) {
-  const { secret } = config.jwt;
-
-  try {
-    const { authorization } = req.headers;
-    const token = authorization.split(' ')[1];
-    return await verify(token, secret);
+    return payload;
   } catch (error) {
     return false;
   }
@@ -83,21 +76,21 @@ export async function getUser(req: Request) {
 
 export function verifyRoute(req: Request, res: Response, next: NextFunction) {
   passport.authenticate('jwt', (error, user) => {
+    console.log('user', user);
+
     if (error) {
-      responderInstance.setError(
+      responder.error(
         401,
         'Sorry, you are not authorized to access this resource.',
-        'unauthorized',
       );
-      return responderInstance.send(res);
+      return responder.send(res);
     }
     if (!user) {
-      responderInstance.setError(
+      responder.error(
         401,
         'Sorry, you are not authorized to access this resource.',
-        'unauthorized',
       );
-      return responderInstance.send(res);
+      return responder.send(res);
     }
     return next();
   })(req, res, next);

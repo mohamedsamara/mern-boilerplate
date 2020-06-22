@@ -56,12 +56,11 @@ class UserModel {
         },
         updatedAt: {
           type: Date,
-          default: Date.now(),
         },
       },
     });
 
-    this.model = <UserModelType>model<IUser>('user', schema);
+    this.model = <UserModelType>model<IUser>('User', schema);
   }
 
   public get(): UserModelType {

@@ -21,11 +21,11 @@ class NoteModel {
       },
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'Users',
+        ref: 'User',
       },
     });
 
-    this.model = <NoteModelType>model<INote>('note', schema);
+    this.model = <NoteModelType>model<INote>('Note', schema);
   }
 
   public get(): NoteModelType {

@@ -9,12 +9,13 @@ import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
 import { Container } from 'typedi';
 
+import PassportService from './services/passport.service';
 import Responder from './helpers/responder';
 import BaseRoute from './routes';
-import PassportConfig from './config/passport';
 import config from './config/keys';
 
-const responderInstance = Container.get(Responder);
+const responder = Container.get(Responder);
+const passportService = Container.get(PassportService);
 
 class App {
   public app: express.Application;
@@ -97,8 +98,7 @@ class App {
     this.app.use(cookieParser());
     this.app.disable('x-powered-by');
 
-    const passportInstance = new PassportConfig(passport);
-    passportInstance.init();
+    passportService.init();
   }
 
   private config(): void {
@@ -110,11 +110,11 @@ class App {
     } else {
       this.app.use(logger('dev'));
       this.app.get('*', (req: express.Request, res: express.Response) => {
-        responderInstance.setError(
+        responder.error(
           422,
           'Your request could not be processed. Please try again.',
         );
-        responderInstance.send(res);
+        responder.send(res);
       });
     }
   }
