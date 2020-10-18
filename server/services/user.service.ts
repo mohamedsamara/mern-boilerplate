@@ -1,7 +1,7 @@
 import { Container } from 'typedi';
 
 import UserModel from '../models/user.model';
-import { IUser, IUserInput } from '../types/user.types';
+import { IUser } from '../types/user.types';
 
 const userModel = Container.get(UserModel);
 const user = userModel.get();
@@ -20,10 +20,10 @@ class UserService {
   public async findUser(id: string): Promise<IUser> {
     try {
       return await user.findById(id, [
-        '-refresh_token',
+        '-refreshToken',
         '-password',
-        '-reset_password_token',
-        '-reset_password_expires',
+        '-resetPasswordToken',
+        '-resetPasswordExpires',
         '-meta',
         '-__v',
       ]);
@@ -72,7 +72,7 @@ class UserService {
     }
   }
 
-  public async register(newUser: IUserInput): Promise<IUser> {
+  public async register(newUser: any): Promise<IUser> {
     try {
       return user.create(newUser);
     } catch (error) {
@@ -86,7 +86,7 @@ class UserService {
   ): Promise<IUser> {
     try {
       const query = { _id: id };
-      const update = { refresh_token: refreshToken };
+      const update = { refreshToken };
       const options = { new: true };
 
       return await user.findOneAndUpdate(query, update, options);
@@ -98,8 +98,8 @@ class UserService {
   public async resetPasswordExpires(token: string): Promise<IUser> {
     try {
       return await user.findOne({
-        reset_password_token: token,
-        reset_password_expires: { $gt: Date.now() },
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
       });
     } catch (error) {
       throw error;
@@ -114,8 +114,8 @@ class UserService {
     try {
       const query = { _id: id };
       const update = {
-        reset_password_token: resetToken,
-        reset_password_expires: expires,
+        resetPasswordToken: resetToken,
+        resetPasswordExpires: expires,
       };
       const options = { new: true };
 

@@ -15,25 +15,23 @@ class UserModel {
         type: String,
         required: true,
       },
-      profile: {
-        first_name: {
-          type: String,
-        },
-        last_name: {
-          type: String,
-        },
-        website: {
-          type: String,
-        },
-        bio: {
-          type: String,
-        },
-        birthdate: {
-          type: String,
-        },
-        gender: {
-          type: String,
-        },
+      firstName: {
+        type: String,
+      },
+      lastName: {
+        type: String,
+      },
+      website: {
+        type: String,
+      },
+      bio: {
+        type: String,
+      },
+      birthdate: {
+        type: String,
+      },
+      gender: {
+        type: String,
       },
       role: {
         type: String,
@@ -47,8 +45,12 @@ class UserModel {
       refresh_token: {
         type: String,
       },
-      reset_password_token: { type: String },
-      reset_password_expires: { type: Date },
+      resetPasswordToken: {
+        type: String,
+      },
+      resetPasswordExpires: {
+        type: Date,
+      },
       meta: {
         createdAt: {
           type: Date,

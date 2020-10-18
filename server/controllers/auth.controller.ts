@@ -65,9 +65,9 @@ class AuthController {
   }
 
   public async register(req: Request, res: Response) {
-    const { email, password, first_name, last_name } = req.body;
+    const { email, password, firstName, lastName } = req.body;
 
-    if (!email || !password || first_name || last_name) {
+    if (!email || !password || !firstName || !lastName) {
       responder.error(400, 'some details are missing');
       return responder.send(res);
     }
@@ -84,11 +84,9 @@ class AuthController {
       const newUser = {
         email,
         password: hashedPassword,
-        profile: {
-          first_name,
-          last_name,
-        },
-        refresh_token: uuidv4(),
+        firstName,
+        lastName,
+        refreshToken: uuidv4(),
       };
 
       const createdUser = await userService.register(newUser as IUserInput);
@@ -105,7 +103,7 @@ class AuthController {
         };
 
         cookie.set(res, refreshToken);
-        const message = templates.signupEmail(newUser.profile);
+        const message = templates.signupEmail(newUser);
         await mailer.send(createdUser.email, message);
         responder.success(201, 'You have been registered successfully.', data);
       }

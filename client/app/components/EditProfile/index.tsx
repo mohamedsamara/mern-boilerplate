@@ -117,7 +117,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
             <Label text="First Name" />
             <Form.Item>
               {getFieldDecorator('first_name', {
-                initialValue: user.profile.first_name,
+                initialValue: user.firstName,
                 rules: [
                   {
                     required: true,
@@ -131,7 +131,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
             <Label text="Last Name" />
             <Form.Item>
               {getFieldDecorator('last_name', {
-                initialValue: user.profile.last_name,
+                initialValue: user.lastName,
                 rules: [
                   { required: true, message: 'Please input your Last Name!' },
                 ],
@@ -145,7 +145,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
             <Label text="Website" />
             <Form.Item>
               {getFieldDecorator('website', {
-                initialValue: user.profile.website,
+                initialValue: user.website,
               })(<Input placeholder="Website" />)}
             </Form.Item>
           </Col>
@@ -153,7 +153,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
             <Label text="Bio" />
             <Form.Item>
               {getFieldDecorator('bio', {
-                initialValue: user.profile.bio,
+                initialValue: user.bio,
               })(<TextArea placeholder="Bio" allowClear />)}
             </Form.Item>
           </Col>
@@ -161,7 +161,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
             <Label text="Gender" />
             <Form.Item>
               {getFieldDecorator('gender', {
-                initialValue: user.profile.gender,
+                initialValue: user.gender,
               })(
                 <Select placeholder="Select a gender">
                   <Option value="m">Male</Option>
@@ -174,8 +174,8 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
             <Label text="Your Birthdate" />
             <Form.Item>
               {getFieldDecorator('birthdate', {
-                initialValue: user.profile.birthdate
-                  ? moment(user.profile.birthdate, dateFormat)
+                initialValue: user.birthdate
+                  ? moment(user.birthdate, dateFormat)
                   : moment(),
               })(
                 <DatePicker

@@ -14,16 +14,7 @@ module.exports = {
     filename: 'server.bundle.js',
   },
   resolve: {
-    extensions: [
-      '.ts',
-      '.tsx',
-      '.js',
-      '.json',
-      '.css',
-      '.scss',
-      '.less',
-      '.html',
-    ],
+    extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   target: 'node',
   node: {

@@ -6,14 +6,12 @@ export interface IUser {
   role: string;
   created: string;
   __v?: number;
-  profile: {
-    first_name: string;
-    last_name: string;
-    website: string;
-    bio: string;
-    gender: string;
-    birthdate: string;
-  };
+  firstName: string;
+  lastName: string;
+  website: string;
+  bio: string;
+  gender: string;
+  birthdate: string;
 }
 
 export interface UserState {

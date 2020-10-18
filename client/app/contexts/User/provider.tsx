@@ -20,6 +20,8 @@ const UserProvider: React.FC<UserContextProviderProps> = ({ children }) => {
     };
   });
 
+  console.log({ state });
+
   const { state: auth, getUserId } = useAuth();
 
   useEffect(() => {

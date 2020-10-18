@@ -3,7 +3,12 @@ import { Document, Model } from 'mongoose';
 export interface IUser extends Document {
   _id: string;
   email: string;
-  profile: IUserProfile;
+  firstName: string;
+  lastName: string;
+  website: string;
+  bio: string;
+  birthdate: string;
+  gender: string;
   role: Role;
   password: string;
   refresh_token: string;
@@ -15,22 +20,13 @@ export interface IUser extends Document {
 export interface IUserInput {
   email: string;
   password: string;
-  profile: IProfileInput;
-  refresh_token: string;
-}
-
-interface IUserProfile {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   website: string;
   bio: string;
   birthdate: string;
   gender: string;
-}
-
-interface IProfileInput {
-  first_name: string;
-  last_name: string;
+  refreshToken: string;
 }
 
 enum Role {

@@ -20,7 +20,9 @@ const { Header: HeaderAntd } = Layout;
 const { Text } = Typography;
 
 const Header: React.FC = (): JSX.Element => {
-  const { state } = useUser();
+  const userStore = useUser();
+
+  console.log({ userStore });
 
   const handleMenuToggle = () => {
     document.body.classList.add('sidebar-active');
@@ -61,13 +63,13 @@ const Header: React.FC = (): JSX.Element => {
           </div>
         </Col>
         <Col span={21}>
-          {state.user && (
+          {userStore.state.user && (
             <div className="header-info">
               <Dropdown overlay={menu}>
                 <Button>
                   <Avatar size="large">
                     <Text strong>
-                      {state.user.profile.first_name.charAt(0)}
+                      {/* {userStore.state.user.firstName.charAt(0)} */}
                     </Text>
                   </Avatar>
                   <Icon type="down" />

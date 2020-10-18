@@ -111,7 +111,7 @@ class App {
       this.app.use(logger('dev'));
       this.app.get('*', (req: express.Request, res: express.Response) => {
         responder.error(
-          422,
+          400,
           'Your request could not be processed. Please try again.',
         );
         responder.send(res);

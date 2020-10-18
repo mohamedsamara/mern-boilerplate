@@ -33,8 +33,8 @@ const Dashboard: React.FC = (): JSX.Element => {
     }
   };
 
-  const getGender = profile => {
-    return profile.gender === 'm' ? 'Male' : 'Female';
+  const getGender = user => {
+    return user.gender === 'm' ? 'Male' : 'Female';
   };
 
   return (
@@ -46,7 +46,7 @@ const Dashboard: React.FC = (): JSX.Element => {
       </div>
       <div className="account-details">
         <Label text="Name:">
-          <Text>{`${user.profile.first_name} ${user.profile.last_name}`}</Text>
+          <Text>{`${user.firstName} ${user.lastName}`}</Text>
         </Label>
 
         <Label text="Role:">
@@ -58,15 +58,11 @@ const Dashboard: React.FC = (): JSX.Element => {
         </Label>
 
         <Label text="Gender:" Icon={<Icon type="user" />}>
-          <Text>
-            {user.profile.gender ? getGender(user.profile) : 'Not set Yet!'}
-          </Text>
+          <Text>{user.gender ? getGender(user) : 'Not set Yet!'}</Text>
         </Label>
 
         <Label text="Birthdate:" Icon={<Icon type="calendar" />}>
-          <Text>
-            {user.profile.birthdate ? user.profile.birthdate : 'Not set Yet!'}
-          </Text>
+          <Text>{user.birthdate ? user.birthdate : 'Not set Yet!'}</Text>
         </Label>
       </div>
     </div>
