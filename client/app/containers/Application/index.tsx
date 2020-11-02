@@ -3,7 +3,6 @@ import React from 'react';
 import { Layout } from 'antd';
 
 import Header from '../../components/Header';
-import StickyHeader from '../../components/StickyHeader';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import AppRouter from '../../routes';
@@ -19,7 +18,6 @@ const Application: React.FC = (): JSX.Element => {
         <Sidebar />
         <Layout>
           <Header />
-          <StickyHeader />
           <Content style={{ padding: '16px', marginTop: '64px' }}>
             <div className="container">
               <AppRouter />

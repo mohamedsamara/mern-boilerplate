@@ -40,13 +40,23 @@ const RichTextEditor: React.FC<Props> = (props): JSX.Element => {
 
   const onChange = val => {
     setEditorState(val);
-    const e = {
-      name,
-      value,
-    };
 
+    const test = getValue(val);
+    setValue(test);
+  };
+
+  const getValue = val => {
+    return stateToHTML(val.getCurrentContent());
+  };
+
+  const setValue = val => {
     if (typeof handleChange === 'function') {
-      e.value = stateToHTML(editorState.getCurrentContent());
+      const e = {
+        name,
+        value,
+      };
+
+      e.value = val;
       return handleChange(e);
     }
   };

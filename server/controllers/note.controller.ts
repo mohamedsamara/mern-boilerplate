@@ -63,7 +63,9 @@ class NoteController {
   };
 
   public addNote = async (req: Request, res: Response) => {
+    const { id }: any = req.payload;
     const newNote = req.body;
+    newNote.user = id;
 
     if (!newNote.title || !newNote.content) {
       responder.error(400, 'some details are missing');
