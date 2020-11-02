@@ -1,14 +1,11 @@
 import React from 'react';
 
-import useFetch from 'use-http';
-import { Form, Icon, Input, message } from 'antd';
+import { Form, Icon, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Button from '../Button';
-import Loading from '../Loading';
 import { useAuth } from '../../contexts/Auth';
-import { OptionsPreview } from '../../types.d';
 
 const formItemLayout = {
   labelCol: {
@@ -33,35 +30,21 @@ const tailFormItemLayout = {
   },
 };
 
-const options: OptionsPreview = {
-  cachePolicy: 'no-cache',
-};
-
 const Login: React.FC<FormComponentProps> = (props): JSX.Element => {
   const { getFieldDecorator } = props.form;
-  const history = useHistory();
-  const { request, response, loading } = useFetch('/api/auth', options);
-  const { setAuth } = useAuth();
+  const { login } = useAuth();
 
   const handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields(async (err, values) => {
       if (!err) {
-        const result = await request.post('/login', values);
-        if (response.ok) {
-          setAuth(result.data.token);
-          history.push('/dashboard');
-          message.success(result.message);
-        } else {
-          message.error(result.message);
-        }
+        login(values);
       }
     });
   };
 
   return (
     <>
-      <Loading loading={loading} />
       <Form {...formItemLayout} onSubmit={handleSubmit} className="login-form">
         <h2>Login</h2>
         <Form.Item label="Email">

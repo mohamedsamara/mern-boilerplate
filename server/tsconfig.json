@@ -19,7 +19,8 @@
     "alwaysStrict": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "typeRoots": ["../types.context.types"]
   },
   "exclude": ["node_modules"],
   "include": ["./**/*"]

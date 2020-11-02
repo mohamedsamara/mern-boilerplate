@@ -8,9 +8,9 @@ import { IAuthContextState } from './types';
 const defaultAuthContextState: IAuthContextState = {
   state: initialState,
   loading: true,
-  setAuth: (): void => {},
-  unsetAuth: (): void => {},
-  getUserId: (): void => {},
+  login: (): void => {},
+  signup: (): void => {},
+  logout: (): void => {},
 };
 
 const AuthContext = React.createContext<IAuthContextState>(

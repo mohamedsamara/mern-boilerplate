@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import useFetch from 'use-http';
-import { useHistory } from 'react-router-dom';
-import { Result, message } from 'antd';
+import { Result } from 'antd';
 
 import { useAuth } from '../../contexts/Auth';
 
 const Logout: React.FC = (): JSX.Element => {
-  const { request, response } = useFetch('/api/auth');
-  const [seconds, setSeconds] = useState(2);
-  const history = useHistory();
-  const { unsetAuth } = useAuth();
+  const [seconds, setSeconds] = useState(1);
+  const { logout } = useAuth();
 
   useEffect(() => {
     let interval = null;
@@ -21,23 +17,11 @@ const Logout: React.FC = (): JSX.Element => {
 
     if (seconds === 0) {
       clearInterval(interval);
-      history.push('/login');
+      logout();
     }
 
     return () => clearInterval(interval);
   }, [seconds]);
-
-  useEffect(() => {
-    logoutApi();
-  }, []);
-
-  const logoutApi = async () => {
-    const result = await request.post('/logout');
-    if (response.ok) {
-      unsetAuth();
-      message.success(result.message);
-    }
-  };
 
   return (
     <Result

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 
-import useFetch from 'use-http';
-import { Form, Input, message } from 'antd';
+import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Button from '../Button';
-import Loading from '../Loading';
 import { useAuth } from '../../contexts/Auth';
 
 const formItemLayout = {
@@ -33,24 +31,15 @@ const tailFormItemLayout = {
 };
 
 const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
-  const history = useHistory();
   const { getFieldDecorator } = props.form;
   const [confirmDirty, setConfirmDirty] = useState(false);
-  const { request, response, loading } = useFetch('/api/auth');
-  const { setAuth } = useAuth();
+  const { signup } = useAuth();
 
   const handleSubmit = e => {
     e.preventDefault();
     props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        const result = await request.post('/register', values);
-        if (response.ok) {
-          setAuth(result.data.token);
-          history.push('/dashboard');
-          message.success(result.message);
-        } else {
-          message.error(result.message);
-        }
+        signup(values);
       }
     });
   };
@@ -79,7 +68,6 @@ const Signup: React.FC<FormComponentProps> = (props): JSX.Element => {
 
   return (
     <>
-      <Loading loading={loading} />
       <Form {...formItemLayout} onSubmit={handleSubmit} className="signup-form">
         <h2>Sign Up</h2>
         <Form.Item label="Email">

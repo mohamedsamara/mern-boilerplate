@@ -21,9 +21,9 @@ export default {
     tokenExpire: Date.now() + 3600000,
   },
   jwt: {
-    secret: process.env.SECRET_KEY,
-    tokenLife: '15m',
-    refreshSecret: process.env.REFRESH_SECRET_KEY,
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET_KEY,
+    accessTokenLife: '15m',
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET_KEY,
     refreshTokenLife: 60 * 24 * 30,
   },
   mailgun: {

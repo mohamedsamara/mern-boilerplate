@@ -16,13 +16,12 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
+import { useUser } from '../../contexts/User';
 import Button from '../Button';
 import Label from '../Label';
 import DeleteAccount from '../DeleteAccount';
 import PageHeader from '../PageHeader';
 import useToggle from '../../hooks/useToggle';
-import useUser from '../../hooks/user/useUser';
-import { useAuth } from '../../contexts/Auth';
 import { OptionsPreview } from '../../types.d';
 
 const { Option } = Select;
@@ -37,28 +36,20 @@ const options: OptionsPreview = {
 const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
   const { getFieldDecorator } = props.form;
   const { request, response, loading } = useFetch('/api', options);
-  const [user, setUser] = useUser();
   const [collapsed, setCollapsed] = useToggle(false);
   const history = useHistory();
   const deleteAccountRef = useRef<HTMLDivElement>(null);
-  const { getUserId } = useAuth();
+  const {
+    fetchUser,
+    state: { user },
+  } = useUser();
 
   useEffect(() => {
     fetchUser();
   }, []);
 
-  const fetchUser = async () => {
-    const id = getUserId();
-
-    const result = await request.get(`/user/${id}`);
-
-    if (response.ok) {
-      setUser(result.data.user);
-    }
-  };
-
   const updateUser = async values => {
-    const result = await request.put(`/user/${user._id}`, values);
+    const result = await request.put(`/user`, values);
 
     if (response.ok) {
       message.info(result.message);
@@ -66,7 +57,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
   };
 
   const deleteUser = async () => {
-    const result = await request.delete(`/user/${user._id}`);
+    const result = await request.delete(`/user`);
 
     if (response.ok) {
       message.info(result.message);
@@ -116,7 +107,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
           <Col xs={24} sm={12} className="gutter-row">
             <Label text="First Name" />
             <Form.Item>
-              {getFieldDecorator('first_name', {
+              {getFieldDecorator('firstName', {
                 initialValue: user.firstName,
                 rules: [
                   {
@@ -130,7 +121,7 @@ const EditProfile: React.FC<FormComponentProps> = (props): JSX.Element => {
           <Col xs={24} sm={12} className="gutter-row">
             <Label text="Last Name" />
             <Form.Item>
-              {getFieldDecorator('last_name', {
+              {getFieldDecorator('lastName', {
                 initialValue: user.lastName,
                 rules: [
                   { required: true, message: 'Please input your Last Name!' },

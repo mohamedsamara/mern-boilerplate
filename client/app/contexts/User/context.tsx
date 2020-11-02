@@ -11,6 +11,7 @@ const defaultUserContextState: IUserContextState = {
   loading: true,
   setUser: (): void => {},
   unsetUser: (): void => {},
+  fetchUser: (): void => {},
 };
 
 const UserContext = React.createContext<IUserContextState>(

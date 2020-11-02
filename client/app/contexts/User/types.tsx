@@ -24,6 +24,7 @@ export interface IUserContextState {
   loading?: boolean;
   setUser: (id: string) => void;
   unsetUser: () => void;
+  fetchUser: () => void;
 }
 
 export interface UserContextProviderProps {

@@ -5,9 +5,11 @@ import { Redirect } from 'react-router-dom';
 import { useAuth } from '../contexts/Auth';
 
 const PrivateRoute = ({ children }) => {
-  const { state } = useAuth();
+  const {
+    state: { authenticated, loading },
+  } = useAuth();
 
-  if (!state.authenticated && !state.loading) return <Redirect to="/login" />;
+  if (!authenticated && !loading) return <Redirect to="/login" />;
 
   return children;
 };

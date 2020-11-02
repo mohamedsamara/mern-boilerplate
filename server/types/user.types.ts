@@ -11,9 +11,9 @@ export interface IUser extends Document {
   gender: string;
   role: Role;
   password: string;
-  refresh_token: string;
-  reset_password_token: string;
-  reset_password_expires: Date;
+  refreshToken: string;
+  resetPasswordToken: string;
+  resetPasswordExpires: Date;
   meta: IMeta;
 }
 

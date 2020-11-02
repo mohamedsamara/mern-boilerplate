@@ -15,9 +15,9 @@ export interface AuthState {
 export interface IAuthContextState {
   state: AuthState;
   loading?: boolean;
-  setAuth: (id: string) => void;
-  unsetAuth: () => void;
-  getUserId: () => void;
+  login: (values) => void;
+  signup: (values) => void;
+  logout: () => void;
 }
 
 export interface AuthContextProviderProps {
@@ -26,16 +26,14 @@ export interface AuthContextProviderProps {
 
 export interface SetAuthData {
   type: AuthActionTypes.SET_AUTH_DATA;
-  payload: string;
+  payload: {
+    authenticated: boolean;
+    token: string;
+  };
 }
 
-export interface UnsetAuthData {
-  type: AuthActionTypes.UNSET_AUTH_DATA;
-}
-
-export type AuthActions = SetAuthData | UnsetAuthData;
+export type AuthActions = SetAuthData;
 
 export enum AuthActionTypes {
   SET_AUTH_DATA = 'SET_AUTH_DATA',
-  UNSET_AUTH_DATA = 'UNSET_AUTH_DATA',
 }

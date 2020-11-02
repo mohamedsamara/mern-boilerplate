@@ -12,7 +12,6 @@ import NoteItem from './NoteItem';
 
 import useActive from '../../hooks/useActive';
 import useClickAway from '../../hooks/useClickAway';
-import { useAuth } from '../../contexts/Auth';
 import { OptionsPreview } from '../../types.d';
 
 const { Text } = Typography;
@@ -28,7 +27,6 @@ const Notes = () => {
   const emptyRef = useRef();
 
   const { request, response, loading } = useFetch('/api', options);
-  const { getUserId } = useAuth();
 
   useEffect(() => {
     let subscribe = false;
@@ -55,8 +53,7 @@ const Notes = () => {
   );
 
   const fetchNotes = async () => {
-    const id = getUserId();
-    const result = await request.get(`/notes/user/${id}`);
+    const result = await request.get(`/notes`);
 
     if (response.ok && result.data) {
       setNotes(result.data);
@@ -67,7 +64,6 @@ const Notes = () => {
     const newNote = {
       title: note.title,
       content: note.content,
-      user: getUserId(),
     };
 
     const result = await request.post('/notes', newNote);

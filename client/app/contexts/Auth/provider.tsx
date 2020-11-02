@@ -1,13 +1,12 @@
-import React, { useEffect, useReducer, useState } from 'react';
-
-import jwtDecode from 'jwt-decode';
+import React, { useEffect, useReducer } from 'react';
 
 import useFetch, { Provider } from 'use-http';
+import { useHistory } from 'react-router-dom';
 import { message } from 'antd';
 
 import AuthContext from './context';
 import { authReducer, initialState } from './reducer';
-import { setAuthData, unsetAuthData } from './action';
+import { setAuthData } from './action';
 import { AuthState, AuthActions, AuthContextProviderProps } from './types';
 
 import Loading from '../../components/Loading';
@@ -22,107 +21,86 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
     initialState,
   );
   const [token, setToken] = useLocalStorage('token', null);
-  const [calls, setCalls] = useState(0);
+  const history = useHistory();
 
   useEffect(() => {
-    handleRefresh();
+    const payload = {
+      authenticated: !!token,
+      token,
+    };
+    if (token) {
+      dispatch(setAuthData(payload));
+    } else {
+      dispatch(setAuthData(payload));
+    }
   }, []);
 
-  const handleRefresh = () => {
-    if (token) {
-      setAuth(token);
-    } else {
-      unsetAuth();
-    }
-  };
-
   const setAuth = token => {
-    // localStorage.setItem('refresh_token', authData.refresh_token);
     setToken(token);
-    dispatch(setAuthData(token));
-  };
 
-  const unsetAuth = () => {
-    // localStorage.removeItem('refresh_token');
-    setToken(null);
-    dispatch(unsetAuthData());
-  };
+    const payload = {
+      authenticated: !!token,
+      token,
+    };
 
-  const getUserId = () => {
-    const { id } = jwtDecode(token);
-    return id;
-  };
-
-  const refreshToken = async () => {
-    const result = await request.post('/refresh-token');
-
-    if (response.ok) {
-      setAuth(result.data.token);
-    } else {
-      logout();
-      message.error(result.message);
-    }
+    dispatch(setAuthData(payload));
   };
 
   const logout = async () => {
     const result = await request.post('/logout');
+
     if (response.ok) {
-      unsetAuth();
+      setAuth(null);
       message.success(result.message);
     }
   };
 
-  const handleToken = () => {
-    console.log('has ever handled');
+  const login = async values => {
+    try {
+      const result = await request.post('/login', values);
 
-    const { exp } = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
-
-    // if (exp - exp + 5 < currentTime) {
-    if (exp < currentTime) {
-      refreshToken();
+      if (response.ok) {
+        setAuth(result.data.token);
+        message.success(result.message);
+      } else {
+        message.error(result.message);
+      }
+    } catch (error) {
+      message.error(error);
     }
   };
 
-  const handleLogout = () => {
-    // making sure that we are calling logout only one time if reponse code is 401
-    if (calls === 1) {
-      logout();
+  const signup = async values => {
+    try {
+      const result = await request.post('/register', values);
+      if (response.ok) {
+        setAuth(result.data.token);
+        history.push('/dashboard');
+        message.success(result.message);
+      } else {
+        message.error(result.message);
+      }
+    } catch (error) {
+      message.error(error);
     }
   };
 
   const fetchOptions = {
     headers: {
-      Authorization: token,
+      authorization: token,
     },
     interceptors: {
-      request: (options, url, path, route) => {
-        if (token) {
-          if (url !== '/api/auth' && route.search('user/initial') !== -1) {
-            handleToken();
-          }
-        }
-        setCalls(prevState => prevState + 1);
+      request: options => {
         return options;
       },
       response: response => {
-        if (response.status === 401) {
-          handleLogout();
-        }
-
-        setTimeout(() => {
-          setCalls(0);
-        }, 3000);
-
         return response;
       },
     },
   };
 
   return (
-    <AuthContext.Provider
-      value={{ state, setAuth, unsetAuth, loading, getUserId }}
-    >
+    <AuthContext.Provider value={{ state, loading, login, signup, logout }}>
       <Loading loading={loading} fullscreen />
       <Provider options={fetchOptions}>{children}</Provider>
     </AuthContext.Provider>

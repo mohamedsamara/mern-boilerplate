@@ -1,20 +1,21 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
 
+import AuthController from './auth.controller';
+
 import UserService from '../services/user.service';
 import MailerService from '../services/mailer.service';
 import Responder from '../helpers/responder';
+import * as templates from '../templates';
 
-import * as auth from '../utils/auth';
-import * as templates from '../utils/email.templates';
-
+const authController = Container.get(AuthController);
 const userService = Container.get(UserService);
 const responder = Container.get(Responder);
 const mailerInstance = Container.get(MailerService);
 
 class User {
-  public async getUserInitial(req: Request, res: Response) {
-    const { id } = req.params;
+  public getUserInitial = async (req: Request, res: Response) => {
+    const { id }: any = req.payload;
 
     try {
       const user = await userService.findUserInitial(id);
@@ -25,10 +26,10 @@ class User {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async getUser(req: Request, res: Response) {
-    const { id } = req.params;
+  public getUser = async (req: Request, res: Response) => {
+    const { id }: any = req.payload;
 
     try {
       const user = await userService.findUser(id);
@@ -39,10 +40,11 @@ class User {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async updatePassword(req: Request, res: Response) {
-    const { password, newPassword, userId } = req.body;
+  public updatePassword = async (req: Request, res: Response) => {
+    const { id }: any = req.payload;
+    const { password, newPassword } = req.body;
 
     if (!password || !newPassword) {
       responder.error(400, 'some details are missing');
@@ -50,18 +52,21 @@ class User {
     }
 
     try {
-      const user = await userService.findById(userId);
+      const user = await userService.findById(id);
 
       if (!user) {
         responder.error(400, 'user not found');
         return responder.send(res);
       }
 
-      const passwordMatches = auth.verifyPassword(password, user.password);
+      const passwordMatches = await authController.verifyPassword(
+        password,
+        user.password,
+      );
       if (passwordMatches) {
-        const hashedPassword = auth.hashPassword(newPassword);
+        const hashedPassword = await authController.hashPassword(newPassword);
         const updatedUser = await userService.updatePassword(
-          userId,
+          id,
           hashedPassword,
         );
 
@@ -73,7 +78,6 @@ class User {
         }
       } else {
         responder.error(400, 'your current password is incorrect');
-        return responder.send(res);
       }
 
       return responder.send(res);
@@ -81,11 +85,11 @@ class User {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async updateUser(req: Request, res: Response) {
+  public updateUser = async (req: Request, res: Response) => {
+    const { id }: any = req.payload;
     const newProfile = req.body;
-    const { id } = req.params;
 
     try {
       const user = await userService.updateUser(id, newProfile);
@@ -99,10 +103,10 @@ class User {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async deleteUser(req: Request, res: Response) {
-    const { id } = req.params;
+  public deleteUser = async (req: Request, res: Response) => {
+    const { id }: any = req.payload;
 
     try {
       const deletedUser = await userService.deleteUser(id);
@@ -116,7 +120,7 @@ class User {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 }
 
 export default User;

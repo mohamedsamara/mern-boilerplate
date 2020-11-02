@@ -5,17 +5,14 @@ import * as cors from 'cors';
 import * as compression from 'compression';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
-import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
 import { Container } from 'typedi';
 
-import PassportService from './services/passport.service';
 import Responder from './helpers/responder';
 import BaseRoute from './routes';
 import config from './config/keys';
 
 const responder = Container.get(Responder);
-const passportService = Container.get(PassportService);
 
 class App {
   public app: express.Application;
@@ -93,12 +90,8 @@ class App {
     this.app.use(express.static(path.resolve(__dirname, '../client')));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
-    this.app.use(passport.initialize());
-    this.app.use(passport.session());
     this.app.use(cookieParser());
     this.app.disable('x-powered-by');
-
-    passportService.init();
   }
 
   private config(): void {

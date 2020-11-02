@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useReducer } from 'react';
 
 import useFetch from 'use-http';
 
@@ -6,8 +6,6 @@ import UserContext from './context';
 import { userReducer, initialState } from './reducer';
 import { setUserData, unsetUserData } from './action';
 import { UserState, UserActions, UserContextProviderProps } from './types';
-
-import { useAuth } from '../Auth';
 
 const UserProvider: React.FC<UserContextProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer<React.Reducer<UserState, UserActions>>(
@@ -20,23 +18,9 @@ const UserProvider: React.FC<UserContextProviderProps> = ({ children }) => {
     };
   });
 
-  console.log({ state });
-
-  const { state: auth, getUserId } = useAuth();
-
-  useEffect(() => {
-    if (!auth.loading && auth.authenticated) {
-      fetchUser();
-    } else {
-      unsetUser();
-    }
-  }, [auth.authenticated]);
-
   const fetchUser = async () => {
-    const id = getUserId();
-    const result = await request.get(`/user/initial/${id}`);
-
-    if (response.ok) {
+    const result = await request.get(`/user`);
+    if (response.ok && result.data.user) {
       setUser(result.data.user);
     }
   };
@@ -50,7 +34,7 @@ const UserProvider: React.FC<UserContextProviderProps> = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ state, setUser, unsetUser }}>
+    <UserContext.Provider value={{ state, setUser, unsetUser, fetchUser }}>
       {children}
     </UserContext.Provider>
   );

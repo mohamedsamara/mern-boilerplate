@@ -10,7 +10,7 @@ class UserService {
   // retrieve user info needed to present on the application header after a successfull login
   public async findUserInitial(id: string): Promise<IUser> {
     try {
-      return await user.findById(id).select('profile.first_name');
+      return await user.findById(id).select('firstName');
     } catch (error) {
       throw error;
     }
@@ -97,9 +97,13 @@ class UserService {
 
   public async resetPasswordExpires(token: string): Promise<IUser> {
     try {
+      const d: any = Date.now();
+
       return await user.findOne({
         resetPasswordToken: token,
-        resetPasswordExpires: { $gt: Date.now() },
+        resetPasswordExpires: {
+          $gt: d,
+        },
       });
     } catch (error) {
       throw error;
@@ -109,7 +113,7 @@ class UserService {
   public async forgotPassword(
     id: string,
     resetToken: string,
-    expires: number,
+    expires: any,
   ): Promise<IUser> {
     try {
       const query = { _id: id };

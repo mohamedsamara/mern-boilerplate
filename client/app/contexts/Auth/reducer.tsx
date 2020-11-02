@@ -11,17 +11,11 @@ const authReducer = (state: AuthState, action: AuthActions): AuthState => {
     case AuthActionTypes.SET_AUTH_DATA:
       return {
         ...state,
-        authenticated: true,
+        authenticated: action.payload.authenticated,
         loading: false,
-        token: action.payload,
+        token: action.payload.token,
       };
-    case AuthActionTypes.UNSET_AUTH_DATA:
-      return {
-        ...state,
-        authenticated: false,
-        loading: false,
-        token: null,
-      };
+
     default:
       return state;
   }

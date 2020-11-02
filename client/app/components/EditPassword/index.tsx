@@ -8,13 +8,11 @@ import { useHistory } from 'react-router-dom';
 import Button from '../Button';
 import Label from '../Label';
 import PageHeader from '../PageHeader';
-import { useAuth } from '../../contexts/Auth';
 
 const EditPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   const history = useHistory();
   const { request, response, loading } = useFetch('/api/user');
   const { getFieldDecorator } = props.form;
-  const { getUserId } = useAuth();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -26,8 +24,6 @@ const EditPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   };
 
   const resetPassword = async values => {
-    // eslint-disable-next-line no-param-reassign
-    values.userId = getUserId();
     const result = await request.post('/update-password', values);
 
     if (response.ok) {

@@ -9,7 +9,7 @@ import { UserProvider } from './contexts/User';
 
 import './styles/less/main.less'; // Import application less styles
 
-// No need to import the antd styles. babel-plugin-import has been configured in babel config file to help in importing individually components on demand and automatically import the corresponding stylesheet.
+// No need to import the antd styles. babel-plugin-import has been configured in babel config file to import individual components on demand and automatically import the corresponding stylesheet.
 // import 'antd/dist/antd.less';
 
 // Import application sass styles

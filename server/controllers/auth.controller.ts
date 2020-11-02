@@ -1,15 +1,16 @@
 import { Request, Response } from 'express';
 import { Container } from 'typedi';
 import * as uuidv4 from 'uuid/v4';
+import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
+import * as crypto from 'crypto';
+import { sign } from 'jsonwebtoken';
 
 import UserService from '../services/user.service';
 import MailerService from '../services/mailer.service';
 import Responder from '../helpers/responder';
-import { IUserInput } from '../types/user.types';
+import { IUserInput, IUser } from '../types/user.types';
+import * as templates from '../templates';
 
-import * as auth from '../utils/auth';
-import * as cookie from '../utils/cookie';
-import * as templates from '../utils/email.templates';
 import config from '../config/keys';
 
 const userService = Container.get(UserService);
@@ -17,7 +18,7 @@ const responder = Container.get(Responder);
 const mailer = Container.get(MailerService);
 
 class AuthController {
-  public async login(req: Request, res: Response) {
+  public login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -33,7 +34,7 @@ class AuthController {
         return responder.send(res);
       }
 
-      const passwordMatches = auth.verifyPassword(password, user.password);
+      const passwordMatches = this.verifyPassword(password, user.password);
 
       if (passwordMatches) {
         const updatedUser = await userService.saveRefreshToken(
@@ -41,30 +42,33 @@ class AuthController {
           uuidv4(),
         );
 
-        const jwt = auth.createToken(updatedUser);
-        const refreshToken = auth.createRefreshToken(updatedUser);
+        const jwt = await this.createAccessToken(updatedUser);
+        const refreshToken = await this.createRefreshToken(updatedUser);
         const foundUser = await userService.findUser(user._id);
 
         const data = {
           token: `Bearer ${jwt}`,
-          //   refresh_token: refreshToken,
           user: foundUser,
         };
-        cookie.set(res, refreshToken);
+
+        this.attachUser(req, updatedUser);
+        this.setRefreshToken(res, refreshToken);
+
         responder.success(200, 'you are logged in', data);
       } else {
         responder.error(400, 'wrong password.');
-        return responder.send(res);
       }
 
       return responder.send(res);
     } catch (error) {
+      console.log({ error });
+
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async register(req: Request, res: Response) {
+  public register = async (req: Request, res: Response) => {
     const { email, password, firstName, lastName } = req.body;
 
     if (!email || !password || !firstName || !lastName) {
@@ -80,7 +84,7 @@ class AuthController {
         return responder.send(res);
       }
 
-      const hashedPassword = auth.hashPassword(password);
+      const hashedPassword = await this.hashPassword(password);
       const newUser = {
         email,
         password: hashedPassword,
@@ -91,18 +95,18 @@ class AuthController {
 
       const createdUser = await userService.register(newUser as IUserInput);
 
-      const jwt = auth.createToken(createdUser);
-      const refreshToken = auth.createRefreshToken(createdUser);
+      const jwt = await this.createAccessToken(createdUser);
+      const refreshToken = await this.createRefreshToken(createdUser);
       const foundUser = await userService.findUser(createdUser._id);
 
       if (foundUser) {
         const data = {
           token: `Bearer ${jwt}`,
-          // refresh_token: refreshToken,
           user: foundUser,
         };
 
-        cookie.set(res, refreshToken);
+        this.attachUser(req, createdUser);
+        this.setRefreshToken(res, refreshToken);
         const message = templates.signupEmail(newUser);
         await mailer.send(createdUser.email, message);
         responder.success(201, 'You have been registered successfully.', data);
@@ -113,9 +117,9 @@ class AuthController {
       responder.error(400, error.message);
       return responder.send(res);
     }
-  }
+  };
 
-  public async checkExpire(req: Request, res: Response) {
+  public checkExpire = async (req: Request, res: Response) => {
     const { token } = req.params;
 
     if (!token) {
@@ -128,6 +132,7 @@ class AuthController {
 
     try {
       const user = await userService.resetPasswordExpires(token);
+      console.log({ user });
 
       if (!user) {
         responder.error(
@@ -143,9 +148,9 @@ class AuthController {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async resetPassword(req: Request, res: Response) {
+  public resetPassword = async (req: Request, res: Response) => {
     const { password } = req.body;
     const { token } = req.params;
 
@@ -165,7 +170,7 @@ class AuthController {
         return responder.send(res);
       }
 
-      const hashedPassword = auth.hashPassword(password);
+      const hashedPassword = await this.hashPassword(password);
       const updatedUser = await userService.updatePassword(
         user._id,
         hashedPassword,
@@ -182,9 +187,9 @@ class AuthController {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async forgotPassword(req: Request, res: Response) {
+  public forgotPassword = async (req: Request, res: Response) => {
     const { email } = req.body;
 
     if (!email) {
@@ -200,7 +205,7 @@ class AuthController {
         return responder.send(res);
       }
 
-      const resetToken = await auth.createResetToken();
+      const resetToken = await this.createResetToken();
       const updatedUser = await userService.forgotPassword(
         user._id,
         resetToken,
@@ -221,63 +226,112 @@ class AuthController {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async logout(req: Request, res: Response) {
-    cookie.remove(res);
+  public logout = async (req: Request, res: Response) => {
+    this.removeRefreshToken(res);
     responder.success(200, 'you are logged out');
     return responder.send(res);
-  }
+  };
 
-  public async getToken(req: Request, res: Response) {
-    const refreshTokenHeader = req.cookies.refresh_token;
-    if (!refreshTokenHeader) {
-      responder.error(401, 'invalid refresh token not found in server cookie ');
-      return responder.send(res);
-    }
+  // public async getToken(req: Request, res: Response) {
+  // const refreshTokenHeader = req.cookies.refresh_token;
+  // if (!refreshTokenHeader) {
+  //   responder.error(401, 'invalid refresh token not found in server cookie ');
+  //   return responder.send(res);
+  // }
+  //   try {
+  //     const payload: any = await auth.verifyRefreshToken(refreshTokenHeader);
+  //     if (!payload) {
+  //       responder.error(401, 'invalid payload');
+  //       return responder.send(res);
+  //     }
+  //     const user = await userService.findById(payload.id);
+  //     if (!user) {
+  //       responder.error(400, 'user not found');
+  //       return responder.send(res);
+  //     }
+  //     if (user.refreshToken !== payload.refresh_token) {
+  //       responder.error(400, 'Invalid refresh token and not equal');
+  //       return responder.send(res);
+  //     }
+  //     const updatedUser = await userService.saveRefreshToken(
+  //       user._id,
+  //       uuidv4(),
+  //     );
+  //     const jwt = auth.createToken(updatedUser);
+  //     const refreshToken = auth.createRefreshToken(updatedUser);
+  //     const data = {
+  //       token: `Bearer ${jwt}`,
+  //       // refresh_token: refreshToken,
+  //     };
+  //     cookie.set(res, refreshToken);
+  //     responder.success(200, null, data);
+  //     return responder.send(res);
+  //   } catch (error) {
+  //     responder.error(400, error);
+  //     return responder.send(res);
+  //   }
+  // }
 
-    try {
-      const payload: any = await auth.verifyRefreshToken(refreshTokenHeader);
+  // create access token (short time token)
+  public createAccessToken = async (user: IUser) => {
+    const { accessTokenSecret, accessTokenLife } = config.jwt;
+    const payload = {
+      id: user._id,
+    };
+    return sign(payload, accessTokenSecret, {
+      algorithm: 'HS256',
+      expiresIn: accessTokenLife,
+    });
+  };
 
-      console.log('payload in auth', payload);
+  // create refresh token (long lived token)
+  public createRefreshToken = async (user: IUser) => {
+    const { refreshTokenSecret, refreshTokenLife } = config.jwt;
 
-      if (!payload) {
-        responder.error(401, 'invalid payload');
-        return responder.send(res);
-      }
+    const payload = {
+      id: user._id,
+      refreshToken: user.refreshToken,
+    };
 
-      const user = await userService.findById(payload.id);
+    return sign(payload, refreshTokenSecret, {
+      algorithm: 'HS256',
+      expiresIn: refreshTokenLife,
+    });
+  };
 
-      if (!user) {
-        responder.error(400, 'user not found');
-        return responder.send(res);
-      }
+  public setRefreshToken = (res: Response, token: string) => {
+    res.cookie('refresh_token', token, {
+      httpOnly: true,
+      path: '/refresh_token',
+    });
+  };
 
-      if (user.refresh_token !== payload.refresh_token) {
-        responder.error(400, 'Invalid refresh token and not equal');
-        return responder.send(res);
-      }
+  public removeRefreshToken = (res: Response) => {
+    res.cookie('refresh_token', '', {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+  };
 
-      const updatedUser = await userService.saveRefreshToken(
-        user._id,
-        uuidv4(),
-      );
-      const jwt = auth.createToken(updatedUser);
-      const refreshToken = auth.createRefreshToken(updatedUser);
+  public attachUser = (req: any, user: IUser) => {
+    req.user = user;
+  };
 
-      const data = {
-        token: `Bearer ${jwt}`,
-        // refresh_token: refreshToken,
-      };
+  public hashPassword = (password: string) => {
+    const salt = genSaltSync(12);
+    return hashSync(password, salt);
+  };
 
-      cookie.set(res, refreshToken);
-      responder.success(200, null, data);
-      return responder.send(res);
-    } catch (error) {
-      responder.error(400, error);
-      return responder.send(res);
-    }
-  }
+  public verifyPassword = async (password: string, hashedPassword: string) => {
+    return compareSync(password, hashedPassword);
+  };
+
+  public createResetToken = async () => {
+    const buffer = await crypto.randomBytes(48);
+    return buffer.toString('hex');
+  };
 }
 
 export default AuthController;

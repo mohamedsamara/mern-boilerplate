@@ -17,7 +17,7 @@ class AuthRoute {
     this.reset();
     this.forgot();
     this.logout();
-    this.token();
+    // this.token();
   }
 
   static get router() {
@@ -52,9 +52,9 @@ class AuthRoute {
     this.router.post('/logout', authController.logout);
   }
 
-  private async token() {
-    this.router.post('/refresh-token', authController.getToken);
-  }
+  // private async token() {
+  //   this.router.post('/refresh-token', authController.getToken);
+  // }
 }
 
 export default AuthRoute;

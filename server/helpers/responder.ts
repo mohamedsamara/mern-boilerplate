@@ -9,20 +9,20 @@ class Responder {
 
   private data: any = null;
 
-  public async success(code: number, message: string, data?: any) {
+  public success = async (code: number, message: string, data?: any) => {
     this.type = 'success';
     this.code = code;
     this.message = message;
     this.data = data;
-  }
+  };
 
-  public async error(code: number, message: string) {
+  public error = async (code: number, message: string) => {
     this.type = 'error';
     this.code = code;
     this.message = message;
-  }
+  };
 
-  public async send(res: Response) {
+  public send = async (res: Response) => {
     const result = {
       status: this.type,
       message: this.message,
@@ -37,7 +37,7 @@ class Responder {
       status: this.type,
       message: this.message,
     });
-  }
+  };
 }
 
 export default Responder;

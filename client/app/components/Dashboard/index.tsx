@@ -1,37 +1,22 @@
 import React, { useEffect } from 'react';
 
-import useFetch from 'use-http';
 import { Icon, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 
 import Label from '../Label';
-import useUser from '../../hooks/user/useUser';
-import { useAuth } from '../../contexts/Auth';
-import { OptionsPreview } from '../../types.d';
+import { useUser } from '../../contexts/User';
 
 const { Text } = Typography;
 
-const options: OptionsPreview = {
-  cachePolicy: 'no-cache',
-};
-
 const Dashboard: React.FC = (): JSX.Element => {
-  const { request, response } = useFetch('/api', options);
-  const [user, setUser] = useUser();
-  const { getUserId } = useAuth();
+  const {
+    fetchUser,
+    state: { user },
+  } = useUser();
 
   useEffect(() => {
     fetchUser();
   }, []);
-
-  const fetchUser = async () => {
-    const id = getUserId();
-    const result = await request.get(`/user/${id}`);
-
-    if (response.ok && result.data) {
-      setUser(result.data.user);
-    }
-  };
 
   const getGender = user => {
     return user.gender === 'm' ? 'Male' : 'Female';

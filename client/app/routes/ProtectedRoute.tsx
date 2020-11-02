@@ -5,9 +5,11 @@ import { Redirect } from 'react-router-dom';
 import { useAuth } from '../contexts/Auth';
 
 const ProtectedRoute = ({ children }) => {
-  const { state } = useAuth();
+  const {
+    state: { authenticated },
+  } = useAuth();
 
-  if (state.authenticated) return <Redirect to="/dashboard" />;
+  if (authenticated) return <Redirect to="/dashboard" />;
 
   return children;
 };

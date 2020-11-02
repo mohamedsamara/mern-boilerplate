@@ -8,8 +8,8 @@ const noteService = Container.get(NoteService);
 const responder = Container.get(Responder);
 
 class NoteController {
-  public async getNotes(req: Request, res: Response) {
-    const { id } = req.params;
+  public getNotes = async (req: Request, res: Response) => {
+    const { id }: any = req.payload;
 
     try {
       const notes = await noteService.getNotes(id);
@@ -24,9 +24,9 @@ class NoteController {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async getNote(req: Request, res: Response) {
+  public getNote = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
@@ -42,9 +42,9 @@ class NoteController {
       responder.error(404, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async updateNote(req: Request, res: Response) {
+  public updateNote = async (req: Request, res: Response) => {
     const newNote = req.body;
     const { id } = req.params;
 
@@ -60,9 +60,9 @@ class NoteController {
       responder.error(404, error);
       return responder.send(res);
     }
-  }
+  };
 
-  public async addNote(req: Request, res: Response) {
+  public addNote = async (req: Request, res: Response) => {
     const newNote = req.body;
 
     if (!newNote.title || !newNote.content) {
@@ -78,9 +78,9 @@ class NoteController {
       responder.error(400, error.message);
       return responder.send(res);
     }
-  }
+  };
 
-  public async deleteNote(req: Request, res: Response) {
+  public deleteNote = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
@@ -95,7 +95,7 @@ class NoteController {
       responder.error(400, error);
       return responder.send(res);
     }
-  }
+  };
 }
 
 export default NoteController;
