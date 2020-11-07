@@ -3,6 +3,7 @@ import React, { useEffect, useReducer } from 'react';
 import useFetch, { Provider } from 'use-http';
 import { useHistory } from 'react-router-dom';
 import { message } from 'antd';
+import jwtDecode from 'jwt-decode';
 
 import AuthContext from './context';
 import { authReducer, initialState } from './reducer';
@@ -28,6 +29,7 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
       authenticated: !!token,
       token,
     };
+
     if (token) {
       dispatch(setAuthData(payload));
     } else {
@@ -44,6 +46,40 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
     };
 
     dispatch(setAuthData(payload));
+  };
+
+  const handleToken = async () => {
+    try {
+      let newToken = null;
+
+      if (token) {
+        const { exp } = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (exp < currentTime) {
+          newToken = await refreshToken();
+        } else {
+          newToken = token;
+        }
+      }
+      return newToken;
+    } catch (error) {
+      message.error('Something went wrong!');
+    }
+  };
+
+  const refreshToken = async () => {
+    const result = await request.post('/refresh-token');
+    let newToken = null;
+    if (response.ok) {
+      setAuth(result.data.token);
+      newToken = result.data.token;
+    } else {
+      logout();
+      message.error(result.message);
+    }
+
+    return newToken;
   };
 
   const logout = async () => {
@@ -90,7 +126,10 @@ const AuthProvider: React.FC<AuthContextProviderProps> = ({
       authorization: token,
     },
     interceptors: {
-      request: options => {
+      request: async options => {
+        const newToken = await handleToken();
+        options.headers.authorization = newToken;
+
         return options;
       },
       response: response => {

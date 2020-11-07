@@ -22,9 +22,10 @@ export default {
   },
   jwt: {
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET_KEY,
-    accessTokenLife: '15m',
+    accessTokenLife: '1d',
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET_KEY,
-    refreshTokenLife: 60 * 24 * 30,
+    refreshTokenLife: '7d',
+    cookieMaxAge: 7 * 24 * 60 * 60,
   },
   mailgun: {
     key: process.env.MAILGUN_KEY,

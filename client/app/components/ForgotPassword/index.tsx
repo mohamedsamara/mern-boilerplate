@@ -45,12 +45,16 @@ const ForgotPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   };
 
   const forgotPassword = async values => {
-    const result = await request.post('/forgot-password', values);
+    try {
+      const result = await request.post('/forgot-password', values);
 
-    if (response.ok) {
-      message.info(result.message);
-    } else {
-      message.error(result.message);
+      if (response.ok) {
+        message.info(result.message);
+      } else {
+        message.error(result.message);
+      }
+    } catch (error) {
+      message.error('Something went wrong!');
     }
   };
 

@@ -96,14 +96,18 @@ const Notes = () => {
   };
 
   const deleteNoteApi = async id => {
-    const result = await request.delete(`/notes/${id}`);
+    try {
+      const result = await request.delete(`/notes/${id}`);
 
-    const newNotes = [...notes];
-    setNotes(newNotes.filter(x => x._id !== id));
-    if (response.ok) {
-      message.info(result.message);
-    } else {
-      message.error(result.message);
+      const newNotes = [...notes];
+      setNotes(newNotes.filter(x => x._id !== id));
+      if (response.ok) {
+        message.info(result.message);
+      } else {
+        message.error(result.message);
+      }
+    } catch (error) {
+      message.error('Something went wrong!');
     }
   };
 

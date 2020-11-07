@@ -22,22 +22,30 @@ const ResetPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   }, [token]);
 
   const checkTokenExpiration = async () => {
-    const result = await request.post(`/reset-password/expire/${token}`);
+    try {
+      const result = await request.post(`/reset-password/expire/${token}`);
 
-    if (!response.ok) {
-      message.error(result.message);
-      history.push('/forgot-password');
+      if (!response.ok) {
+        message.error(result.message);
+        history.push('/forgot-password');
+      }
+    } catch (error) {
+      message.error('Something went wrong!');
     }
   };
 
   const resetPassword = async values => {
-    const result = await request.post(`/reset-password/${token}`, values);
+    try {
+      const result = await request.post(`/reset-password/${token}`, values);
 
-    if (response.ok) {
-      message.info(result.message);
-      history.push('/login');
-    } else {
-      message.error(result.message);
+      if (response.ok) {
+        message.info(result.message);
+        history.push('/login');
+      } else {
+        message.error(result.message);
+      }
+    } catch (error) {
+      message.error('Something went wrong!');
     }
   };
 

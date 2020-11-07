@@ -9,9 +9,8 @@ const responder = Container.get(Responder);
 
 class NoteController {
   public getNotes = async (req: Request, res: Response) => {
-    const { id }: any = req.payload;
-
     try {
+      const { id }: any = req.payload;
       const notes = await noteService.getNotes(id);
 
       if (notes.length > 0) {
@@ -27,9 +26,9 @@ class NoteController {
   };
 
   public getNote = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
     try {
+      const { id } = req.params;
+
       const note = await noteService.getNote(id);
 
       if (!note) {
@@ -45,10 +44,10 @@ class NoteController {
   };
 
   public updateNote = async (req: Request, res: Response) => {
-    const newNote = req.body;
-    const { id } = req.params;
-
     try {
+      const newNote = req.body;
+      const { id } = req.params;
+
       const updatedNote = await noteService.updateNote(id, newNote);
 
       if (updatedNote) {
@@ -63,16 +62,16 @@ class NoteController {
   };
 
   public addNote = async (req: Request, res: Response) => {
-    const { id }: any = req.payload;
-    const newNote = req.body;
-    newNote.user = id;
-
-    if (!newNote.title || !newNote.content) {
-      responder.error(400, 'some details are missing');
-      return responder.send(res);
-    }
-
     try {
+      const { id }: any = req.payload;
+      const newNote = req.body;
+      newNote.user = id;
+
+      if (!newNote.title || !newNote.content) {
+        responder.error(400, 'some details are missing');
+        return responder.send(res);
+      }
+
       const createdNote = await noteService.addNote(newNote);
       responder.success(201, 'note added', createdNote);
       return responder.send(res);
@@ -83,9 +82,9 @@ class NoteController {
   };
 
   public deleteNote = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
     try {
+      const { id } = req.params;
+
       const deletedNote = await noteService.deleteNote(id);
 
       if (deletedNote) {

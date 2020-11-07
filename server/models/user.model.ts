@@ -42,7 +42,7 @@ class UserModel {
         type: String,
         required: true,
       },
-      refresh_token: {
+      refreshToken: {
         type: String,
       },
       resetPasswordToken: {

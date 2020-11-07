@@ -24,13 +24,17 @@ const EditPassword: React.FC<FormComponentProps> = (props): JSX.Element => {
   };
 
   const resetPassword = async values => {
-    const result = await request.post('/update-password', values);
+    try {
+      const result = await request.post('/update-password', values);
 
-    if (response.ok) {
-      message.info(result.message);
-      history.push('/logout');
-    } else {
-      message.error(result.message);
+      if (response.ok) {
+        message.info(result.message);
+        history.push('/logout');
+      } else {
+        message.error(result.message);
+      }
+    } catch (error) {
+      message.error('Something went wrong!');
     }
   };
 

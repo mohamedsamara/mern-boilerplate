@@ -3,7 +3,7 @@ import { Container } from 'typedi';
 import * as uuidv4 from 'uuid/v4';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 import * as crypto from 'crypto';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 import UserService from '../services/user.service';
 import MailerService from '../services/mailer.service';
@@ -19,14 +19,14 @@ const mailer = Container.get(MailerService);
 
 class AuthController {
   public login = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      responder.error(400, 'some details are missing');
-      return responder.send(res);
-    }
-
     try {
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        responder.error(400, 'some details are missing');
+        return responder.send(res);
+      }
+
       const user = await userService.findByEmail(email);
 
       if (!user) {
@@ -61,22 +61,20 @@ class AuthController {
 
       return responder.send(res);
     } catch (error) {
-      console.log({ error });
-
       responder.error(400, error);
       return responder.send(res);
     }
   };
 
   public register = async (req: Request, res: Response) => {
-    const { email, password, firstName, lastName } = req.body;
-
-    if (!email || !password || !firstName || !lastName) {
-      responder.error(400, 'some details are missing');
-      return responder.send(res);
-    }
-
     try {
+      const { email, password, firstName, lastName } = req.body;
+
+      if (!email || !password || !firstName || !lastName) {
+        responder.error(400, 'some details are missing');
+        return responder.send(res);
+      }
+
       const user = await userService.findByEmail(email);
 
       if (user) {
@@ -120,26 +118,24 @@ class AuthController {
   };
 
   public checkExpire = async (req: Request, res: Response) => {
-    const { token } = req.params;
-
-    if (!token) {
-      responder.error(
-        400,
-        'no token in your request. please attempt to click the link from your email again!',
-      );
-      return responder.send(res);
-    }
-
     try {
+      const { token } = req.params;
+
+      if (!token) {
+        responder.error(
+          400,
+          'no token in your request. please attempt to click the link from your email again!',
+        );
+        return responder.send(res);
+      }
+
       const user = await userService.resetPasswordExpires(token);
-      console.log({ user });
 
       if (!user) {
         responder.error(
           400,
           'your token has expired. please attempt to reset your password again!',
         );
-        return responder.send(res);
       }
 
       responder.success(200, null);
@@ -151,15 +147,15 @@ class AuthController {
   };
 
   public resetPassword = async (req: Request, res: Response) => {
-    const { password } = req.body;
-    const { token } = req.params;
-
-    if (!password) {
-      responder.error(400, 'your password is missing');
-      return responder.send(res);
-    }
-
     try {
+      const { password } = req.body;
+      const { token } = req.params;
+
+      if (!password) {
+        responder.error(400, 'your password is missing');
+        return responder.send(res);
+      }
+
       const user = await userService.resetPasswordExpires(token);
 
       if (!user) {
@@ -190,14 +186,14 @@ class AuthController {
   };
 
   public forgotPassword = async (req: Request, res: Response) => {
-    const { email } = req.body;
-
-    if (!email) {
-      responder.error(400, 'your email is missing');
-      return responder.send(res);
-    }
-
     try {
+      const { email } = req.body;
+
+      if (!email) {
+        responder.error(400, 'your email is missing');
+        return responder.send(res);
+      }
+
       const user = await userService.findByEmail(email);
 
       if (!user) {
@@ -215,6 +211,7 @@ class AuthController {
       if (updatedUser) {
         const message = templates.resetPassword(req, resetToken);
         await mailer.send(email, message);
+
         responder.success(
           200,
           'kindly check your email for more instructions!',
@@ -234,45 +231,39 @@ class AuthController {
     return responder.send(res);
   };
 
-  // public async getToken(req: Request, res: Response) {
-  // const refreshTokenHeader = req.cookies.refresh_token;
-  // if (!refreshTokenHeader) {
-  //   responder.error(401, 'invalid refresh token not found in server cookie ');
-  //   return responder.send(res);
-  // }
-  //   try {
-  //     const payload: any = await auth.verifyRefreshToken(refreshTokenHeader);
-  //     if (!payload) {
-  //       responder.error(401, 'invalid payload');
-  //       return responder.send(res);
-  //     }
-  //     const user = await userService.findById(payload.id);
-  //     if (!user) {
-  //       responder.error(400, 'user not found');
-  //       return responder.send(res);
-  //     }
-  //     if (user.refreshToken !== payload.refresh_token) {
-  //       responder.error(400, 'Invalid refresh token and not equal');
-  //       return responder.send(res);
-  //     }
-  //     const updatedUser = await userService.saveRefreshToken(
-  //       user._id,
-  //       uuidv4(),
-  //     );
-  //     const jwt = auth.createToken(updatedUser);
-  //     const refreshToken = auth.createRefreshToken(updatedUser);
-  //     const data = {
-  //       token: `Bearer ${jwt}`,
-  //       // refresh_token: refreshToken,
-  //     };
-  //     cookie.set(res, refreshToken);
-  //     responder.success(200, null, data);
-  //     return responder.send(res);
-  //   } catch (error) {
-  //     responder.error(400, error);
-  //     return responder.send(res);
-  //   }
-  // }
+  public getToken = async (req: Request, res: Response) => {
+    try {
+      const token = req.cookies.refresh_token;
+
+      if (!token) {
+        responder.error(401, 'invalid token');
+      }
+
+      let payload: any = null;
+      payload = verify(token, config.jwt.refreshTokenSecret);
+
+      const user = await userService.findUser(payload.id);
+
+      if (!user) {
+        responder.error(401, 'invalid token');
+      }
+
+      const jwt = await this.createAccessToken(user);
+      const foundUser = await userService.findUser(user._id);
+
+      const data = {
+        token: `Bearer ${jwt}`,
+      };
+
+      this.attachUser(req, foundUser);
+      responder.success(200, 'you are logged in', data);
+
+      return responder.send(res);
+    } catch (error) {
+      responder.error(401, 'invalid token');
+      return responder.send(res);
+    }
+  };
 
   // create access token (short time token)
   public createAccessToken = async (user: IUser) => {
@@ -304,7 +295,7 @@ class AuthController {
   public setRefreshToken = (res: Response, token: string) => {
     res.cookie('refresh_token', token, {
       httpOnly: true,
-      path: '/refresh_token',
+      path: '/',
     });
   };
 

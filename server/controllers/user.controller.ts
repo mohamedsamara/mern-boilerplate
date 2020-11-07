@@ -106,9 +106,8 @@ class User {
   };
 
   public deleteUser = async (req: Request, res: Response) => {
-    const { id }: any = req.payload;
-
     try {
+      const { id }: any = req.payload;
       const deletedUser = await userService.deleteUser(id);
 
       if (deletedUser) {

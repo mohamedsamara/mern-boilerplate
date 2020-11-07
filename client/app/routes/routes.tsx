@@ -1,4 +1,3 @@
-import Homepage from '../components/Homepage';
 import Notes from '../components/Notes';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
@@ -11,7 +10,7 @@ import ResetPassword from '../components/ResetPassword';
 import EditPassword from '../components/EditPassword';
 
 const routes = [
-  { path: '/', exact: true, name: 'Homepage', component: Homepage },
+  { path: '/', exact: true, name: 'Login', protected: true, component: Login },
   { path: '/notes', name: 'Notes', private: true, component: Notes },
   {
     path: '/dashboard',

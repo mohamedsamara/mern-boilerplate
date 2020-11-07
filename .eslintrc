@@ -41,6 +41,7 @@
     "dot-notation": 0,
     "arrow-body-style": 0,
     "arrow-parens": "off",
+    "no-param-reassign": 0,
     "import/newline-after-import": "off",
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
