@@ -25,9 +25,10 @@ class MailerService {
       if (emailSent) {
         return { delivered: 1, status: 'ok' };
       }
+
       return null;
     } catch (error) {
-      throw error;
+      return null;
     }
   }
 }

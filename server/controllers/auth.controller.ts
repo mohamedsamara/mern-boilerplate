@@ -210,11 +210,13 @@ class AuthController {
 
       if (updatedUser) {
         const message = templates.resetPassword(req, resetToken);
-        await mailer.send(email, message);
+        const emailSent = await mailer.send(email, message);
 
         responder.success(
           200,
-          'kindly check your email for more instructions!',
+          emailSent
+            ? 'kindly check your email for more instructions!'
+            : 'Please try again!',
         );
       }
 
