@@ -51,8 +51,9 @@
     "express",
     "react",
     "webpack",
+    "typescript",
     "eslint",
-    "material-ui"
+    "antd"
   ],
   "author": "Mohamed Samara (https://github.com/mohamedsamara)",
   "license": "MIT",

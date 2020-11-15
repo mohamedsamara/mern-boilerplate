@@ -1,10 +1,5 @@
 # MERN Boilerplate
 
-* features:   
-  * Node provides the backend environment for this application
-  * Express middleware is used to handle requests, routes
-  * React for displaying UI components
-        
 ## Install
 
 Some basic Git commands are:
@@ -13,28 +8,24 @@ Some basic Git commands are:
 $ git clone https://github.com/mohamedsamara/mern-boilerplate.git
 $ cd project
 $ npm install
-
 ```
 
 ## Simple build for production
 
 ```
 $ npm run production
-
 ```
 
 ## Run the application for development
 
 ```
 $ npm start
-
 ```
 
 ## Run the application for production
 
 ```
 $ npm run start:production
-
 ```
 
 ## Run the code linter
@@ -42,6 +33,7 @@ $ npm run start:production
 ```
 $ npm run lint:fix
 
+$ npm run stylelint:fix
 ```
 
 ## Languages & tools
@@ -50,8 +42,15 @@ $ npm run lint:fix
 
 - [Express](https://expressjs.com/)
 
+- [Mongoose](https://mongoosejs.com/)
+
 - [Webpack](https://webpack.js.org/)
 
 - [React](https://reactjs.org/)
 
+- [Ant Design](https://ant.design/)
+
 - [ESLint](https://eslint.org/)
+
+- [stylelint](https://stylelint.io/)
+
